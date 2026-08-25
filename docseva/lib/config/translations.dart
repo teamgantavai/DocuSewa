@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:docusewa/theme/app_colors.dart';
 
 final ValueNotifier<String> appLanguageNotifier = ValueNotifier<String>('en');
 
@@ -213,7 +215,7 @@ class AppStrings {
     verifiedCitizen: 'Verified 🇮🇳',
     verifiedAccount: '✓ Verified Citizen Account',
     searchPlaceholder: 'Search exam admit cards, IDs, certificates…',
-    signOut: 'Sign Out from DocuSewa',
+    signOut: 'Sign Out',
     close: 'Close',
     cancel: 'Cancel',
     saveChanges: 'Save Changes',
@@ -239,13 +241,15 @@ class AppStrings {
     pullingDoc: 'Fetching document...',
     done: 'Done',
     docIssuedSuccess: 'Document Saved Successfully!',
-    docIssuedDesc: 'Your document has been securely saved to your citizen vault.',
+    docIssuedDesc:
+        'Your document has been securely saved to your citizen vault.',
     requiredDetails: 'Required Verification Details:',
     officialPortal: 'Direct Official Portal',
     viewInVault: 'View in Vault',
 
     vaultTitle: 'Saved Citizen Vault',
-    vaultSubtitle: 'Encrypted digital certificates and verified documents from public portals',
+    vaultSubtitle:
+        'Encrypted digital certificates and verified documents from public portals',
     docNumber: 'DOCUMENT NO',
     docStatus: 'STATUS',
     viewDoc: 'View Document',
@@ -264,11 +268,11 @@ class AppStrings {
     securityStatus: 'SECURITY',
     secHigh: '● 2FA Active',
 
-    tabDigitalPass: '🪪 Digital Pass',
-    tabPersonalKYC: '👤 Personal & KYC',
-    tabLinkedPortals: '🔗 Linked Portals',
-    tabSecurity: '🛡️ Security',
-    tabSettings: '⚙️ Settings',
+    tabDigitalPass: 'Digital ID',
+    tabPersonalKYC: 'Personal & KYC',
+    tabLinkedPortals: 'Linked Portals',
+    tabSecurity: 'Security',
+    tabSettings: 'Settings',
 
     personalTitle: 'Citizen Profile Records',
     lblFullName: 'Full Legal Name',
@@ -297,9 +301,9 @@ class AppStrings {
     preferencesTitle: 'Citizen Preferences',
     portalLanguage: 'Portal Language',
     alertsTitle: 'Expiry & Renewal Alerts',
-    whatsappAlerts: 'WhatsApp alerts for Licence & Admit Cards',
-    smsAlerts: 'SMS alerts on registered mobile',
-    exportData: 'Export Citizen Data Archive',
+    whatsappAlerts: 'WhatsApp Renewal Alerts',
+    smsAlerts: 'SMS Renewal Alerts',
+    exportData: 'Export Data',
   );
 
   static const _hindi = AppStrings(
@@ -334,13 +338,15 @@ class AppStrings {
     pullingDoc: 'दस्तावेज़ प्राप्त किया जा रहा है...',
     done: 'पूर्ण',
     docIssuedSuccess: 'दस्तावेज़ सुरक्षित सहेजा गया!',
-    docIssuedDesc: 'आपका दस्तावेज़ सीधे आपके नागरिक वॉल्ट में जोड़ दिया गया है।',
+    docIssuedDesc:
+        'आपका दस्तावेज़ सीधे आपके नागरिक वॉल्ट में जोड़ दिया गया है।',
     requiredDetails: 'आवश्यक सत्यापन विवरण:',
     officialPortal: 'सीधा आधिकारिक पोर्टल',
     viewInVault: 'वॉल्ट में देखें',
 
     vaultTitle: 'सुरक्षित नागरिक वॉल्ट',
-    vaultSubtitle: 'सार्वजनिक पोर्टलों से प्राप्त एन्क्रिप्टेड डिजिटल प्रमाण पत्र एवं दस्तावेज़',
+    vaultSubtitle:
+        'सार्वजनिक पोर्टलों से प्राप्त एन्क्रिप्टेड डिजिटल प्रमाण पत्र एवं दस्तावेज़',
     docNumber: 'दस्तावेज़ संख्या',
     docStatus: 'स्थिति',
     viewDoc: 'दस्तावेज़ देखें',
@@ -359,11 +365,11 @@ class AppStrings {
     securityStatus: 'सुरक्षा',
     secHigh: '● 2FA सक्रिय',
 
-    tabDigitalPass: '🪪 डिजिटल पास',
-    tabPersonalKYC: '👤 व्यक्तिगत एवं केवाईसी',
-    tabLinkedPortals: '🔗 जुड़े हुए पोर्टल',
-    tabSecurity: '🛡️ सुरक्षा',
-    tabSettings: '⚙️ सेटिंग्स',
+    tabDigitalPass: 'डिजिटल कार्ड',
+    tabPersonalKYC: 'व्यक्तिगत व KYC',
+    tabLinkedPortals: 'जुड़े पोर्टल',
+    tabSecurity: 'सुरक्षा',
+    tabSettings: 'सेटिंग्स',
 
     personalTitle: 'नागरिक प्रोफ़ाइल रिकॉर्ड',
     lblFullName: 'पूरा कानूनी नाम',
@@ -391,10 +397,10 @@ class AppStrings {
 
     preferencesTitle: 'नागरिक प्राथमिकताएं',
     portalLanguage: 'पोर्टल भाषा',
-    alertsTitle: 'नवीनीकरण एवं प्रवेश पत्र अलर्ट',
-    whatsappAlerts: 'ड्राइविंग लाइसेंस एवं प्रवेश पत्र हेतु व्हाट्सएप अलर्ट',
-    smsAlerts: 'पंजीकृत मोबाइल पर एसएमएस अलर्ट',
-    exportData: 'नागरिक डेटा बैकअप निर्यात करें (JSON)',
+    alertsTitle: 'नवीनीकरण एवं एक्सपायरी अलर्ट',
+    whatsappAlerts: 'व्हाट्सएप नवीनीकरण अलर्ट',
+    smsAlerts: 'एसएमएस नवीनीकरण अलर्ट',
+    exportData: 'डेटा एक्सपोर्ट',
   );
 
   static const _punjabi = AppStrings(
@@ -454,11 +460,11 @@ class AppStrings {
     securityStatus: 'ਸੁਰੱਖਿਆ',
     secHigh: '● 2FA ਸਰਗਰਮ',
 
-    tabDigitalPass: '🪪 ਡਿਜੀਟਲ ਪਾਸ',
-    tabPersonalKYC: '👤 ਨਿੱਜੀ ਅਤੇ ਕੇਵਾਈਸੀ',
-    tabLinkedPortals: '🔗 ਜੁੜੇ ਹੋਏ ਪੋਰਟਲ',
-    tabSecurity: '🛡️ ਸੁਰੱਖਿਆ',
-    tabSettings: '⚙️ ਸੈਟਿੰਗਾਂ',
+    tabDigitalPass: 'ਡਿਜੀਟਲ ਕਾਰਡ',
+    tabPersonalKYC: 'ਨਿੱਜੀ ਅਤੇ KYC',
+    tabLinkedPortals: 'ਜੁੜੇ ਪੋਰਟਲ',
+    tabSecurity: 'ਸੁਰੱਖਿਆ',
+    tabSettings: 'ਸੈਟਿੰਗਾਂ',
 
     personalTitle: 'ਨਾਗਰਿਕ ਪ੍ਰੋਫਾਈਲ ਰਿਕਾਰਡ',
     lblFullName: 'ਪੂਰਾ ਕਾਨੂੰਨੀ ਨਾਮ',
@@ -486,10 +492,10 @@ class AppStrings {
 
     preferencesTitle: 'ਨਾਗਰਿਕ ਤਰਜੀਹਾਂ',
     portalLanguage: 'ਪੋਰਟਲ ਭਾਸ਼ਾ',
-    alertsTitle: 'ਨਵਿਆਉਣ ਅਤੇ ਐਡਮਿਟ ਕਾਰਡ ਅਲਰਟ',
-    whatsappAlerts: 'ਲਾਇਸੈਂਸ ਅਤੇ ਐਡਮਿਟ ਕਾਰਡਾਂ ਲਈ ਵਟਸਐਪ ਅਲਰਟ',
-    smsAlerts: 'ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਤੇ ਐਸਐਮਐਸ ਅਲਰਟ',
-    exportData: 'ਨਾਗਰਿਕ ਡੇਟਾ ਬੈਕਅੱਪ (JSON)',
+    alertsTitle: 'ਨਵਿਆਉਣ ਅਤੇ ਮਿਆਦ ਅਲਰਟ',
+    whatsappAlerts: 'ਵਟਸਐਪ ਨਵਿਆਉਣ ਅਲਰਟ',
+    smsAlerts: 'ਐਸਐਮਐਸ ਨਵਿਆਉਣ ਅਲਰਟ',
+    exportData: 'ਡੇਟਾ ਐਕਸਪੋਰਟ',
   );
 }
 
@@ -497,72 +503,132 @@ class ServiceTranslator {
   static String getServiceName(String id, String langCode) {
     if (langCode == 'hi') {
       switch (id) {
-        case 'pan-card': return 'आयकर विभाग (Income Tax)';
-        case 'voter-id': return 'भारतीय चुनाव आयोग (ECI)';
-        case 'uidai-aadhaar': return 'भारतीय विशिष्ट पहचान प्राधिकरण (UIDAI)';
-        case 'morth-dl': return 'सड़क परिवहन एवं राजमार्ग मंत्रालय';
-        case 'pmjay-health': return 'राष्ट्रीय स्वास्थ्य प्राधिकरण (NHA)';
-        case 'mea-passport': return 'विदेश मंत्रालय (Passport Seva)';
-        case 'nfsa-pds': return 'खाद्य एवं सार्वजनिक वितरण विभाग';
-        case 'revenue-dept': return 'भूमि संसाधन एवं राजस्व विभाग';
-        case 'upsc-exam': return 'संघ लोक सेवा आयोग (UPSC)';
-        case 'ssc-exam': return 'कर्मचारी चयन आयोग (SSC)';
-        case 'nta-testing': return 'राष्ट्रीय परीक्षा एजेंसी (NTA)';
-        case 'rrb-railway': return 'रेलवे भर्ती नियंत्रण बोर्ड (RRB)';
-        case 'ibps-bank': return 'बैंकिंग कार्मिक चयन संस्थान (IBPS)';
-        case 'cbse-board': return 'केंद्रीय माध्यमिक शिक्षा बोर्ड (CBSE)';
-        case 'ugc-net': return 'विश्वविद्यालय अनुदान आयोग (UGC-NET)';
-        case 'state-psc': return 'राज्य लोक सेवा आयोग';
-        case 'epfo-uan': return 'कर्मचारी भविष्य निधि संगठन (EPFO)';
-        case 'lic-insurance': return 'भारतीय जीवन बीमा निगम (LIC)';
-        case 'sbi-bank': return 'भारतीय स्टेट बैंक (SBI)';
-        default: return id;
+        case 'pan-card':
+          return 'आयकर विभाग (Income Tax)';
+        case 'voter-id':
+          return 'भारतीय चुनाव आयोग (ECI)';
+        case 'uidai-aadhaar':
+          return 'भारतीय विशिष्ट पहचान प्राधिकरण (UIDAI)';
+        case 'morth-dl':
+          return 'सड़क परिवहन एवं राजमार्ग मंत्रालय';
+        case 'pmjay-health':
+          return 'राष्ट्रीय स्वास्थ्य प्राधिकरण (NHA)';
+        case 'mea-passport':
+          return 'विदेश मंत्रालय (Passport Seva)';
+        case 'nfsa-pds':
+          return 'खाद्य एवं सार्वजनिक वितरण विभाग';
+        case 'revenue-dept':
+          return 'भूमि संसाधन एवं राजस्व विभाग';
+        case 'upsc-exam':
+          return 'संघ लोक सेवा आयोग (UPSC)';
+        case 'ssc-exam':
+          return 'कर्मचारी चयन आयोग (SSC)';
+        case 'nta-testing':
+          return 'राष्ट्रीय परीक्षा एजेंसी (NTA)';
+        case 'rrb-railway':
+          return 'रेलवे भर्ती नियंत्रण बोर्ड (RRB)';
+        case 'ibps-bank':
+          return 'बैंकिंग कार्मिक चयन संस्थान (IBPS)';
+        case 'cbse-board':
+          return 'केंद्रीय माध्यमिक शिक्षा बोर्ड (CBSE)';
+        case 'ugc-net':
+          return 'विश्वविद्यालय अनुदान आयोग (UGC-NET)';
+        case 'state-psc':
+          return 'राज्य लोक सेवा आयोग';
+        case 'epfo-uan':
+          return 'कर्मचारी भविष्य निधि संगठन (EPFO)';
+        case 'lic-insurance':
+          return 'भारतीय जीवन बीमा निगम (LIC)';
+        case 'sbi-bank':
+          return 'भारतीय स्टेट बैंक (SBI)';
+        default:
+          return id;
       }
     } else if (langCode == 'pa') {
       switch (id) {
-        case 'pan-card': return 'ਇਨਕਮ ਟੈਕਸ ਵਿਭਾਗ (Income Tax)';
-        case 'voter-id': return 'ਭਾਰਤ ਚੋਣ ਕਮਿਸ਼ਨ (ECI)';
-        case 'uidai-aadhaar': return 'ਵਿਲੱਖਣ ਪਛਾਣ ਅਥਾਰਟੀ (UIDAI)';
-        case 'morth-dl': return 'ਸੜਕ ਆਵਾਜਾਈ ਅਤੇ ਰਾਜਮਾਰਗ ਮੰਤਰਾਲਾ';
-        case 'pmjay-health': return 'ਰਾਸ਼ਟਰੀ ਸਿਹਤ ਅਥਾਰਟੀ (NHA)';
-        case 'mea-passport': return 'ਵਿਦੇਸ਼ ਮੰਤਰਾਲਾ (Passport Seva)';
-        case 'nfsa-pds': return 'ਖੁਰਾਕ ਅਤੇ ਜਨਤਕ ਵੰਡ ਵਿਭਾਗ';
-        case 'revenue-dept': return 'ਜ਼ਮੀਨੀ ਸਰੋਤ ਅਤੇ ਮਾਲ ਵਿਭਾਗ';
-        case 'upsc-exam': return 'ਯੂਨੀਅਨ ਲੋਕ ਸੇਵਾ ਕਮਿਸ਼ਨ (UPSC)';
-        case 'ssc-exam': return 'ਸਟਾਫ ਸਿਲੈਕਸ਼ਨ ਕਮਿਸ਼ਨ (SSC)';
-        case 'nta-testing': return 'ਨੈਸ਼ਨਲ ਟੈਸਟਿੰਗ ਏਜੰਸੀ (NTA)';
-        case 'rrb-railway': return 'ਰੇਲਵੇ ਭਰਤੀ ਕੰਟਰੋਲ ਬੋਰਡ (RRB)';
-        case 'ibps-bank': return 'ਬੈਂਕਿੰਗ ਕਰਮਚਾਰੀ ਚੋਣ ਸੰਸਥਾ (IBPS)';
-        case 'cbse-board': return 'ਕੇਂਦਰੀ ਸੈਕੰਡਰੀ ਸਿੱਖਿਆ ਬੋਰਡ (CBSE)';
-        case 'ugc-net': return 'ਯੂਨੀਵਰਸਿਟੀ ਗ੍ਰਾਂਟਸ ਕਮਿਸ਼ਨ (UGC-NET)';
-        case 'state-psc': return 'ਰਾਜ ਲੋਕ ਸੇਵਾ ਕਮਿਸ਼ਨ';
-        case 'epfo-uan': return 'ਕਰਮਚਾਰੀ ਭਵਿੱਖ ਨਿਧੀ ਸੰਗਠਨ (EPFO)';
-        case 'lic-insurance': return 'ਲਾਈਫ ਇੰਸ਼ੋਰੈਂਸ ਕਾਰਪੋਰੇਸ਼ਨ ਆਫ ਇੰਡੀਆ (LIC)';
-        case 'sbi-bank': return 'ਸਟੇਟ ਬੈਂਕ ਆਫ਼ ਇੰਡੀਆ (SBI)';
-        default: return id;
+        case 'pan-card':
+          return 'ਇਨਕਮ ਟੈਕਸ ਵਿਭਾਗ (Income Tax)';
+        case 'voter-id':
+          return 'ਭਾਰਤ ਚੋਣ ਕਮਿਸ਼ਨ (ECI)';
+        case 'uidai-aadhaar':
+          return 'ਵਿਲੱਖਣ ਪਛਾਣ ਅਥਾਰਟੀ (UIDAI)';
+        case 'morth-dl':
+          return 'ਸੜਕ ਆਵਾਜਾਈ ਅਤੇ ਰਾਜਮਾਰਗ ਮੰਤਰਾਲਾ';
+        case 'pmjay-health':
+          return 'ਰਾਸ਼ਟਰੀ ਸਿਹਤ ਅਥਾਰਟੀ (NHA)';
+        case 'mea-passport':
+          return 'ਵਿਦੇਸ਼ ਮੰਤਰਾਲਾ (Passport Seva)';
+        case 'nfsa-pds':
+          return 'ਖੁਰਾਕ ਅਤੇ ਜਨਤਕ ਵੰਡ ਵਿਭਾਗ';
+        case 'revenue-dept':
+          return 'ਜ਼ਮੀਨੀ ਸਰੋਤ ਅਤੇ ਮਾਲ ਵਿਭਾਗ';
+        case 'upsc-exam':
+          return 'ਯੂਨੀਅਨ ਲੋਕ ਸੇਵਾ ਕਮਿਸ਼ਨ (UPSC)';
+        case 'ssc-exam':
+          return 'ਸਟਾਫ ਸਿਲੈਕਸ਼ਨ ਕਮਿਸ਼ਨ (SSC)';
+        case 'nta-testing':
+          return 'ਨੈਸ਼ਨਲ ਟੈਸਟਿੰਗ ਏਜੰਸੀ (NTA)';
+        case 'rrb-railway':
+          return 'ਰੇਲਵੇ ਭਰਤੀ ਕੰਟਰੋਲ ਬੋਰਡ (RRB)';
+        case 'ibps-bank':
+          return 'ਬੈਂਕਿੰਗ ਕਰਮਚਾਰੀ ਚੋਣ ਸੰਸਥਾ (IBPS)';
+        case 'cbse-board':
+          return 'ਕੇਂਦਰੀ ਸੈਕੰਡਰੀ ਸਿੱਖਿਆ ਬੋਰਡ (CBSE)';
+        case 'ugc-net':
+          return 'ਯੂਨੀਵਰਸਿਟੀ ਗ੍ਰਾਂਟਸ ਕਮਿਸ਼ਨ (UGC-NET)';
+        case 'state-psc':
+          return 'ਰਾਜ ਲੋਕ ਸੇਵਾ ਕਮਿਸ਼ਨ';
+        case 'epfo-uan':
+          return 'ਕਰਮਚਾਰੀ ਭਵਿੱਖ ਨਿਧੀ ਸੰਗਠਨ (EPFO)';
+        case 'lic-insurance':
+          return 'ਲਾਈਫ ਇੰਸ਼ੋਰੈਂਸ ਕਾਰਪੋਰੇਸ਼ਨ ਆਫ ਇੰਡੀਆ (LIC)';
+        case 'sbi-bank':
+          return 'ਸਟੇਟ ਬੈਂਕ ਆਫ਼ ਇੰਡੀਆ (SBI)';
+        default:
+          return id;
       }
     } else {
       switch (id) {
-        case 'pan-card': return 'Income Tax Department (ITD)';
-        case 'voter-id': return 'Election Commission of India (ECI)';
-        case 'uidai-aadhaar': return 'UIDAI (Aadhaar Portal)';
-        case 'morth-dl': return 'Ministry of Road Transport (Parivahan)';
-        case 'pmjay-health': return 'National Health Authority (NHA)';
-        case 'mea-passport': return 'Passport Seva (MEA)';
-        case 'nfsa-pds': return 'Dept of Food & Public Distribution';
-        case 'revenue-dept': return 'Department of Land Resources & Revenue';
-        case 'upsc-exam': return 'Union Public Service Commission (UPSC)';
-        case 'ssc-exam': return 'Staff Selection Commission (SSC)';
-        case 'nta-testing': return 'National Testing Agency (NTA)';
-        case 'rrb-railway': return 'Railway Recruitment Control Board (RRB)';
-        case 'ibps-bank': return 'Institute of Banking Personnel Selection (IBPS)';
-        case 'cbse-board': return 'Central Board of Sec. Education (CBSE)';
-        case 'ugc-net': return 'University Grants Commission (UGC-NET)';
-        case 'state-psc': return 'State Public Service Commissions';
-        case 'epfo-uan': return 'Employees Provident Fund (EPFO)';
-        case 'lic-insurance': return 'Life Insurance Corp. (LIC)';
-        case 'sbi-bank': return 'State Bank of India (SBI)';
-        default: return id;
+        case 'pan-card':
+          return 'Income Tax Department (ITD)';
+        case 'voter-id':
+          return 'Election Commission of India (ECI)';
+        case 'uidai-aadhaar':
+          return 'UIDAI (Aadhaar Portal)';
+        case 'morth-dl':
+          return 'Ministry of Road Transport (Parivahan)';
+        case 'pmjay-health':
+          return 'National Health Authority (NHA)';
+        case 'mea-passport':
+          return 'Passport Seva (MEA)';
+        case 'nfsa-pds':
+          return 'Dept of Food & Public Distribution';
+        case 'revenue-dept':
+          return 'Department of Land Resources & Revenue';
+        case 'upsc-exam':
+          return 'Union Public Service Commission (UPSC)';
+        case 'ssc-exam':
+          return 'Staff Selection Commission (SSC)';
+        case 'nta-testing':
+          return 'National Testing Agency (NTA)';
+        case 'rrb-railway':
+          return 'Railway Recruitment Control Board (RRB)';
+        case 'ibps-bank':
+          return 'Institute of Banking Personnel Selection (IBPS)';
+        case 'cbse-board':
+          return 'Central Board of Sec. Education (CBSE)';
+        case 'ugc-net':
+          return 'University Grants Commission (UGC-NET)';
+        case 'state-psc':
+          return 'State Public Service Commissions';
+        case 'epfo-uan':
+          return 'Employees Provident Fund (EPFO)';
+        case 'lic-insurance':
+          return 'Life Insurance Corp. (LIC)';
+        case 'sbi-bank':
+          return 'State Bank of India (SBI)';
+        default:
+          return id;
       }
     }
   }
@@ -570,72 +636,132 @@ class ServiceTranslator {
   static String getServiceDoc(String id, String langCode) {
     if (langCode == 'hi') {
       switch (id) {
-        case 'pan-card': return 'पैन सत्यापन रिकॉर्ड (e-PAN)';
-        case 'voter-id': return 'मतदाता फोटो पहचान पत्र (e-EPIC)';
-        case 'uidai-aadhaar': return 'आधार डिजिटल प्रति';
-        case 'morth-dl': return 'ड्राइविंग लाइसेंस एवं वाहन आर.सी.';
-        case 'pmjay-health': return 'आयुष्मान भारत आभा कार्ड (₹5 लाख सुरक्षा)';
-        case 'mea-passport': return 'पासपोर्ट सत्यापन एवं पीसीसी';
-        case 'nfsa-pds': return 'पारिवारिक राशन कार्ड';
-        case 'revenue-dept': return 'आय, जाति एवं निवास प्रमाण पत्र';
-        case 'upsc-exam': return 'ई-प्रवेश पत्र एवं अंतिम चयन अंकतालिका';
-        case 'ssc-exam': return 'परीक्षा हॉल टिकट एवं स्कोर कार्ड';
-        case 'nta-testing': return 'एनटीए एडमिट कार्ड एवं स्कोरकार्ड';
-        case 'rrb-railway': return 'ई-कॉल लेटर एवं सीबीटी स्कोर';
-        case 'ibps-bank': return 'कॉल लेटर एवं परिणाम विवरण';
-        case 'cbse-board': return '10वीं व 12वीं डिजिटल मार्कशीट व प्रमाण पत्र';
-        case 'ugc-net': return 'ई-प्रमाण पत्र एवं जेआरएफ अवार्ड पत्र';
-        case 'state-psc': return 'राज्य पीएससी प्रवेश पत्र एवं साक्षात्कार पत्र';
-        case 'epfo-uan': return 'यूएएन कार्ड एवं सदस्य पासबुक';
-        case 'lic-insurance': return 'एलआईसी पॉलिसी दस्तावेज़';
-        case 'sbi-bank': return 'खाता विवरण एवं पासबुक';
-        default: return id;
+        case 'pan-card':
+          return 'पैन सत्यापन रिकॉर्ड (e-PAN)';
+        case 'voter-id':
+          return 'मतदाता फोटो पहचान पत्र (e-EPIC)';
+        case 'uidai-aadhaar':
+          return 'आधार डिजिटल प्रति';
+        case 'morth-dl':
+          return 'ड्राइविंग लाइसेंस एवं वाहन आर.सी.';
+        case 'pmjay-health':
+          return 'आयुष्मान भारत आभा कार्ड (₹5 लाख सुरक्षा)';
+        case 'mea-passport':
+          return 'पासपोर्ट सत्यापन एवं पीसीसी';
+        case 'nfsa-pds':
+          return 'पारिवारिक राशन कार्ड';
+        case 'revenue-dept':
+          return 'आय, जाति एवं निवास प्रमाण पत्र';
+        case 'upsc-exam':
+          return 'ई-प्रवेश पत्र एवं अंतिम चयन अंकतालिका';
+        case 'ssc-exam':
+          return 'परीक्षा हॉल टिकट एवं स्कोर कार्ड';
+        case 'nta-testing':
+          return 'एनटीए एडमिट कार्ड एवं स्कोरकार्ड';
+        case 'rrb-railway':
+          return 'ई-कॉल लेटर एवं सीबीटी स्कोर';
+        case 'ibps-bank':
+          return 'कॉल लेटर एवं परिणाम विवरण';
+        case 'cbse-board':
+          return '10वीं व 12वीं डिजिटल मार्कशीट व प्रमाण पत्र';
+        case 'ugc-net':
+          return 'ई-प्रमाण पत्र एवं जेआरएफ अवार्ड पत्र';
+        case 'state-psc':
+          return 'राज्य पीएससी प्रवेश पत्र एवं साक्षात्कार पत्र';
+        case 'epfo-uan':
+          return 'यूएएन कार्ड एवं सदस्य पासबुक';
+        case 'lic-insurance':
+          return 'एलआईसी पॉलिसी दस्तावेज़';
+        case 'sbi-bank':
+          return 'खाता विवरण एवं पासबुक';
+        default:
+          return id;
       }
     } else if (langCode == 'pa') {
       switch (id) {
-        case 'pan-card': return 'ਪੈਨ ਵੈਰੀਫਿਕੇਸ਼ਨ ਰਿਕਾਰਡ (e-PAN)';
-        case 'voter-id': return 'ਵੋਟਰ ਫੋਟੋ ਸ਼ਨਾਖਤੀ ਕਾਰਡ (e-EPIC)';
-        case 'uidai-aadhaar': return 'ਆਧਾਰ ਡਿਜੀਟਲ ਕਾਪੀ';
-        case 'morth-dl': return 'ਡਰਾਈਵਿੰਗ ਲਾਇਸੈਂਸ ਅਤੇ ਵਾਹਨ ਆਰ.ਸੀ.';
-        case 'pmjay-health': return 'ਆਯੁਸ਼ਮਾਨ ਭਾਰਤ ਆਭਾ ਕਾਰਡ (₹5 ਲੱਖ ਕਵਰ)';
-        case 'mea-passport': return 'ਪਾਸਪੋਰਟ ਤਸਦੀਕ ਅਤੇ ਪੀ.ਸੀ.ਸੀ.';
-        case 'nfsa-pds': return 'ਪਰਿਵਾਰਕ ਰਾਸ਼ਨ ਕਾਰਡ';
-        case 'revenue-dept': return 'ਆਮਦਨ, ਜਾਤੀ ਅਤੇ ਰਿਹਾਇਸ਼ ਸਰਟੀਫਿਕੇਟ';
-        case 'upsc-exam': return 'ਈ-ਐਡਮਿਟ ਕਾਰਡ ਅਤੇ ਮਾਰਕਸ਼ੀਟ';
-        case 'ssc-exam': return 'ਇਮਤਿਹਾਨ ਹਾਲ ਟਿਕਟ ਅਤੇ ਸਕੋਰ ਕਾਰਡ';
-        case 'nta-testing': return 'ਐਨਟੀਏ ਐਡਮਿਟ ਕਾਰਡ ਅਤੇ ਅਧਿਕਾਰਤ ਸਕੋਰਕਾਰਡ';
-        case 'rrb-railway': return 'ਈ-ਕਾਲ ਲੈਟਰ ਅਤੇ ਸੀਬੀਟੀ ਸਕੋਰ';
-        case 'ibps-bank': return 'ਕਾਲ ਲੈਟਰ ਅਤੇ ਸੰਯੁਕਤ ਨਤੀਜਾ';
-        case 'cbse-board': return '10ਵੀਂ ਅਤੇ 12ਵੀਂ ਡਿਜੀਟਲ ਮਾਰਕਸ਼ੀਟ';
-        case 'ugc-net': return 'ਈ-ਸਰਟੀਫਿਕੇਟ ਅਤੇ ਜੇਆਰਐਫ ਅਵਾਰਡ ਪੱਤਰ';
-        case 'state-psc': return 'ਸਟੇਟ ਪੀਐਸਸੀ ਐਡਮਿਟ ਕਾਰਡ ਅਤੇ ਇੰਟਰਵਿਊ ਕਾਲ';
-        case 'epfo-uan': return 'ਯੂਏਐਨ ਕਾਰਡ ਅਤੇ ਮੈਂਬਰ ਪਾਸਬੁੱਕ';
-        case 'lic-insurance': return 'ਐਲਆਈਸੀ ਪਾਲਿਸੀ ਦਸਤਾਵੇਜ਼';
-        case 'sbi-bank': return 'ਖਾਤਾ ਸਟੇਟਮੈਂਟ ਅਤੇ ਪਾਸਬੁੱਕ';
-        default: return id;
+        case 'pan-card':
+          return 'ਪੈਨ ਵੈਰੀਫਿਕੇਸ਼ਨ ਰਿਕਾਰਡ (e-PAN)';
+        case 'voter-id':
+          return 'ਵੋਟਰ ਫੋਟੋ ਸ਼ਨਾਖਤੀ ਕਾਰਡ (e-EPIC)';
+        case 'uidai-aadhaar':
+          return 'ਆਧਾਰ ਡਿਜੀਟਲ ਕਾਪੀ';
+        case 'morth-dl':
+          return 'ਡਰਾਈਵਿੰਗ ਲਾਇਸੈਂਸ ਅਤੇ ਵਾਹਨ ਆਰ.ਸੀ.';
+        case 'pmjay-health':
+          return 'ਆਯੁਸ਼ਮਾਨ ਭਾਰਤ ਆਭਾ ਕਾਰਡ (₹5 ਲੱਖ ਕਵਰ)';
+        case 'mea-passport':
+          return 'ਪਾਸਪੋਰਟ ਤਸਦੀਕ ਅਤੇ ਪੀ.ਸੀ.ਸੀ.';
+        case 'nfsa-pds':
+          return 'ਪਰਿਵਾਰਕ ਰਾਸ਼ਨ ਕਾਰਡ';
+        case 'revenue-dept':
+          return 'ਆਮਦਨ, ਜਾਤੀ ਅਤੇ ਰਿਹਾਇਸ਼ ਸਰਟੀਫਿਕੇਟ';
+        case 'upsc-exam':
+          return 'ਈ-ਐਡਮਿਟ ਕਾਰਡ ਅਤੇ ਮਾਰਕਸ਼ੀਟ';
+        case 'ssc-exam':
+          return 'ਇਮਤਿਹਾਨ ਹਾਲ ਟਿਕਟ ਅਤੇ ਸਕੋਰ ਕਾਰਡ';
+        case 'nta-testing':
+          return 'ਐਨਟੀਏ ਐਡਮਿਟ ਕਾਰਡ ਅਤੇ ਅਧਿਕਾਰਤ ਸਕੋਰਕਾਰਡ';
+        case 'rrb-railway':
+          return 'ਈ-ਕਾਲ ਲੈਟਰ ਅਤੇ ਸੀਬੀਟੀ ਸਕੋਰ';
+        case 'ibps-bank':
+          return 'ਕਾਲ ਲੈਟਰ ਅਤੇ ਸੰਯੁਕਤ ਨਤੀਜਾ';
+        case 'cbse-board':
+          return '10ਵੀਂ ਅਤੇ 12ਵੀਂ ਡਿਜੀਟਲ ਮਾਰਕਸ਼ੀਟ';
+        case 'ugc-net':
+          return 'ਈ-ਸਰਟੀਫਿਕੇਟ ਅਤੇ ਜੇਆਰਐਫ ਅਵਾਰਡ ਪੱਤਰ';
+        case 'state-psc':
+          return 'ਸਟੇਟ ਪੀਐਸਸੀ ਐਡਮਿਟ ਕਾਰਡ ਅਤੇ ਇੰਟਰਵਿਊ ਕਾਲ';
+        case 'epfo-uan':
+          return 'ਯੂਏਐਨ ਕਾਰਡ ਅਤੇ ਮੈਂਬਰ ਪਾਸਬੁੱਕ';
+        case 'lic-insurance':
+          return 'ਐਲਆਈਸੀ ਪਾਲਿਸੀ ਦਸਤਾਵੇਜ਼';
+        case 'sbi-bank':
+          return 'ਖਾਤਾ ਸਟੇਟਮੈਂਟ ਅਤੇ ਪਾਸਬੁੱਕ';
+        default:
+          return id;
       }
     } else {
       switch (id) {
-        case 'pan-card': return 'e-PAN Card Verification';
-        case 'voter-id': return 'e-EPIC Voter Card';
-        case 'uidai-aadhaar': return 'Digital Aadhaar Copy';
-        case 'morth-dl': return 'Driving Licence & RC';
-        case 'pmjay-health': return 'Ayushman Bharat ABHA Card';
-        case 'mea-passport': return 'Passport Verification & PCC';
-        case 'nfsa-pds': return 'Family Ration Card';
-        case 'revenue-dept': return 'Income, Caste & Domicile Certificate';
-        case 'upsc-exam': return 'e-Admit Card & Results';
-        case 'ssc-exam': return 'Hall Ticket & Scorecard';
-        case 'nta-testing': return 'JEE / NEET / CUET Admit Card';
-        case 'rrb-railway': return 'E-Call Letter & CBT Score Summary';
-        case 'ibps-bank': return 'Call Letter & Combined Result Record';
-        case 'cbse-board': return '10th & 12th Marksheets';
-        case 'ugc-net': return 'E-Certificate & JRF Award Letter';
-        case 'state-psc': return 'State PSC Admit Card & Interview Call';
-        case 'epfo-uan': return 'UAN Card & Member Passbook';
-        case 'lic-insurance': return 'Policy Bonds & Premium Status';
-        case 'sbi-bank': return 'Account Statement & Passbook';
-        default: return id;
+        case 'pan-card':
+          return 'e-PAN Card Verification';
+        case 'voter-id':
+          return 'e-EPIC Voter Card';
+        case 'uidai-aadhaar':
+          return 'Digital Aadhaar Copy';
+        case 'morth-dl':
+          return 'Driving Licence & RC';
+        case 'pmjay-health':
+          return 'Ayushman Bharat ABHA Card';
+        case 'mea-passport':
+          return 'Passport Verification & PCC';
+        case 'nfsa-pds':
+          return 'Family Ration Card';
+        case 'revenue-dept':
+          return 'Income, Caste & Domicile Certificate';
+        case 'upsc-exam':
+          return 'e-Admit Card & Results';
+        case 'ssc-exam':
+          return 'Hall Ticket & Scorecard';
+        case 'nta-testing':
+          return 'JEE / NEET / CUET Admit Card';
+        case 'rrb-railway':
+          return 'E-Call Letter & CBT Score Summary';
+        case 'ibps-bank':
+          return 'Call Letter & Combined Result Record';
+        case 'cbse-board':
+          return '10th & 12th Marksheets';
+        case 'ugc-net':
+          return 'E-Certificate & JRF Award Letter';
+        case 'state-psc':
+          return 'State PSC Admit Card & Interview Call';
+        case 'epfo-uan':
+          return 'UAN Card & Member Passbook';
+        case 'lic-insurance':
+          return 'Policy Bonds & Premium Status';
+        case 'sbi-bank':
+          return 'Account Statement & Passbook';
+        default:
+          return id;
       }
     }
   }
@@ -744,21 +870,63 @@ class ServiceTranslator {
 
     final stateMap = {
       'Central Government': {'hi': 'केंद्र सरकार', 'pa': 'ਕੇਂਦਰ ਸਰਕਾਰ'},
-      'All States': {'hi': 'समस्त राज्य एवं केंद्र शासित प्रदेश', 'pa': 'ਸਾਰੇ ਰਾਜ ਅਤੇ ਕੇਂਦਰ ਸ਼ਾਸਤ ਪ੍ਰਦੇਸ਼'},
+      'All States': {
+        'hi': 'समस्त राज्य एवं केंद्र शासित प्रदेश',
+        'pa': 'ਸਾਰੇ ਰਾਜ ਅਤੇ ਕੇਂਦਰ ਸ਼ਾਸਤ ਪ੍ਰਦੇਸ਼',
+      },
       'State Governments': {'hi': 'राज्य सरकारें', 'pa': 'ਰਾਜ ਸਰਕਾਰਾਂ'},
-      'MoRTH — Parivahan': {'hi': 'परिवहन सेवा (MoRTH)', 'pa': 'ਟਰਾਂਸਪੋਰਟ ਸੇਵਾ (MoRTH)'},
-      'Ayushman Bharat PM-JAY': {'hi': 'आयुष्मान भारत पीएम-जय', 'pa': 'ਆਯੁਸ਼ਮਾਨ ਭਾਰਤ ਪੀਐਮ-ਜੇਏਵਾਈ'},
-      'Passport Seva': {'hi': 'पासपोर्ट सेवा केंद्र', 'pa': 'ਪਾਸਪੋਰਟ ਸੇਵਾ ਕੇਂਦਰ'},
-      'NFSA / PDS Portal': {'hi': 'खाद्य सुरक्षा पोर्टल', 'pa': 'ਖੁਰਾਕ ਸੁਰੱਖਿਆ ਪੋਰਟਲ'},
-      'Civil Services / NDA / CDS': {'hi': 'सिविल सेवा / एनडीए / सीडीएस', 'pa': 'ਸਿਵਲ ਸੇਵਾਵਾਂ / ਐਨਡੀਏ / ਸੀਡੀਐਸ'},
-      'CGL / CHSL / MTS / GD': {'hi': 'सीजीएल / सीएचएसएल / जीडी', 'pa': 'ਸੀਜੀਐਲ / ਸੀਐਚਐਸਐਲ / ਜੀਡੀ'},
-      'JEE Main / NEET-UG / CUET': {'hi': 'जेईई मेन / नीट / सीयूईटी', 'pa': 'ਜੇਈਈ ਮੇਨ / ਨੀਟ / ਸੀਯੂਈਟੀ'},
-      'NTPC / Group D / ALP Exams': {'hi': 'एनटीपीसी / ग्रुप डी परीक्षाएं', 'pa': 'ਐਨਟੀਪੀਸੀ / ਗਰੁੱਪ ਡੀ ਪ੍ਰੀਖਿਆਵਾਂ'},
-      'PO / Clerk / Specialist Officer': {'hi': 'पीओ / क्लर्क / अधिकारी', 'pa': 'ਪੀਓ / ਕਲਰਕ / ਅਧਿਕਾਰੀ'},
-      'CBSE / All India': {'hi': 'सीबीएसई / अखिल भारतीय', 'pa': 'ਸੀਬੀਐਸਈ / ਆਲ ਇੰਡੀਆ'},
-      'National Eligibility & JRF': {'hi': 'राष्ट्रीय पात्रता परीक्षा / जेआरएफ', 'pa': 'ਰਾਸ਼ਟਰੀ ਯੋਗਤਾ ਪ੍ਰੀਖਿਆ / ਜੇਆਰਐਫ'},
-      'State Administrative & Police Services': {'hi': 'राज्य प्रशासनिक व पुलिस सेवाएं', 'pa': 'ਰਾਜ ਪ੍ਰਸ਼ਾਸਕੀ ਤੇ ਪੁਲਿਸ ਸੇਵਾਵਾਂ'},
-      'Ministry of Labour': {'hi': 'श्रम एवं रोजगार मंत्रालय', 'pa': 'ਕਿਰਤ ਅਤੇ ਰੁਜ਼ਗਾਰ ਮੰਤਰਾਲਾ'},
+      'MoRTH — Parivahan': {
+        'hi': 'परिवहन सेवा (MoRTH)',
+        'pa': 'ਟਰਾਂਸਪੋਰਟ ਸੇਵਾ (MoRTH)',
+      },
+      'Ayushman Bharat PM-JAY': {
+        'hi': 'आयुष्मान भारत पीएम-जय',
+        'pa': 'ਆਯੁਸ਼ਮਾਨ ਭਾਰਤ ਪੀਐਮ-ਜੇਏਵਾਈ',
+      },
+      'Passport Seva': {
+        'hi': 'पासपोर्ट सेवा केंद्र',
+        'pa': 'ਪਾਸਪੋਰਟ ਸੇਵਾ ਕੇਂਦਰ',
+      },
+      'NFSA / PDS Portal': {
+        'hi': 'खाद्य सुरक्षा पोर्टल',
+        'pa': 'ਖੁਰਾਕ ਸੁਰੱਖਿਆ ਪੋਰਟਲ',
+      },
+      'Civil Services / NDA / CDS': {
+        'hi': 'सिविल सेवा / एनडीए / सीडीएस',
+        'pa': 'ਸਿਵਲ ਸੇਵਾਵਾਂ / ਐਨਡੀਏ / ਸੀਡੀਐਸ',
+      },
+      'CGL / CHSL / MTS / GD': {
+        'hi': 'सीजीएल / सीएचएसएल / जीडी',
+        'pa': 'ਸੀਜੀਐਲ / ਸੀਐਚਐਸਐਲ / ਜੀਡੀ',
+      },
+      'JEE Main / NEET-UG / CUET': {
+        'hi': 'जेईई मेन / नीट / सीयूईटी',
+        'pa': 'ਜੇਈਈ ਮੇਨ / ਨੀਟ / ਸੀਯੂਈਟੀ',
+      },
+      'NTPC / Group D / ALP Exams': {
+        'hi': 'एनटीपीसी / ग्रुप डी परीक्षाएं',
+        'pa': 'ਐਨਟੀਪੀਸੀ / ਗਰੁੱਪ ਡੀ ਪ੍ਰੀਖਿਆਵਾਂ',
+      },
+      'PO / Clerk / Specialist Officer': {
+        'hi': 'पीओ / क्लर्क / अधिकारी',
+        'pa': 'ਪੀਓ / ਕਲਰਕ / ਅਧਿਕਾਰੀ',
+      },
+      'CBSE / All India': {
+        'hi': 'सीबीएसई / अखिल भारतीय',
+        'pa': 'ਸੀਬੀਐਸਈ / ਆਲ ਇੰਡੀਆ',
+      },
+      'National Eligibility & JRF': {
+        'hi': 'राष्ट्रीय पात्रता परीक्षा / जेआरएफ',
+        'pa': 'ਰਾਸ਼ਟਰੀ ਯੋਗਤਾ ਪ੍ਰੀਖਿਆ / ਜੇਆਰਐਫ',
+      },
+      'State Administrative & Police Services': {
+        'hi': 'राज्य प्रशासनिक व पुलिस सेवाएं',
+        'pa': 'ਰਾਜ ਪ੍ਰਸ਼ਾਸਕੀ ਤੇ ਪੁਲਿਸ ਸੇਵਾਵਾਂ',
+      },
+      'Ministry of Labour': {
+        'hi': 'श्रम एवं रोजगार मंत्रालय',
+        'pa': 'ਕਿਰਤ ਅਤੇ ਰੁਜ਼ਗਾਰ ਮੰਤਰਾਲਾ',
+      },
     };
 
     return stateMap[state]?[langCode] ?? state;
@@ -769,66 +937,314 @@ class ServiceTranslator {
 
     final docMap = {
       'Aadhaar Card': {'hi': 'आधार कार्ड', 'pa': 'ਆਧਾਰ ਕਾਰਡ'},
-      'Passport Photograph': {'hi': 'पासपोर्ट साइज फोटो', 'pa': 'ਪਾਸਪੋਰਟ ਸਾਈਜ਼ ਫੋਟੋ'},
+      'Passport Photograph': {
+        'hi': 'पासपोर्ट साइज फोटो',
+        'pa': 'ਪਾਸਪੋਰਟ ਸਾਈਜ਼ ਫੋਟੋ',
+      },
       'Signature Proof': {'hi': 'हस्ताक्षर प्रमाण', 'pa': 'ਦਸਤਖਤ ਸਬੂਤ'},
       'Age Proof': {'hi': 'आयु प्रमाण पत्र', 'pa': 'ਉਮਰ ਦਾ ਸਬੂਤ'},
       'Address Proof': {'hi': 'निवास प्रमाण पत्र', 'pa': 'ਰਿਹਾਇਸ਼ੀ ਸਬੂਤ'},
       'Passport Photo': {'hi': 'पासपोर्ट फोटो', 'pa': 'ਪਾਸਪੋਰਟ ਫੋਟੋ'},
-      'Registered Mobile OTP': {'hi': 'पंजीकृत मोबाइल ओटीपी', 'pa': 'ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਓਟੀਪੀ'},
-      'Aadhaar Number / VID': {'hi': 'आधार संख्या / वर्चुअल आईडी', 'pa': 'ਆਧਾਰ ਨੰਬਰ / ਵਰਚੁਅਲ ਆਈਡੀ'},
-      'Form 1 Medical Declaration': {'hi': 'फॉर्म 1 मेडिकल घोषणा पत्र', 'pa': 'ਫਾਰਮ 1 ਮੈਡੀਕਲ ਘੋਸ਼ਣਾ ਪੱਤਰ'},
+      'Registered Mobile OTP': {
+        'hi': 'पंजीकृत मोबाइल ओटीपी',
+        'pa': 'ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਓਟੀਪੀ',
+      },
+      'Aadhaar Number / VID': {
+        'hi': 'आधार संख्या / वर्चुअल आईडी',
+        'pa': 'ਆਧਾਰ ਨੰਬਰ / ਵਰਚੁਅਲ ਆਈਡੀ',
+      },
+      'Form 1 Medical Declaration': {
+        'hi': 'फॉर्म 1 मेडिकल घोषणा पत्र',
+        'pa': 'ਫਾਰਮ 1 ਮੈਡੀਕਲ ਘੋਸ਼ਣਾ ਪੱਤਰ',
+      },
       'Blood Group': {'hi': 'रक्त समूह विवरण', 'pa': 'ਬਲੱਡ ਗਰੁੱਪ ਵੇਰਵਾ'},
       'Aadhaar Number': {'hi': 'आधार संख्या', 'pa': 'ਆਧਾਰ ਨੰਬਰ'},
-      'Linked Mobile OTP': {'hi': 'आधार लिंक्ड मोबाइल ओटीपी', 'pa': 'ਆਧਾਰ ਲਿੰਕਡ ਮੋਬਾਈਲ ਓਟੀਪੀ'},
+      'Linked Mobile OTP': {
+        'hi': 'आधार लिंक्ड मोबाइल ओटीपी',
+        'pa': 'ਆਧਾਰ ਲਿੰਕਡ ਮੋਬਾਈਲ ਓਟੀਪੀ',
+      },
       'PAN Card': {'hi': 'पैन कार्ड', 'pa': 'ਪੈਨ ਕਾਰਡ'},
       'Bank Passbook': {'hi': 'बैंक पासबुक', 'pa': 'ਬੈਂਕ ਪਾਸਬੁੱਕ'},
-      'Family Head Aadhaar': {'hi': 'परिवार के मुखिया का आधार', 'pa': 'ਪਰਿਵਾਰ ਦੇ ਮੁਖੀ ਦਾ ਆਧਾਰ'},
-      'LPG Connection Bill': {'hi': 'एलपीजी गैस कनेक्शन रसीद', 'pa': 'ਐਲਪੀਜੀ ਗੈਸ ਕੁਨੈਕਸ਼ਨ ਰਸੀਦ'},
+      'Family Head Aadhaar': {
+        'hi': 'परिवार के मुखिया का आधार',
+        'pa': 'ਪਰਿਵਾਰ ਦੇ ਮੁਖੀ ਦਾ ਆਧਾਰ',
+      },
+      'LPG Connection Bill': {
+        'hi': 'एलपीजी गैस कनेक्शन रसीद',
+        'pa': 'ਐਲਪੀਜੀ ਗੈਸ ਕੁਨੈਕਸ਼ਨ ਰਸੀਦ',
+      },
       'Income Proof': {'hi': 'आय प्रमाण पत्र', 'pa': 'ਆਮਦਨ ਸਰਟੀਫਿਕੇਟ'},
-      'Salary Slip / ITR / Form 16': {'hi': 'वेतन पर्ची / आईटीआर / फॉर्म 16', 'pa': 'ਤਨਖਾਹ ਸਲਿੱਪ / ITR / ਫਾਰਮ 16'},
+      'Salary Slip / ITR / Form 16': {
+        'hi': 'वेतन पर्ची / आईटीआर / फॉर्म 16',
+        'pa': 'ਤਨਖਾਹ ਸਲਿੱਪ / ITR / ਫਾਰਮ 16',
+      },
       'Ration Card': {'hi': 'राशन कार्ड', 'pa': 'ਰਾਸ਼ਨ ਕਾਰਡ'},
       'Self Declaration': {'hi': 'स्व-घोषणा पत्र', 'pa': 'ਸਵੈ-ਘੋਸ਼ਣਾ ਪੱਤਰ'},
-      'Registration ID / Roll No.': {'hi': 'पंजीकरण संख्या / अनुक्रमांक', 'pa': 'ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਆਈਡੀ / ਰੋਲ ਨੰਬਰ'},
+      'Registration ID / Roll No.': {
+        'hi': 'पंजीकरण संख्या / अनुक्रमांक',
+        'pa': 'ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਆਈਡੀ / ਰੋਲ ਨੰਬਰ',
+      },
       'Date of Birth': {'hi': 'जन्म तिथि', 'pa': 'ਜਨਮ ਮਿਤੀ'},
       'Aadhaar ID': {'hi': 'आधार पहचान पत्र', 'pa': 'ਆਧਾਰ ਪਛਾਣ ਪੱਤਰ'},
-      'SSC Registration Number': {'hi': 'एसएससी पंजीकरण संख्या', 'pa': 'ਐਸਐਸਸੀ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ'},
-      'Password / DOB': {'hi': 'पासवर्ड / जन्म तिथि', 'pa': 'ਪਾਸਵਰਡ / ਜਨਮ ਮਿਤੀ'},
+      'SSC Registration Number': {
+        'hi': 'एसएससी पंजीकरण संख्या',
+        'pa': 'ਐਸਐਸਸੀ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ',
+      },
+      'Password / DOB': {
+        'hi': 'पासवर्ड / जन्म तिथि',
+        'pa': 'ਪਾਸਵਰਡ / ਜਨਮ ਮਿਤੀ',
+      },
       'Application Number': {'hi': 'आवेदन संख्या', 'pa': 'ਅਰਜ਼ੀ ਨੰਬਰ'},
       'Security PIN': {'hi': 'सुरक्षा पिन', 'pa': 'ਸੁਰੱਖਿਆ ਪਿੰਨ'},
       'Registration ID': {'hi': 'पंजीकरण संख्या', 'pa': 'ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਆਈਡੀ'},
-      'User Password / DOB': {'hi': 'उपयोगकर्ता पासवर्ड / जन्म तिथि', 'pa': 'ਯੂਜ਼ਰ ਪਾਸਵਰਡ / ਜਨਮ ਮਿਤੀ'},
+      'User Password / DOB': {
+        'hi': 'उपयोगकर्ता पासवर्ड / जन्म तिथि',
+        'pa': 'ਯੂਜ਼ਰ ਪਾਸਵਰਡ / ਜਨਮ ਮਿਤੀ',
+      },
       'Registration Number': {'hi': 'पंजीकरण संख्या', 'pa': 'ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ'},
-      'Roll Number & DOB': {'hi': 'रोल नंबर एवं जन्म तिथि', 'pa': 'ਰੋਲ ਨੰਬਰ ਅਤੇ ਜਨਮ ਮਿਤੀ'},
+      'Roll Number & DOB': {
+        'hi': 'रोल नंबर एवं जन्म तिथि',
+        'pa': 'ਰੋਲ ਨੰਬਰ ਅਤੇ ਜਨਮ ਮਿਤੀ',
+      },
       'Roll Number': {'hi': 'रोल नंबर / अनुक्रमांक', 'pa': 'ਰੋਲ ਨੰਬਰ'},
       'Passing Year': {'hi': 'उत्तीर्ण होने का वर्ष', 'pa': 'ਪਾਸ ਹੋਣ ਦਾ ਸਾਲ'},
       'School Code': {'hi': 'स्कूल कोड', 'pa': 'ਸਕੂਲ ਕੋਡ'},
       'Exam Session': {'hi': 'परीक्षा सत्र', 'pa': 'ਪ੍ਰੀਖਿਆ ਸੈਸ਼ਨ'},
       'State OTR ID': {'hi': 'राज्य ओटीआर संख्या', 'pa': 'ਰਾਜ ਓਟੀਆਰ ਨੰਬਰ'},
-      'Candidate Roll Number': {'hi': 'अभ्यर्थी रोल नंबर', 'pa': 'ਉਮੀਦਵਾਰ ਰੋਲ ਨੰਬਰ'},
-      '12-Digit UAN': {'hi': '12-अंकीय यूएएन नंबर', 'pa': '12-ਅੰਕਾਂ ਵਾਲਾ ਯੂਏਐਨ ਨੰਬਰ'},
-      'Aadhaar Linked Mobile OTP': {'hi': 'आधार लिंक्ड मोबाइल ओटीपी', 'pa': 'ਆਧਾਰ ਲਿੰਕਡ ਮੋਬਾਈਲ ਓਟੀਪੀ'},
+      'Candidate Roll Number': {
+        'hi': 'अभ्यर्थी रोल नंबर',
+        'pa': 'ਉਮੀਦਵਾਰ ਰੋਲ ਨੰਬਰ',
+      },
+      '12-Digit UAN': {
+        'hi': '12-अंकीय यूएएन नंबर',
+        'pa': '12-ਅੰਕਾਂ ਵਾਲਾ ਯੂਏਐਨ ਨੰਬਰ',
+      },
+      'Aadhaar Linked Mobile OTP': {
+        'hi': 'आधार लिंक्ड मोबाइल ओटीपी',
+        'pa': 'ਆਧਾਰ ਲਿੰਕਡ ਮੋਬਾਈਲ ਓਟੀਪੀ',
+      },
       'Policy Number': {'hi': 'बीमा पॉलिसी संख्या', 'pa': 'ਬੀਮਾ ਪਾਲਿਸੀ ਨੰਬਰ'},
-      'Registered Mobile Number': {'hi': 'पंजीकृत मोबाइल नंबर', 'pa': 'ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ'},
+      'Registered Mobile Number': {
+        'hi': 'पंजीकृत मोबाइल नंबर',
+        'pa': 'ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ',
+      },
       'Account Number': {'hi': 'बैंक खाता संख्या', 'pa': 'ਬੈਂਕ ਖਾਤਾ ਨੰਬਰ'},
     };
 
     return docMap[doc]?[langCode] ?? doc;
   }
 
-  static String getVaultDocTitle(String type, String fallback, String langCode) {
-    return getServiceDoc(type == 'uidai' ? 'uidai-aadhaar' : type == 'itd' ? 'pan-card' : type == 'morth' ? 'morth-dl' : type, langCode);
+  static String getVaultDocTitle(
+    String type,
+    String fallback,
+    String langCode,
+  ) {
+    return getServiceDoc(
+      type == 'uidai'
+          ? 'uidai-aadhaar'
+          : type == 'itd'
+          ? 'pan-card'
+          : type == 'morth'
+          ? 'morth-dl'
+          : type,
+      langCode,
+    );
   }
 
-  static String getVaultDocIssuer(String type, String fallback, String langCode) {
-    return getServiceName(type == 'uidai' ? 'uidai-aadhaar' : type == 'itd' ? 'pan-card' : type == 'morth' ? 'morth-dl' : type, langCode);
+  static String getVaultDocIssuer(
+    String type,
+    String fallback,
+    String langCode,
+  ) {
+    return getServiceName(
+      type == 'uidai'
+          ? 'uidai-aadhaar'
+          : type == 'itd'
+          ? 'pan-card'
+          : type == 'morth'
+          ? 'morth-dl'
+          : type,
+      langCode,
+    );
   }
 
   static String getVaultDocDate(String date, String langCode) {
     if (langCode == 'hi') {
-      return date.replaceAll('Issued', 'जारी').replaceAll('Valid till', 'वैधता').replaceAll('Issued Just Now', 'अभी जारी किया गया');
+      return date
+          .replaceAll('Issued', 'जारी')
+          .replaceAll('Valid till', 'वैधता')
+          .replaceAll('Issued Just Now', 'अभी जारी किया गया');
     } else if (langCode == 'pa') {
-      return date.replaceAll('Issued', 'ਜਾਰੀ ਕੀਤਾ').replaceAll('Valid till', 'ਮਿਆਦ').replaceAll('Issued Just Now', 'ਹੁਣੇ ਜਾਰੀ ਕੀਤਾ ਗਿਆ');
+      return date
+          .replaceAll('Issued', 'ਜਾਰੀ ਕੀਤਾ')
+          .replaceAll('Valid till', 'ਮਿਆਦ')
+          .replaceAll('Issued Just Now', 'ਹੁਣੇ ਜਾਰੀ ਕੀਤਾ ਗਿਆ');
     }
     return date;
   }
+}
+
+void showLanguageSelectionModal(BuildContext context, bool isDark) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.transparent,
+    isScrollControlled: true,
+    builder: (ctx) => ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (ctx, currentLang, _) {
+        final strings = AppStrings.getStrings(currentLang);
+        return Container(
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1E293B) : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 20,
+                offset: const Offset(0, -4),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.white24 : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.tealPrimary.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(Icons.translate_rounded, color: AppColors.tealPrimary, size: 20),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          strings.portalLanguage,
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textPrimary(isDark),
+                          ),
+                        ),
+                        Text(
+                          currentLang == 'hi'
+                              ? 'पोर्टल की भाषा का चयन करें'
+                              : currentLang == 'pa'
+                                  ? 'ਆਪਣੀ ਪਸੰਦੀਦਾ ਭਾਸ਼ਾ ਚੁਣੋ'
+                                  : 'Select your preferred portal language',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 12,
+                            color: AppColors.textSecondary(isDark),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              ...[
+                {'code': 'en', 'title': 'English', 'subtitle': 'Default Portal Language', 'badge': 'EN'},
+                {'code': 'hi', 'title': 'हिन्दी (Hindi)', 'subtitle': 'राष्ट्रीय आधिकारिक भाषा', 'badge': 'HI'},
+                {'code': 'pa', 'title': 'ਪੰਜਾਬੀ (Punjabi)', 'subtitle': 'ਖੇਤਰੀ ਭਾਸ਼ਾ', 'badge': 'PA'},
+              ].map((lang) {
+                final isSelected = currentLang == lang['code'];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: InkWell(
+                    onTap: () {
+                      appLanguageNotifier.value = lang['code']!;
+                      Navigator.pop(ctx);
+                    },
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColors.tealPrimary.withValues(alpha: isDark ? 0.2 : 0.08)
+                            : (isDark ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC)),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColors.tealPrimary
+                              : (isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0)),
+                          width: isSelected ? 1.5 : 1,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.tealPrimary
+                                  : (isDark ? Colors.white12 : Colors.grey[200]),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              lang['badge']!,
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: isSelected ? Colors.white : AppColors.textSecondary(isDark),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  lang['title']!,
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 14,
+                                    fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                                    color: isSelected ? AppColors.tealPrimary : AppColors.textPrimary(isDark),
+                                  ),
+                                ),
+                                Text(
+                                  lang['subtitle']!,
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 11,
+                                    color: AppColors.textSecondary(isDark),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (isSelected)
+                            const Icon(Icons.check_circle_rounded, color: AppColors.tealPrimary, size: 20)
+                          else
+                            Icon(Icons.radio_button_unchecked_rounded, color: AppColors.textSecondary(isDark).withValues(alpha: 0.4), size: 20),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
+        );
+      },
+    ),
+  );
 }

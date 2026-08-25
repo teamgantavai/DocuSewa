@@ -6,6 +6,7 @@ class CitizenProfile {
   final String? email;
   final String? fullName;
   final String? displayName;
+  final String? avatarUrl;
   final AccountType accountType;
   final AccountStatus accountStatus;
   final bool isNewUser;
@@ -19,6 +20,7 @@ class CitizenProfile {
     this.email,
     this.fullName,
     this.displayName,
+    this.avatarUrl,
     required this.accountType,
     required this.accountStatus,
     required this.isNewUser,
@@ -34,6 +36,7 @@ class CitizenProfile {
       email: json['email'] as String?,
       fullName: json['full_name'] as String?,
       displayName: json['display_name'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
       accountType: AccountType.fromString(json['account_type'] as String? ?? 'citizen'),
       accountStatus: AccountStatus.fromString(json['account_status'] as String? ?? 'active'),
       isNewUser: json['is_new_user'] as bool? ?? true,
@@ -49,6 +52,7 @@ class CitizenProfile {
         'email': email,
         'full_name': fullName,
         'display_name': displayName,
+        'avatar_url': avatarUrl,
         'account_type': accountType.value,
         'account_status': accountStatus.value,
         'is_new_user': isNewUser,
@@ -72,6 +76,7 @@ class CitizenProfile {
     String? fullName,
     String? displayName,
     String? email,
+    String? avatarUrl,
     bool? isNewUser,
     bool? onboardingCompleted,
   }) {
@@ -81,6 +86,7 @@ class CitizenProfile {
       email: email ?? this.email,
       fullName: fullName ?? this.fullName,
       displayName: displayName ?? this.displayName,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
       accountType: accountType,
       accountStatus: accountStatus,
       isNewUser: isNewUser ?? this.isNewUser,

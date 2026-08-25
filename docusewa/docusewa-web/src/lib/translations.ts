@@ -13,6 +13,14 @@ export interface TranslationDict {
   cancel: string;
   saveChanges: string;
   editProfile: string;
+  uploadPhoto: string;
+  changePhoto: string;
+  removePhoto: string;
+  photoUpdated: string;
+  photoRemoved: string;
+  photoUploadPrompt: string;
+  photoSizeLimitError: string;
+  photoFormatError: string;
 
   // Categories
   allServices: string;
@@ -180,11 +188,19 @@ export const translations: Record<Language, TranslationDict> = {
     verifiedCitizen: 'Verified 🇮🇳',
     verifiedAccount: '✓ Verified Citizen Account',
     searchPlaceholder: 'Search exam admit cards, IDs, certificates, boards...',
-    signOut: 'Sign Out from DocuSewa',
+    signOut: 'Sign Out',
     close: 'Close',
     cancel: 'Cancel',
     saveChanges: 'Save Changes',
     editProfile: 'Edit Profile',
+    uploadPhoto: 'Upload Photo',
+    changePhoto: 'Change Photo',
+    removePhoto: 'Remove Photo',
+    photoUpdated: 'Profile photo updated successfully! ✓',
+    photoRemoved: 'Profile photo removed. ✓',
+    photoUploadPrompt: 'Click or drag image to update profile photo',
+    photoSizeLimitError: 'Photo size should be less than 5 MB.',
+    photoFormatError: 'Please upload a valid image file (JPG, PNG, WEBP).',
 
     allServices: 'All Services',
     govtDocs: '📄 Official Documents',
@@ -230,11 +246,11 @@ export const translations: Record<Language, TranslationDict> = {
     securityStatus: 'SECURITY STATUS',
     secHigh: '● High (2FA Active)',
 
-    tabDigitalPass: '🪪 Digital Citizen Card',
-    tabPersonalKYC: '👤 Personal & KYC Data',
-    tabLinkedPortals: '🔗 Linked Portals',
-    tabSecurity: '🛡️ Security & Consents',
-    tabPreferences: '⚙️ Preferences',
+    tabDigitalPass: 'Digital ID',
+    tabPersonalKYC: 'Personal & KYC',
+    tabLinkedPortals: 'Linked Portals',
+    tabSecurity: 'Security',
+    tabPreferences: 'Settings',
 
     govtOfIndia: 'DocuSewa Citizen Pass',
     citizenPass: 'Digital ID Card',
@@ -285,12 +301,12 @@ export const translations: Record<Language, TranslationDict> = {
     preferencesTitle: 'Citizen Preferences & Notification Channels',
     preferencesSubtitle: 'Configure regional language and automated alerts for document renewals',
     portalLanguage: 'Regional Portal Language',
-    alertsTitle: 'Alerts & Expiry Notifications',
-    whatsappAlerts: 'WhatsApp alerts for Driving Licence, Insurance, and Exam hall tickets',
-    smsAlerts: 'SMS notifications on registered mobile',
+    alertsTitle: 'Expiry & Renewal Alerts',
+    whatsappAlerts: 'WhatsApp Renewal Alerts',
+    smsAlerts: 'SMS Renewal Alerts',
     dataPortability: 'Data Portability & Backup',
-    dataPortabilityDesc: 'Download an encrypted archive of your profile metadata and linked certificates',
-    exportData: 'Export Citizen Data (JSON)',
+    dataPortabilityDesc: 'Download an encrypted archive of your profile and certificates',
+    exportData: 'Export Data',
 
     itdName: 'Income Tax Department',
     itdDoc: 'PAN Verification Record (e-PAN)',
@@ -343,6 +359,14 @@ export const translations: Record<Language, TranslationDict> = {
     cancel: 'रद्द करें',
     saveChanges: 'परिवर्तन सहेजें',
     editProfile: 'प्रोफ़ाइल संपादित करें',
+    uploadPhoto: 'फ़ोटो अपलोड करें',
+    changePhoto: 'फ़ोटो बदलें',
+    removePhoto: 'फ़ोटो हटाएं',
+    photoUpdated: 'प्रोफ़ाइल फ़ोटो सफलतापूर्वक अपडेट हो गई! ✓',
+    photoRemoved: 'प्रोफ़ाइल फ़ोटो हटा दी गई। ✓',
+    photoUploadPrompt: 'प्रोफ़ाइल फ़ोटो बदलने के लिए क्लिक करें या छवि चुनें',
+    photoSizeLimitError: 'फ़ोटो का आकार 5 MB से कम होना चाहिए।',
+    photoFormatError: 'कृपया एक मान्य छवि फ़ाइल (JPG, PNG, WEBP) अपलोड करें।',
 
     allServices: 'सभी सेवाएं',
     govtDocs: '📄 आधिकारिक दस्तावेज़',
@@ -388,11 +412,11 @@ export const translations: Record<Language, TranslationDict> = {
     securityStatus: 'सुरक्षा स्थिति',
     secHigh: '● उच्च (2FA सक्रिय)',
 
-    tabDigitalPass: '🪪 डिजिटल नागरिक कार्ड',
-    tabPersonalKYC: '👤 व्यक्तिगत एवं केवाईसी डेटा',
-    tabLinkedPortals: '🔗 जुड़े हुए पोर्टल',
-    tabSecurity: '🛡️ सुरक्षा एवं सहमति',
-    tabPreferences: '⚙️ भाषा एवं प्राथमिकताएं',
+    tabDigitalPass: 'डिजिटल कार्ड',
+    tabPersonalKYC: 'व्यक्तिगत व KYC',
+    tabLinkedPortals: 'जुड़े पोर्टल',
+    tabSecurity: 'सुरक्षा',
+    tabPreferences: 'सेटिंग्स',
 
     govtOfIndia: 'DocuSewa नागरिक पास',
     citizenPass: 'डिजिटल आईडी कार्ड',
@@ -443,12 +467,12 @@ export const translations: Record<Language, TranslationDict> = {
     preferencesTitle: 'नागरिक प्राथमिकताएं एवं सूचना चैनल',
     preferencesSubtitle: 'क्षेत्रीय भाषा एवं दस्तावेज़ नवीनीकरण अलर्ट कॉन्फ़िगर करें',
     portalLanguage: 'पोर्टल भाषा चुनें',
-    alertsTitle: 'सूचनाएं एवं नवीनीकरण अलर्ट',
-    whatsappAlerts: 'ड्राइविंग लाइसेंस, बीमा एवं प्रवेश पत्र हेतु व्हाट्सएप अलर्ट',
-    smsAlerts: 'पंजीकृत मोबाइल नंबर पर एसएमएस सूचनाएं',
-    dataPortability: 'डेटा बैकअप एवं पोर्टेबिलिटी',
-    dataPortabilityDesc: 'अपने प्रोफ़ाइल मेटाडेटा और प्रमाणपत्रों का एन्क्रिप्टेड बैकअप डाउनलोड करें',
-    exportData: 'नागरिक डेटा निर्यात करें (JSON)',
+    alertsTitle: 'नवीनीकरण एवं एक्सपायरी अलर्ट',
+    whatsappAlerts: 'व्हाट्सएप नवीनीकरण अलर्ट',
+    smsAlerts: 'एसएमएस नवीनीकरण अलर्ट',
+    dataPortability: 'डेटा बैकअप व पोर्टेबिलिटी',
+    dataPortabilityDesc: 'अपने प्रोफ़ाइल और प्रमाणपत्रों का एन्क्रिप्टेड बैकअप डाउनलोड करें',
+    exportData: 'डेटा एक्सपोर्ट',
 
     itdName: 'आयकर विभाग (Income Tax)',
     itdDoc: 'पैन सत्यापन रिकॉर्ड (e-PAN)',
@@ -501,6 +525,14 @@ export const translations: Record<Language, TranslationDict> = {
     cancel: 'ਰੱਦ ਕਰੋ',
     saveChanges: 'ਤਬਦੀਲੀਆਂ ਸੰਭਾਲੋ',
     editProfile: 'ਪ੍ਰੋਫਾਈਲ ਸੋਧੋ',
+    uploadPhoto: 'ਫੋਟੋ ਅੱਪਲੋਡ ਕਰੋ',
+    changePhoto: 'ਫੋਟੋ ਬਦਲੋ',
+    removePhoto: 'ਫੋਟੋ ਹਟਾਓ',
+    photoUpdated: 'ਪ੍ਰੋਫਾਈਲ ਫੋਟੋ ਸਫਲਤਾਪੂਰਵਕ ਅੱਪਡੇਟ ਕੀਤੀ ਗਈ! ✓',
+    photoRemoved: 'ਪ੍ਰੋਫਾਈਲ ਫੋਟੋ ਹਟਾ ਦਿੱਤੀ ਗਈ। ✓',
+    photoUploadPrompt: 'ਪ੍ਰੋਫਾਈਲ ਫੋਟੋ ਅੱਪਡੇਟ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ',
+    photoSizeLimitError: 'ਫੋਟੋ ਦਾ ਆਕਾਰ 5 MB ਤੋਂ ਘੱਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।',
+    photoFormatError: 'ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਵੈਧ ਚਿੱਤਰ ਫਾਈਲ (JPG, PNG, WEBP) ਅੱਪਲੋਡ ਕਰੋ।',
 
     allServices: 'ਸਾਰੀਆਂ ਸੇਵਾਵਾਂ',
     govtDocs: '📄 ਅਧਿਕਾਰਤ ਦਸਤਾਵੇਜ਼',
@@ -546,11 +578,11 @@ export const translations: Record<Language, TranslationDict> = {
     securityStatus: 'ਸੁਰੱਖਿਆ ਸਥਿਤੀ',
     secHigh: '● ਉੱਚ (2FA ਸਰਗਰਮ)',
 
-    tabDigitalPass: '🪪 ਡਿਜੀਟਲ ਨਾਗਰਿਕ ਕਾਰਡ',
-    tabPersonalKYC: '👤 ਨਿੱਜੀ ਅਤੇ ਕੇਵਾਈਸੀ ਡੇਟਾ',
-    tabLinkedPortals: '🔗 ਜੁੜੇ ਹੋਏ ਪੋਰਟਲ',
-    tabSecurity: '🛡️ ਸੁਰੱਖਿਆ ਅਤੇ ਸਹਿਮਤੀ',
-    tabPreferences: '⚙️ ਭਾਸ਼ਾ ਅਤੇ ਤਰਜੀਹਾਂ',
+    tabDigitalPass: 'ਡਿਜੀਟਲ ਕਾਰਡ',
+    tabPersonalKYC: 'ਨਿੱਜੀ ਅਤੇ KYC',
+    tabLinkedPortals: 'ਜੁੜੇ ਪੋਰਟਲ',
+    tabSecurity: 'ਸੁਰੱਖਿਆ',
+    tabPreferences: 'ਸੈਟਿੰਗਾਂ',
 
     govtOfIndia: 'DocuSewa ਨਾਗਰਿਕ ਪਾਸ',
     citizenPass: 'ਡਿਜੀਟਲ ਆਈਡੀ ਕਾਰਡ',
@@ -601,12 +633,12 @@ export const translations: Record<Language, TranslationDict> = {
     preferencesTitle: 'ਨਾਗਰਿਕ ਤਰਜੀਹਾਂ ਅਤੇ ਨੋਟੀਫਿਕੇਸ਼ਨ ਚੈਨਲ',
     preferencesSubtitle: 'ਖੇਤਰੀ ਭਾਸ਼ਾ ਅਤੇ ਦਸਤਾਵੇਜ਼ ਨਵਿਆਉਣ ਸੰਬੰਧੀ ਅਲਰਟ ਸੈੱਟ ਕਰੋ',
     portalLanguage: 'ਪੋਰਟਲ ਭਾਸ਼ਾ ਚੁਣੋ',
-    alertsTitle: 'ਨੋਟੀਫਿਕੇਸ਼ਨ ਅਤੇ ਨਵਿਆਉਣ ਅਲਰਟ',
-    whatsappAlerts: 'ਡਰਾਈਵਿੰਗ ਲਾਇਸੈਂਸ, ਬੀਮਾ ਅਤੇ ਐਡਮਿਟ ਕਾਰਡਾਂ ਲਈ ਵਟਸਐਪ ਅਲਰਟ',
-    smsAlerts: 'ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ ਤੇ ਐਸਐਮਐਸ ਨੋਟੀਫਿਕੇਸ਼ਨ',
-    dataPortability: 'ਡੇਟਾ ਬੈਕਅੱਪ ਅਤੇ ਪੋਰਟੇਬਿਲਟੀ',
-    dataPortabilityDesc: 'ਆਪਣੇ ਪ੍ਰੋਫਾਈਲ ਮੈਟਾਡੇਟਾ ਅਤੇ ਸਰਟੀਫਿਕੇਟਾਂ ਦਾ ਏਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਡਾਊਨਲੋਡ ਕਰੋ',
-    exportData: 'ਨਾਗਰਿਕ ਡੇਟਾ ਨਿਰਯਾਤ ਕਰੋ (JSON)',
+    alertsTitle: 'ਨਵਿਆਉਣ ਅਤੇ ਮਿਆਦ ਅਲਰਟ',
+    whatsappAlerts: 'ਵਟਸਐਪ ਨਵਿਆਉਣ ਅਲਰਟ',
+    smsAlerts: 'ਐਸਐਮਐਸ ਨਵਿਆਉਣ ਅਲਰਟ',
+    dataPortability: 'ਡੇਟਾ ਬੈਕਅੱਪ ਤੇ ਪੋਰਟੇਬਿਲਟੀ',
+    dataPortabilityDesc: 'ਆਪਣੇ ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਸਰਟੀਫਿਕੇਟਾਂ ਦਾ ਐਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਡਾਊਨਲੋਡ ਕਰੋ',
+    exportData: 'ਡੇਟਾ ਐਕਸਪੋਰਟ',
 
     itdName: 'ਇਨਕਮ ਟੈਕਸ ਵਿਭਾਗ (Income Tax)',
     itdDoc: 'ਪੈਨ ਵੈਰੀਫਿਕੇਸ਼ਨ ਰਿਕਾਰਡ (e-PAN)',

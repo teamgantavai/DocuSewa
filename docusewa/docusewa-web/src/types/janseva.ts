@@ -66,6 +66,7 @@ export interface CitizenProfile {
   email: string | null;
   full_name: string | null;
   display_name: string | null;
+  avatar_url?: string | null;
   account_type: AccountType;
   account_status: AccountStatus;
   is_new_user: boolean;
@@ -123,6 +124,8 @@ export interface UpdateProfileInput {
   full_name?: string;
   display_name?: string;
   email?: string;
+  avatar_url?: string | null;
+  photo_url?: string | null;
 }
 
 // ---------------------------------------------------------------------------

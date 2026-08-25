@@ -4,7 +4,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:docusewa/services/auth_service.dart';
 import 'package:docusewa/theme/app_colors.dart';
 import 'package:docusewa/screens/profile_screen.dart';
+import 'package:docusewa/screens/vault_screen.dart';
+import 'package:docusewa/screens/exam_detail_screen.dart';
+import 'package:docusewa/models/vault_doc.dart';
 import 'package:docusewa/config/translations.dart';
+import 'package:docusewa/config/profile_state.dart';
+import 'package:docusewa/config/vault_state.dart';
 
 class ServiceData {
   final String id;
@@ -19,6 +24,17 @@ class ServiceData {
   final List<String> requiredDocs;
   final String portalUrl;
   final String portalDomain;
+  final String price;
+  final String processingTime;
+  final List<String> procedure;
+  final String? applyUrl;
+  final String? eligibility;
+  final String? ageLimit;
+  final String? examDates;
+  final String? lastDateToApply;
+  final String? vacancyCount;
+  final String? examMode;
+  final String? salaryScale;
 
   const ServiceData({
     required this.id,
@@ -33,6 +49,17 @@ class ServiceData {
     required this.requiredDocs,
     required this.portalUrl,
     required this.portalDomain,
+    required this.price,
+    required this.processingTime,
+    required this.procedure,
+    this.applyUrl,
+    this.eligibility,
+    this.ageLimit,
+    this.examDates,
+    this.lastDateToApply,
+    this.vacancyCount,
+    this.examMode,
+    this.salaryScale,
   });
 }
 
@@ -69,6 +96,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Aadhaar Card', 'Passport Photograph', 'Signature Proof'],
     portalUrl: 'https://eportal.incometax.gov.in/',
     portalDomain: 'incometax.gov.in',
+    price: 'Free / ₹0 (Instant e-PAN) | ₹107 (Physical Card)',
+    processingTime: 'Instant (e-PAN) | 7-10 Days (Physical Card)',
+    procedure: [
+      'Visit the official Income Tax e-Filing portal & click on "Instant e-PAN".',
+      'Enter your 12-digit Aadhaar Number and verify with Aadhaar-linked mobile OTP.',
+      'Validate your Aadhaar e-KYC profile details and confirm submission.',
+      'Download your digitally signed e-PAN instantly in PDF format.',
+    ],
   ),
   ServiceData(
     id: 'uidai-aadhaar',
@@ -83,6 +118,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Registered Mobile OTP', 'Aadhaar Number / VID'],
     portalUrl: 'https://myaadhaar.uidai.gov.in/',
     portalDomain: 'myaadhaar.uidai.gov.in',
+    price: 'Free (Digital e-Aadhaar) | ₹50 (PVC Smart Card)',
+    processingTime: 'Instant Download | 5-7 Days for Speed Post PVC',
+    procedure: [
+      'Log in to myAadhaar portal using Aadhaar Number and Captcha code.',
+      'Enter the 6-digit OTP received on your UIDAI registered mobile number.',
+      'Select "Download Aadhaar" for digital PDF or "Order Aadhaar PVC Card".',
+      'Download the password-protected PDF (Password: First 4 letters of name in CAPS + Year of Birth).',
+    ],
   ),
   ServiceData(
     id: 'voter-id',
@@ -97,6 +140,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Age Proof', 'Address Proof', 'Passport Photo'],
     portalUrl: 'https://voters.eci.gov.in/',
     portalDomain: 'voters.eci.gov.in',
+    price: 'Free / ₹0 (No Govt Fee)',
+    processingTime: 'Instant Download | 10-15 Days for New Registration',
+    procedure: [
+      'Open the ECI Voters Service Portal (voters.eci.gov.in) and sign in.',
+      'Navigate to "E-EPIC Download" and enter your EPIC / Voter Number.',
+      'Verify with OTP sent to your ECI-linked mobile number.',
+      'Download your verified e-EPIC card with digital QR code verification.',
+    ],
   ),
   ServiceData(
     id: 'morth-dl',
@@ -111,6 +162,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Form 1 Medical Declaration', 'Aadhaar Card', 'Blood Group'],
     portalUrl: 'https://parivahan.gov.in/parivahan/',
     portalDomain: 'parivahan.gov.in',
+    price: '₹200 (Learner Licence Test) | ₹500 (Driving Licence Issue)',
+    processingTime: 'Same Day (LL) | 7-14 Days (Permanent Driving Licence)',
+    procedure: [
+      'Visit Sarathi Parivahan portal and select your Home State and RTO.',
+      'Fill Application Form for New Learner / Driving Licence.',
+      'Upload Form 1 Self Declaration, Age & Address Proofs, and pay application fee online.',
+      'Book your RTO driving test appointment slot or take contactless LL exam.',
+    ],
   ),
   ServiceData(
     id: 'pmjay-health',
@@ -125,6 +184,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Aadhaar Number', 'Linked Mobile OTP'],
     portalUrl: 'https://beneficiary.nha.gov.in/',
     portalDomain: 'beneficiary.nha.gov.in',
+    price: 'Free / ₹0 (Provides ₹5 Lakh Annual Health Cover)',
+    processingTime: 'Instant Digital Health Card Creation',
+    procedure: [
+      'Access the National Health Authority Beneficiary portal (beneficiary.nha.gov.in).',
+      'Select "Create ABHA Number" using your 12-digit Aadhaar.',
+      'Verify the OTP received on Aadhaar registered phone number.',
+      'Download your 14-digit ABHA Digital Health Card with personalized QR ID.',
+    ],
   ),
   ServiceData(
     id: 'mea-passport',
@@ -139,6 +206,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Aadhaar Card', 'PAN Card', 'Bank Passbook'],
     portalUrl: 'https://www.passportindia.gov.in/',
     portalDomain: 'passportindia.gov.in',
+    price: '₹1,500 (36-Page Standard) | ₹2,000 (60-Page Jumbo) | ₹3,500 (Tatkaal)',
+    processingTime: '7-15 Working Days (Normal) | 1-3 Days (Tatkaal)',
+    procedure: [
+      'Register on Passport Seva Online Portal (passportindia.gov.in).',
+      'Fill the Online Application Form for Fresh Passport / Re-issue / PCC.',
+      'Pay required application fee online via NetBanking / UPI / Card.',
+      'Book appointment slot and visit designated PSK / POPSK for biometric verification.',
+    ],
   ),
   ServiceData(
     id: 'nfsa-pds',
@@ -153,6 +228,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Family Head Aadhaar', 'LPG Connection Bill', 'Income Proof'],
     portalUrl: 'https://nfsa.gov.in/',
     portalDomain: 'nfsa.gov.in',
+    price: '₹0 - ₹20 (State Statutory Fee)',
+    processingTime: '15-30 Working Days',
+    procedure: [
+      'Access State PDS / NFSA portal and select New Ration Card application.',
+      'Provide Family Head details, residential address & LPG connection number.',
+      'Add family members with respective Aadhaar numbers & relationships.',
+      'Submit form to local Food & Civil Supplies Inspector for field verification.',
+    ],
   ),
   ServiceData(
     id: 'revenue-dept',
@@ -167,120 +250,296 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Salary Slip / ITR / Form 16', 'Ration Card', 'Self Declaration'],
     portalUrl: 'https://serviceonline.gov.in/',
     portalDomain: 'serviceonline.gov.in',
+    price: '₹15 - ₹30 (e-District Facilitation Fee)',
+    processingTime: '7-15 Working Days',
+    procedure: [
+      'Log in to State e-District / ServiceOnline citizen portal.',
+      'Select required certificate (Income / Caste / Domicile / Character).',
+      'Upload salary slip, electricity bill, self-declaration & Aadhaar copy.',
+      'Track verification by Revenue Inspector / Tehsildar and download digitally signed certificate.',
+    ],
   ),
 
   // --- SECTION: GOVT EXAMS & EDUCATION ---
   ServiceData(
     id: 'upsc-exam',
     name: 'Union Public Service Commission (UPSC)',
-    state: 'Civil Services / NDA / CDS',
+    state: 'Civil Services / NDA / CDS / CMS',
     category: 'exams',
     section: 'govt-exams',
-    documentType: 'e-Admit Card & Results',
+    documentType: 'Online Application & Admit Card',
     logoType: 'upsc',
     tag: 'Civil Services',
     iconEmoji: '🎓',
-    requiredDocs: ['Registration ID / Roll No.', 'Date of Birth', 'Aadhaar ID'],
+    requiredDocs: [
+      'Scanned Passport Photo (20-50 KB, White BG)',
+      'Scanned Signature (10-20 KB, Black Ink)',
+      'Aadhaar / Photo ID Proof',
+      'Graduation Degree / Final Year Details',
+    ],
     portalUrl: 'https://upsconline.nic.in/',
     portalDomain: 'upsconline.nic.in',
+    applyUrl: 'https://upsconline.nic.in/',
+    price: '₹100 (General/OBC/EWS Male) | ₹0 (Female / SC / ST / PwBD)',
+    processingTime: 'Instant OTR & Form Confirmation',
+    eligibility: "Bachelor's Degree in any discipline from a recognized University",
+    ageLimit: '21 to 32 Years (OBC: +3 yrs, SC/ST: +5 yrs, PwBD: +10 yrs)',
+    examDates: 'CSE Prelims: 25 May 2025 | Mains: 19 Sept 2025',
+    lastDateToApply: 'Check UPSC Annual Calendar (Usually 6:00 PM)',
+    vacancyCount: '1,056+ All India Cadre Posts (IAS, IPS, IFS, IRS, Group A/B)',
+    examMode: 'Offline Pen-Paper (Prelims: Objective OMR | Mains: Descriptive)',
+    salaryScale: 'Pay Level 10 (₹56,100 - ₹1,77,500/month + DA/HRA)',
+    procedure: [
+      'Visit upsconline.nic.in and complete One Time Registration (OTR) profile verification.',
+      'Log in with OTR ID/Mobile and select active recruitment (CSE / NDA / CDS / CMS).',
+      'Fill examination center preference, academic credentials, and upload Photo & Signature.',
+      'Pay online fee (₹100) via UPI/Debit/NetBanking & download generated Application Form PDF.',
+    ],
   ),
   ServiceData(
     id: 'ssc-exam',
     name: 'Staff Selection Commission (SSC)',
-    state: 'CGL / CHSL / MTS / GD',
+    state: 'CGL / CHSL / MTS / CPO / GD',
     category: 'exams',
     section: 'govt-exams',
-    documentType: 'Hall Ticket & Scorecard',
+    documentType: 'Application Form & Hall Ticket',
     logoType: 'ssc',
     tag: 'Central Exams',
     iconEmoji: '📋',
-    requiredDocs: ['SSC Registration Number', 'Password / DOB'],
+    requiredDocs: [
+      'Live Webcam/Phone Selfie Capture (White BG)',
+      'Scanned Signature (10-20 KB)',
+      '10th Roll No. & Board Certificate',
+      'Aadhaar Card / Govt Photo ID',
+    ],
     portalUrl: 'https://ssc.gov.in/',
     portalDomain: 'ssc.gov.in',
+    applyUrl: 'https://ssc.gov.in/portal/login',
+    price: '₹100 (Gen/OBC Male) | ₹0 (Women / SC / ST / ESM)',
+    processingTime: 'Instant Application ID & Admit Card Access',
+    eligibility: '10th Pass (MTS) / 12th Pass (CHSL) / Graduate (CGL/CPO)',
+    ageLimit: '18 to 27 / 32 Years (as per specific post code & category rules)',
+    examDates: 'Tier-1 CBT / Tier-2 Computer Based Exam Cycle',
+    lastDateToApply: 'Active Online (As per SSC Official Schedule)',
+    vacancyCount: '17,727+ Central Ministries Group B & C Vacancies',
+    examMode: 'Computer Based Test (CBT) with Bilingual MCQs',
+    salaryScale: 'Pay Level 2 to Level 8 (₹19,900 - ₹1,51,100/month)',
+    procedure: [
+      'Access the new official SSC portal (ssc.gov.in) and register One-Time Registration (OTR).',
+      'Fill personal details, upload live facial photo through mobile camera or webcam.',
+      'Select active vacancy notification and choose 3 preferred examination cities.',
+      'Complete fee payment via BHIM UPI/Card and save printable registration acknowledgement.',
+    ],
   ),
   ServiceData(
     id: 'nta-testing',
     name: 'National Testing Agency (NTA)',
-    state: 'JEE Main / NEET-UG / CUET',
+    state: 'JEE Main / NEET-UG / CUET-UG',
     category: 'exams',
     section: 'govt-exams',
-    documentType: 'JEE / NEET / CUET Admit Card',
+    documentType: 'Entrance Form, City Slip & Admit Card',
     logoType: 'nta',
     tag: 'Entrance Exams',
     iconEmoji: '🔬',
-    requiredDocs: ['Application Number', 'Date of Birth', 'Security PIN'],
+    requiredDocs: [
+      'Passport Photograph (10-200 KB, 80% face visible)',
+      'Candidate Signature (4-30 KB)',
+      'Category / PwD Certificate (if applicable)',
+      'Class 10th & 12th Marksheet Details',
+    ],
     portalUrl: 'https://exams.nta.ac.in/',
     portalDomain: 'exams.nta.ac.in',
+    applyUrl: 'https://jeemain.nta.nic.in/',
+    price: '₹1,000 (General Male) | ₹800 (Gen Female/EWS) | ₹500 (SC/ST/PwD)',
+    processingTime: 'Instant Confirmation Page & Admit Card Generation',
+    eligibility: 'Class 12th Appearing or Passed with Physics, Chemistry & Maths/Bio',
+    ageLimit: 'No Age Limit for JEE Main / Minimum 17 Years for NEET-UG',
+    examDates: 'Session 1 & Session 2 Multi-Shift Examination',
+    lastDateToApply: 'Active NTA Registration Window (11:50 PM Deadline)',
+    vacancyCount: 'All India IITs, NITs, AIIMS, Central Universities Admissions',
+    examMode: 'Computer Based Test (CBT for JEE/CUET) & Pen-Paper (NEET-UG)',
+    salaryScale: 'National Level Higher Education Entrance & Merit Scholarships',
+    procedure: [
+      'Open exams.nta.ac.in or specific exam portal (e.g., jeemain.nta.nic.in / neet.nta.nic.in).',
+      'Register with Aadhaar Authentication or Digilocker/APAAR ID for seamless verification.',
+      'Fill academic scores, select question paper medium (Hindi/English/Regional) & test centers.',
+      'Upload photo, signature, category certificate and pay online registration fee.',
+    ],
   ),
   ServiceData(
     id: 'cbse-board',
     name: 'Central Board of Sec. Education (CBSE)',
-    state: 'CBSE / All India',
+    state: 'Class 10th & 12th Board Portal',
     category: 'exams',
     section: 'govt-exams',
-    documentType: '10th & 12th Marksheets',
+    documentType: 'Private Candidate Form & Marksheet',
     logoType: 'cbse',
-    tag: 'Board Results',
+    tag: 'Board Portal',
     iconEmoji: '📚',
-    requiredDocs: ['Roll Number', 'Passing Year', 'School Code'],
+    requiredDocs: [
+      'Previous Board Roll Number & Year',
+      'School Code & Center Code',
+      'Recent Passport Photograph & Signature',
+      'Aadhaar / Citizen Identity Number',
+    ],
     portalUrl: 'https://www.cbse.gov.in/',
     portalDomain: 'cbse.gov.in',
+    applyUrl: 'https://www.cbse.gov.in/cbsenew/parikshasangam.html',
+    price: '₹1,500 (5 Subjects) | ₹300 (Additional Subject) | Marksheet: Free',
+    processingTime: 'Instant Digital Certificate Fetch / Form Submission',
+    eligibility: 'CBSE Registered Regular & Private Students (10th & 12th)',
+    ageLimit: 'Standard Secondary & Higher Secondary School Norms',
+    examDates: 'Annual Board Exams (Feb 15 - April 10)',
+    lastDateToApply: 'LOC / Private Candidate Registration Window',
+    vacancyCount: 'Over 39 Lakh Board Candidates Across India & Abroad',
+    examMode: 'Offline Pen & Paper Board Examination',
+    salaryScale: 'Central Board AISSE & AISSCE Recognized Certification',
+    procedure: [
+      'Visit cbse.gov.in and enter Pariksha Sangam / Private Candidate Portal.',
+      'Select candidate type (Improvement / Compartment / Fail / Additional Subject).',
+      'Enter previous year Roll Number, School Number & Center Number to fetch records.',
+      'Verify auto-filled details, upload photo/signature and pay online examination fee.',
+    ],
   ),
   ServiceData(
     id: 'rrb-railway',
     name: 'Railway Recruitment Control Board (RRB)',
-    state: 'NTPC / Group D / ALP Exams',
+    state: 'NTPC / Group D / ALP / Technicians',
     category: 'exams',
     section: 'govt-exams',
-    documentType: 'E-Call Letter & CBT Score Summary',
+    documentType: 'Online Application & E-Call Letter',
     logoType: 'rrb',
     tag: 'Railways',
     iconEmoji: '🚆',
-    requiredDocs: ['Registration ID', 'User Password / DOB'],
+    requiredDocs: [
+      'Live Photo Capture & Scanned Photo (35x45mm)',
+      'Scanned Signature on Plain White Paper',
+      'SC/ST Certificate (for Free Rail Travel Pass)',
+      '10th Marksheet / ITI / Diploma / Degree',
+    ],
     portalUrl: 'https://www.rrbapply.gov.in/',
     portalDomain: 'rrbapply.gov.in',
+    applyUrl: 'https://www.rrbapply.gov.in/',
+    price: '₹500 (₹400 refunded on CBT-1 attendance) | ₹250 (Full Refund for SC/ST/Women)',
+    processingTime: 'Instant Application Tracking & City Allotment',
+    eligibility: '10th + ITI (ALP/Tech) / 12th (Undergraduate NTPC) / Graduate (NTPC)',
+    ageLimit: '18 to 33 / 36 Years (3 Years COVID age relaxation applicable)',
+    examDates: 'CBT-1 & CBT-2 Scheduled across nationwide railway zones',
+    lastDateToApply: 'Active Online as per CEN Employment Notice',
+    vacancyCount: '18,799+ Assistant Loco Pilot & Technician Central Railway Posts',
+    examMode: 'Computer Based Test (CBT-1 & CBT-2) with 1/3rd Negative Marking',
+    salaryScale: 'Pay Level 2 to Level 6 (₹19,900 - ₹35,400 + Running Allowances)',
+    procedure: [
+      'Open official Railway application website (rrbapply.gov.in) and Create Account.',
+      'Verify mobile OTP & email, then enter Aadhaar verification details.',
+      'Select your preferred Railway Recruitment Board (RRB Zone) and post preferences.',
+      'Upload live webcam capture, scanned signature and pay test fee with bank refund account.',
+    ],
   ),
   ServiceData(
     id: 'ibps-bank',
     name: 'Institute of Banking Personnel Selection (IBPS)',
-    state: 'PO / Clerk / Specialist Officer',
+    state: 'PO / Clerk / SO / RRB Officer',
     category: 'exams',
     section: 'govt-exams',
-    documentType: 'Call Letter & Combined Result Record',
+    documentType: 'CRP Online Application & Result Record',
     logoType: 'ibps',
     tag: 'Banking',
     iconEmoji: '💼',
-    requiredDocs: ['Registration Number', 'Roll Number & DOB'],
+    requiredDocs: [
+      'Passport Size Photograph (20-50 KB)',
+      'Candidate Signature (10-20 KB, Black Ink)',
+      'Left Thumb Impression (LTI) Scan (20-50 KB)',
+      'Handwritten Declaration in English (50-100 KB)',
+    ],
     portalUrl: 'https://www.ibps.in/',
     portalDomain: 'ibps.in',
+    applyUrl: 'https://ibpsonline.ibps.in/',
+    price: '₹850 (General / EWS / OBC) | ₹175 (SC / ST / PwBD)',
+    processingTime: 'Instant Registration & E-Call Letter Generation',
+    eligibility: 'Graduation in any discipline from a recognized University',
+    ageLimit: 'Clerk: 20-28 Years | Probationary Officer (PO): 20-30 Years',
+    examDates: 'Prelims in Aug/Oct | Mains in Sept/Nov | Interviews in Jan/Feb',
+    lastDateToApply: 'Active IBPS Common Recruitment Process (CRP) Window',
+    vacancyCount: '9,995+ Vacancies across 11 Nationalized Public Sector Banks',
+    examMode: 'Online Computer Based Test (Prelims Speed Test + Mains In-depth)',
+    salaryScale: 'Scale I Officer: ₹52,000 - ₹65,000/month in-hand + Quarters',
+    procedure: [
+      'Visit ibps.in and click on "Click here for New Registration" under active CRP notification.',
+      'Fill basic info, academic marks percentage, and choose bank preference order.',
+      'Upload Scanned Photo, Signature, Left Thumb Impression & Handwritten Declaration.',
+      'Preview complete application, pay registration fee and download e-receipt.',
+    ],
   ),
   ServiceData(
     id: 'ugc-net',
     name: 'University Grants Commission (UGC-NET)',
-    state: 'National Eligibility & JRF',
+    state: 'National Eligibility Test & JRF',
     category: 'exams',
     section: 'govt-exams',
-    documentType: 'E-Certificate & JRF Award Letter',
+    documentType: 'Application Form & E-Certificate',
     logoType: 'ugc',
     tag: 'Research',
     iconEmoji: '🎓',
-    requiredDocs: ['Application Number', 'Roll Number', 'Exam Session'],
+    requiredDocs: [
+      'Passport Photo (10-200 KB) & Signature (4-30 KB)',
+      "Master's Degree Marksheet / Pursuing Certificate",
+      'Category / EWS / PwD Certificate (if applicable)',
+      'Govt Photo ID (Aadhaar / Voter ID / Passport)',
+    ],
     portalUrl: 'https://ugcnet.nta.ac.in/',
     portalDomain: 'ugcnet.nta.ac.in',
+    applyUrl: 'https://ugcnet.nta.ac.in/',
+    price: '₹1,150 (General) | ₹600 (Gen-EWS / OBC-NCL) | ₹325 (SC / ST / PwD / Third Gender)',
+    processingTime: 'Instant Application & Digilocker e-Certificate Sync',
+    eligibility: "Master's Degree or equivalent with at least 55% marks (50% for SC/ST/OBC)",
+    ageLimit: 'JRF: Max 30 Years (5 yrs relaxation) | Assistant Professor: No Upper Age Limit',
+    examDates: 'Biannual Cycles (June & December National Test)',
+    lastDateToApply: 'Active Online NTA Registration Window',
+    vacancyCount: 'Eligible for Assistant Professorship & PhD Admissions across all Indian Universities',
+    examMode: 'Computer Based Test (Paper 1: Teaching/Research + Paper 2: Subject Specific)',
+    salaryScale: 'Junior Research Fellowship (JRF): ₹37,000/month + HRA + Contingency',
+    procedure: [
+      'Go to ugcnet.nta.ac.in and click "Apply for UGC-NET Online".',
+      'Register with APAAR/ABC ID or Aadhaar Card and create login password.',
+      'Select your PG subject code, preferred exam cities, and JRF / Assistant Professor option.',
+      'Upload documents, pay examination fee via SBI/HDFC gateway & download confirmation page.',
+    ],
   ),
   ServiceData(
     id: 'state-psc',
     name: 'State Public Service Commissions',
-    state: 'State Administrative & Police Services',
+    state: 'State Administrative & Police Services (PCS / State Civil Services)',
     category: 'exams',
     section: 'govt-exams',
-    documentType: 'State PSC Admit Card & Interview Call',
+    documentType: 'State PSC Application & Hall Ticket',
     logoType: 'psc',
     tag: 'State Exams',
     iconEmoji: '⚖️',
-    requiredDocs: ['State OTR ID', 'Candidate Roll Number'],
+    requiredDocs: [
+      'State One Time Registration (OTR) ID',
+      'Passport Photo & Signature with Date Stamp',
+      'Domicile & Caste Certificate (for State Quota)',
+      'Graduation Degree & 10th Certificate',
+    ],
     portalUrl: 'https://serviceonline.gov.in/',
     portalDomain: 'serviceonline.gov.in',
+    applyUrl: 'https://serviceonline.gov.in/',
+    price: '₹125 - ₹250 (State Examination Fee) | Domicile SC/ST: ₹65 - ₹105',
+    processingTime: 'Instant OTR Verification & Admit Card Download',
+    eligibility: 'Graduate in any stream from recognized Indian University',
+    ageLimit: '21 to 40 Years (State Domicile OBC: +3 yrs, SC/ST: +5 yrs)',
+    examDates: 'State Combined Civil Services / Judicial Prelims & Mains',
+    lastDateToApply: 'As per State Public Service Commission Advertisement',
+    vacancyCount: 'Sub-Divisional Magistrate (SDM), DSP, BDO, Tehsildar & State Group A/B Posts',
+    examMode: 'Offline OMR Prelims + Subjective Mains Exam + Personality Interview',
+    salaryScale: 'State Pay Matrix Level 7 to Level 12 (₹44,900 - ₹1,77,500/month)',
+    procedure: [
+      'Open your respective State PSC portal (e.g., UPPSC, BPSC, MPPSC, MPSC, RPSC, TNPSC).',
+      'Complete State OTR registration and verify domicile status for reservation benefits.',
+      'Apply against active Combined State/Upper Subordinate Services advertisement.',
+      'Upload verified documents, pay fee and print official registration slip.',
+    ],
   ),
 
   // --- SECTION: FINANCIAL & WELFARE ---
@@ -297,6 +556,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['12-Digit UAN', 'Aadhaar Linked Mobile OTP'],
     portalUrl: 'https://unifiedportal-mem.epfindia.gov.in/memberinterface/',
     portalDomain: 'epfindia.gov.in',
+    price: 'Free / ₹0 (No fee for UAN Passbook & Online PF Claim)',
+    processingTime: 'Instant Passbook | 3-7 Days for PF Claim Settlement',
+    procedure: [
+      'Access EPFO Member Unified Portal (epfindia.gov.in).',
+      'Enter your 12-digit UAN Number, Password and Security Captcha.',
+      'Authenticate with OTP sent to Aadhaar-linked registered mobile.',
+      'View & download updated Member Passbook, UAN Card or file Form 19/31/10C claim.',
+    ],
   ),
   ServiceData(
     id: 'lic-insurance',
@@ -311,6 +578,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Policy Number', 'Registered Mobile Number'],
     portalUrl: 'https://licindia.in/',
     portalDomain: 'licindia.in',
+    price: 'Free / ₹0 (Portal Services & Premium Receipt Download)',
+    processingTime: 'Instant Premium Receipt & Policy Statement',
+    procedure: [
+      'Log in to LIC Customer Portal (licindia.in).',
+      'Enter Policy Number, Installment Premium and Date of Birth.',
+      'View policy status, bonus accumulation, loan eligibility and revival quotes.',
+      'Download Premium Paid Certificate for Section 80C tax exemption.',
+    ],
   ),
   ServiceData(
     id: 'sbi-bank',
@@ -325,6 +600,14 @@ const List<ServiceData> kServices = [
     requiredDocs: ['Account Number', 'Registered Mobile OTP'],
     portalUrl: 'https://www.onlinesbi.sbi/',
     portalDomain: 'onlinesbi.sbi',
+    price: 'Free / ₹0 (Digital e-Statement & NetBanking)',
+    processingTime: 'Instant e-Statement Generation',
+    procedure: [
+      'Log in to OnlineSBI / YONO portal with Username and Password.',
+      'Complete 2-Factor Authentication via SMS OTP.',
+      'Navigate to "My Accounts & Profile -> Account Statement".',
+      'Select date range and download password-protected PDF statement.',
+    ],
   ),
 ];
 
@@ -399,152 +682,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
   }
 
-  Widget _buildOrgLogo(String logoType, {double size = 52}) {
-    IconData icon;
-    Color iconColor;
-    Color circleBg;
-    Color borderColor;
 
-    switch (logoType) {
-      case 'itd':
-        icon = Icons.star_rounded;
-        iconColor = const Color(0xFFFACC15);
-        circleBg = const Color(0xFF1E3A8A);
-        borderColor = const Color(0xFF0D9488);
-        break;
-      case 'eci':
-        icon = Icons.check_box_rounded;
-        iconColor = const Color(0xFF16A34A);
-        circleBg = const Color(0xFFFFFFFF);
-        borderColor = const Color(0xFFE11D48);
-        break;
-      case 'uidai':
-        icon = Icons.wb_sunny_rounded;
-        iconColor = const Color(0xFFEA580C);
-        circleBg = const Color(0xFFFFF7ED);
-        borderColor = const Color(0xFFEA580C);
-        break;
-      case 'morth':
-        icon = Icons.sports_motorsports_rounded;
-        iconColor = const Color(0xFF047857);
-        circleBg = const Color(0xFFF0FDF4);
-        borderColor = const Color(0xFF16A34A);
-        break;
-      case 'pmjay':
-        icon = Icons.spa_rounded;
-        iconColor = const Color(0xFF16A34A);
-        circleBg = const Color(0xFFFAF5FF);
-        borderColor = const Color(0xFF9333EA);
-        break;
-      case 'mea':
-        icon = Icons.star_rounded;
-        iconColor = const Color(0xFFFACC15);
-        circleBg = const Color(0xFF0F172A);
-        borderColor = const Color(0xFF0F172A);
-        break;
-      case 'upsc':
-        icon = Icons.military_tech_rounded;
-        iconColor = const Color(0xFF1D4ED8);
-        circleBg = const Color(0xFFEFF6FF);
-        borderColor = const Color(0xFF1D4ED8);
-        break;
-      case 'ssc':
-        icon = Icons.assignment_turned_in_rounded;
-        iconColor = const Color(0xFF15803D);
-        circleBg = const Color(0xFFF0FDF4);
-        borderColor = const Color(0xFF15803D);
-        break;
-      case 'nta':
-        icon = Icons.auto_stories_rounded;
-        iconColor = const Color(0xFFC2410C);
-        circleBg = const Color(0xFFFFF7ED);
-        borderColor = const Color(0xFFC2410C);
-        break;
-      case 'rrb':
-        icon = Icons.train_rounded;
-        iconColor = const Color(0xFFB91C1C);
-        circleBg = const Color(0xFFFEF2F2);
-        borderColor = const Color(0xFFB91C1C);
-        break;
-      case 'ibps':
-        icon = Icons.account_balance_rounded;
-        iconColor = const Color(0xFF0369A1);
-        circleBg = const Color(0xFFEFF6FF);
-        borderColor = const Color(0xFF0369A1);
-        break;
-      case 'cbse':
-        icon = Icons.school_rounded;
-        iconColor = const Color(0xFF1D4ED8);
-        circleBg = const Color(0xFFEFF6FF);
-        borderColor = const Color(0xFF2563EB);
-        break;
-      case 'ugc':
-        icon = Icons.psychology_rounded;
-        iconColor = const Color(0xFF7E22CE);
-        circleBg = const Color(0xFFFAF5FF);
-        borderColor = const Color(0xFF7E22CE);
-        break;
-      case 'psc':
-        icon = Icons.workspace_premium_rounded;
-        iconColor = const Color(0xFFBE185D);
-        circleBg = const Color(0xFFFDF2F8);
-        borderColor = const Color(0xFFBE185D);
-        break;
-      case 'epfo':
-        icon = Icons.circle_outlined;
-        iconColor = const Color(0xFFCA8A04);
-        circleBg = const Color(0xFFFEFCE8);
-        borderColor = const Color(0xFFCA8A04);
-        break;
-      case 'lic':
-        icon = Icons.security_rounded;
-        iconColor = const Color(0xFFDC2626);
-        circleBg = const Color(0xFFFEF2F2);
-        borderColor = const Color(0xFFDC2626);
-        break;
-      case 'sbi':
-        icon = Icons.circle_rounded;
-        iconColor = const Color(0xFF0284C7);
-        circleBg = const Color(0xFFEFF6FF);
-        borderColor = const Color(0xFF0284C7);
-        break;
-      case 'pds':
-        icon = Icons.grass_rounded;
-        iconColor = const Color(0xFFD97706);
-        circleBg = const Color(0xFFFFFBEB);
-        borderColor = const Color(0xFFD97706);
-        break;
-      case 'revenue':
-      default:
-        icon = Icons.check_circle_outline_rounded;
-        iconColor = const Color(0xFF0D9488);
-        circleBg = const Color(0xFFF0FDFA);
-        borderColor = const Color(0xFF0D9488);
-        break;
-    }
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: circleBg,
-        border: Border.all(color: borderColor, width: 2.2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Icon(icon, size: size * 0.52, color: iconColor),
-      ),
-    );
-  }
 
   void _showServiceModal(ServiceData service) {
+    if (service.category == 'exams' || service.section == 'govt-exams') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ExamDetailScreen(
+            service: service,
+            onOpenVault: () => setState(() => _currentNavIndex = 1),
+          ),
+        ),
+      );
+      return;
+    }
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final langCode = appLanguageNotifier.value;
     final strings = AppStrings.getStrings(langCode);
@@ -561,7 +713,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, setModalState) {
           return Container(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.85,
+              maxHeight: MediaQuery.of(context).size.height * 0.90,
             ),
             decoration: BoxDecoration(
               color: AppColors.surface(isDark),
@@ -630,134 +782,205 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )
                   : Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Container(
-                            width: 36,
-                            height: 4,
-                            margin: const EdgeInsets.only(bottom: 16),
-                            decoration: BoxDecoration(
-                              color: AppColors.border(isDark),
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          ),
-                        ),
-
-                        // Header preview in modal
-                        Container(
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkSurfaceSubtle : const Color(0xFFF8FAFC),
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: AppColors.border(isDark)),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 46,
-                                height: 46,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Container(
+                                width: 36,
+                                height: 4,
+                                margin: const EdgeInsets.only(bottom: 16),
                                 decoration: BoxDecoration(
-                                  color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(service.iconEmoji, style: const TextStyle(fontSize: 22)),
-                              ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      serviceName,
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w800,
-                                        color: AppColors.textPrimary(isDark),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      serviceDoc,
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 12.5,
-                                        color: AppColors.tealPrimary,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                                  color: AppColors.border(isDark),
+                                  borderRadius: BorderRadius.circular(2),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 14),
+                            ),
 
-                        // Official Government Portal Box
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: isDark ? const Color(0xFF042F2E) : const Color(0xFFF0FDFA),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: isDark ? const Color(0xFF115E59) : const Color(0xFFCCFBF1)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // Header preview in modal
+                            Container(
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                color: isDark ? AppColors.darkSurfaceSubtle : const Color(0xFFF8FAFC),
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(color: AppColors.border(isDark)),
+                              ),
+                              child: Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.verified_rounded, size: 14, color: AppColors.tealPrimary),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        strings.officialPortal,
-                                        style: GoogleFonts.plusJakartaSans(
-                                          fontSize: 11.5,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColors.tealPrimary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                                    width: 48,
+                                    height: 48,
                                     decoration: BoxDecoration(
-                                      color: AppColors.tealPrimary.withValues(alpha: 0.12),
-                                      borderRadius: BorderRadius.circular(4),
+                                      color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    child: Text(
-                                      service.portalDomain,
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.tealPrimary,
-                                      ),
+                                    alignment: Alignment.center,
+                                    child: Text(service.iconEmoji, style: const TextStyle(fontSize: 24)),
+                                  ),
+                                  const SizedBox(width: 14),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          serviceName,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                            color: AppColors.textPrimary(isDark),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          serviceDoc,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 12.5,
+                                            color: AppColors.tealPrimary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      service.portalUrl,
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 11.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: isDark ? Colors.white70 : const Color(0xFF0F766E),
-                                        decoration: TextDecoration.underline,
+                            ),
+                            const SizedBox(height: 12),
+
+                            // Pricing & Processing Time Quick Specs
+                            Row(
+                              children: [
+                                // Price Badge
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: isDark ? const Color(0xFF064E3B).withValues(alpha: 0.4) : const Color(0xFFECFDF5),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0),
                                       ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.payments_rounded, size: 14, color: Color(0xFF10B981)),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              langCode == 'hi' ? 'सरकारी शुल्क / मूल्य' : langCode == 'pa' ? 'ਸਰਕਾਰੀ ਫੀਸ / ਮੁੱਲ' : 'Official Govt Fee',
+                                              style: GoogleFonts.plusJakartaSans(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w700,
+                                                color: isDark ? const Color(0xFF34D399) : const Color(0xFF065F46),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          service.price,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 11.5,
+                                            fontWeight: FontWeight.w800,
+                                            color: isDark ? Colors.white : const Color(0xFF064E3B),
+                                            height: 1.25,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                ),
+                                const SizedBox(width: 8),
+                                // Processing Time Badge
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(color: AppColors.border(isDark)),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.timer_rounded, size: 14, color: AppColors.tealPrimary),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              langCode == 'hi' ? 'समय अवधि' : langCode == 'pa' ? 'ਸਮਾਂ' : 'Processing Time',
+                                              style: GoogleFonts.plusJakartaSans(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w700,
+                                                color: AppColors.textSecondary(isDark),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          service.processingTime,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 11.5,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.textPrimary(isDark),
+                                            height: 1.25,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+
+                            // Official Government Portal Box
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: isDark ? const Color(0xFF042F2E) : const Color(0xFFF0FDFA),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: isDark ? const Color(0xFF115E59) : const Color(0xFFCCFBF1)),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.verified_rounded, size: 14, color: AppColors.tealPrimary),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              strings.officialPortal,
+                                              style: GoogleFonts.plusJakartaSans(
+                                                fontSize: 11.5,
+                                                fontWeight: FontWeight.w700,
+                                                color: AppColors.tealPrimary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          service.portalDomain,
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w600,
+                                            color: isDark ? Colors.white70 : const Color(0xFF0F766E),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   InkWell(
                                     onTap: () async {
                                       final uri = Uri.parse(service.portalUrl);
@@ -765,12 +988,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         await launchUrl(uri, mode: LaunchMode.externalApplication);
                                       } catch (_) {}
                                     },
-                                    borderRadius: BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(8),
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                                       decoration: BoxDecoration(
                                         color: AppColors.tealPrimary,
-                                        borderRadius: BorderRadius.circular(6),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -791,115 +1014,206 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 14),
+                            ),
+                            const SizedBox(height: 14),
 
-                        // Required Docs Box
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkSurfaceSubtle : AppColors.lightSurfaceSubtle,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.border(isDark)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                strings.requiredDetails,
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.textPrimary(isDark),
-                                ),
+                            // Section 1: Required Documents Box
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: isDark ? AppColors.darkSurfaceSubtle : AppColors.lightSurfaceSubtle,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: AppColors.border(isDark)),
                               ),
-                              const SizedBox(height: 8),
-                              ...service.requiredDocs.map(
-                                (doc) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 6),
-                                  child: Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     children: [
-                                      const Icon(Icons.check_circle_rounded, size: 15, color: AppColors.tealPrimary),
-                                      const SizedBox(width: 8),
-                                      Flexible(
-                                        child: Text(
-                                          ServiceTranslator.getRequiredDoc(doc, langCode),
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 12,
-                                            color: AppColors.textSecondary(isDark),
-                                          ),
+                                      const Icon(Icons.description_rounded, size: 16, color: AppColors.tealPrimary),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        langCode == 'hi' ? 'आवश्यक दस्तावेज़ (Required Documents)' : langCode == 'pa' ? 'ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼ (Required Documents)' : 'Required Documents & Details',
+                                        style: GoogleFonts.plusJakartaSans(
+                                          fontSize: 12.5,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.textPrimary(isDark),
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton(
-                                onPressed: () => Navigator.of(ctx).pop(),
-                                style: OutlinedButton.styleFrom(
-                                  minimumSize: const Size(double.infinity, 44),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  side: BorderSide(color: AppColors.border(isDark)),
-                                ),
-                                child: Text(strings.close, style: GoogleFonts.plusJakartaSans(color: AppColors.textPrimary(isDark), fontWeight: FontWeight.w600)),
+                                  const SizedBox(height: 8),
+                                  ...service.requiredDocs.map(
+                                    (doc) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 6),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.check_circle_rounded, size: 15, color: Color(0xFF10B981)),
+                                          const SizedBox(width: 8),
+                                          Flexible(
+                                            child: Text(
+                                              ServiceTranslator.getRequiredDoc(doc, langCode),
+                                              style: GoogleFonts.plusJakartaSans(
+                                                fontSize: 12,
+                                                color: AppColors.textSecondary(isDark),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              flex: 2,
-                              child: ElevatedButton(
-                                onPressed: isSubmitting
-                                    ? null
-                                    : () {
-                                        setModalState(() => isSubmitting = true);
-                                        Future.delayed(const Duration(milliseconds: 750), () {
-                                          if (ctx.mounted) {
-                                            // Add to vault
-                                            final newDoc = IssuedDoc(
-                                              id: 'v-${DateTime.now().millisecondsSinceEpoch}',
-                                              title: serviceDoc,
-                                              issuer: serviceName,
-                                              docNumber: 'DIGI-${100000 + (DateTime.now().millisecond * 800) % 900000}',
-                                              issueDate: 'Issued Just Now',
-                                              logoType: service.logoType,
-                                            );
-                                            setState(() {
-                                              _vaultDocs.insert(0, newDoc);
-                                            });
-                                            setModalState(() {
-                                              isSubmitting = false;
-                                              isSuccess = true;
-                                            });
-                                          }
-                                        });
-                                      },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.tealPrimary,
-                                  foregroundColor: Colors.white,
-                                  minimumSize: const Size(double.infinity, 44),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  elevation: 0,
-                                ),
-                                child: isSubmitting
-                                    ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                                    : Text(strings.fetchDocument, style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700)),
+                            const SizedBox(height: 14),
+
+                            // Section 2: Step-by-Step Procedure to Apply
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0)),
                               ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.format_list_numbered_rounded, size: 16, color: AppColors.tealPrimary),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        langCode == 'hi' ? 'आवेदन करने की प्रक्रिया (Procedure to Apply)' : langCode == 'pa' ? 'ਅਰਜ਼ੀ ਦੇਣ ਦਾ ਤਰੀਕਾ (Procedure to Apply)' : 'Step-by-Step Procedure to Apply',
+                                        style: GoogleFonts.plusJakartaSans(
+                                          fontSize: 12.5,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.textPrimary(isDark),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ...List.generate(service.procedure.length, (idx) {
+                                    final stepText = service.procedure[idx];
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: 20,
+                                            height: 20,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.tealPrimary,
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              '${idx + 1}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10.5,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 9),
+                                          Expanded(
+                                            child: Text(
+                                              stepText,
+                                              style: GoogleFonts.plusJakartaSans(
+                                                fontSize: 12,
+                                                color: AppColors.textPrimary(isDark),
+                                                height: 1.35,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Actions
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: OutlinedButton(
+                                    onPressed: () => Navigator.of(ctx).pop(),
+                                    style: OutlinedButton.styleFrom(
+                                      minimumSize: const Size(double.infinity, 44),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      side: BorderSide(color: AppColors.border(isDark)),
+                                    ),
+                                    child: Text(strings.close, style: GoogleFonts.plusJakartaSans(color: AppColors.textPrimary(isDark), fontWeight: FontWeight.w600)),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  flex: 2,
+                                  child: ElevatedButton(
+                                    onPressed: isSubmitting
+                                        ? null
+                                        : () {
+                                            setModalState(() => isSubmitting = true);
+                                            Future.delayed(const Duration(milliseconds: 750), () {
+                                              if (ctx.mounted) {
+                                                // Add to vault state & local list
+                                                final newDoc = IssuedDoc(
+                                                  id: 'v-${DateTime.now().millisecondsSinceEpoch}',
+                                                  title: serviceDoc,
+                                                  issuer: serviceName,
+                                                  docNumber: 'DIGI-${100000 + (DateTime.now().millisecond * 800) % 900000}',
+                                                  issueDate: 'Issued Just Now',
+                                                  logoType: service.logoType,
+                                                );
+                                                final newVaultDoc = VaultDoc(
+                                                  id: 'v-${DateTime.now().millisecondsSinceEpoch}',
+                                                  title: serviceDoc,
+                                                  category: service.category == 'exams' ? 'education' : service.category == 'finance' ? 'finance' : 'identity',
+                                                  issuer: serviceName,
+                                                  docNumber: newDoc.docNumber,
+                                                  issueDate: 'Issued Just Now',
+                                                  isVerified: true,
+                                                  logoType: service.logoType,
+                                                  storageSource: 'gov_import',
+                                                  fileName: '${service.id}_digital_pass.pdf',
+                                                  fileSize: '1.2 MB',
+                                                  createdAt: DateTime.now(),
+                                                );
+                                                VaultState.addDocument(newVaultDoc);
+                                                setState(() {
+                                                  _vaultDocs.insert(0, newDoc);
+                                                });
+                                                setModalState(() {
+                                                  isSubmitting = false;
+                                                  isSuccess = true;
+                                                });
+                                              }
+                                            });
+                                          },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.tealPrimary,
+                                      foregroundColor: Colors.white,
+                                      minimumSize: const Size(double.infinity, 44),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      elevation: 0,
+                                    ),
+                                    child: isSubmitting
+                                        ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                                        : Text(strings.fetchDocument, style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
             ),
           );
         },
@@ -1071,107 +1385,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildVaultSliverList(bool isDark, AppStrings strings, String langCode) {
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final doc = _vaultDocs[index];
-            final title = ServiceTranslator.getVaultDocTitle(doc.logoType, doc.title, langCode);
-            final issuer = ServiceTranslator.getVaultDocIssuer(doc.logoType, doc.issuer, langCode);
-            final date = ServiceTranslator.getVaultDocDate(doc.issueDate, langCode);
-
-            return Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: AppColors.surface(isDark),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.border(isDark)),
-              ),
-              child: Row(
-                children: [
-                  _buildOrgLogo(doc.logoType, size: 40),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                title,
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColors.textPrimary(isDark),
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              strings.verifiedBadge,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                                color: const Color(0xFF16A34A),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          issuer,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 11,
-                            color: AppColors.textSecondary(isDark),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              doc.docNumber,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 10.5,
-                                fontWeight: FontWeight.w700,
-                                color: isDark ? Colors.white70 : const Color(0xFF0F172A),
-                              ),
-                            ),
-                            Text(
-                              date,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.tealPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          childCount: _vaultDocs.length,
-        ),
-      ),
-    );
-  }
-
   Widget _buildProfileView(bool isDark, DocuSewaAuthService auth) {
     return SliverToBoxAdapter(
-      child: ProfileScreen(
-        vaultCount: _vaultDocs.length,
-        onNavigateToVault: () => setState(() => _currentNavIndex = 1),
+      child: ValueListenableBuilder<List<VaultDoc>>(
+        valueListenable: VaultState.vaultDocsNotifier,
+        builder: (context, docs, _) {
+          return ProfileScreen(
+            vaultCount: docs.length,
+            onNavigateToVault: () => setState(() => _currentNavIndex = 1),
+          );
+        },
       ),
     );
   }
@@ -1205,60 +1428,146 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (_currentNavIndex == 3) ...[
                   _buildProfileView(isDark, auth),
                 ] else ...[
-
                   // ── INLINE HEADER ─────────────────────────────────────────
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                       child: Row(
                         children: [
-                          // Avatar circle with DocuSewa icon
-                          Container(
-                            width: 46,
-                            height: 46,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: AppColors.primaryGradient,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.tealPrimary.withValues(alpha: 0.3),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: const Icon(Icons.account_balance_rounded, color: Colors.white, size: 22),
-                          ),
-                          const SizedBox(width: 12),
-                          // Greeting + app name
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  langCode == 'hi' ? 'नमस्ते, नागरिक' : langCode == 'pa' ? 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ, ਨਾਗਰਿਕ' : 'Hello, Citizen',
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textSecondary(isDark),
-                                  ),
-                                ),
-                                Row(
+                          // User Profile Avatar with Online Badge
+                          GestureDetector(
+                            onTap: () {
+                              setState(() => _currentNavIndex = 3);
+                            },
+                            child: ValueListenableBuilder<String>(
+                              valueListenable: ProfileState.avatarNotifier,
+                              builder: (context, currentAvatar, _) {
+                                return Stack(
+                                  clipBehavior: Clip.none,
                                   children: [
-                                    Icon(Icons.location_on_rounded, size: 13, color: AppColors.tealPrimary),
-                                    const SizedBox(width: 2),
-                                    Text(
-                                      langCode == 'hi' ? 'भारत सरकार · DocuSewa' : langCode == 'pa' ? 'ਭਾਰਤ ਸਰਕਾਰ · DocuSewa' : 'Govt of India · DocuSewa',
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w800,
-                                        color: AppColors.textPrimary(isDark),
-                                        letterSpacing: -0.2,
+                                    Container(
+                                      width: 46,
+                                      height: 46,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: AppColors.primaryGradient,
+                                        border: Border.all(
+                                          color: AppColors.tealPrimary.withValues(alpha: 0.5),
+                                          width: 2,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppColors.tealPrimary.withValues(alpha: 0.25),
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 3),
+                                          ),
+                                        ],
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          currentAvatar,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => Center(
+                                            child: Text(
+                                              'DK',
+                                              style: GoogleFonts.plusJakartaSans(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        width: 12,
+                                        height: 12,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: const Color(0xFF10B981),
+                                          border: Border.all(
+                                            color: isDark ? const Color(0xFF0F172A) : Colors.white,
+                                            width: 2,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
-                                ),
-                              ],
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          // User Name + Location
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() => _currentNavIndex = 3);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: ValueListenableBuilder<String>(
+                                          valueListenable: ProfileState.fullNameNotifier,
+                                          builder: (context, currentName, _) {
+                                            return Text(
+                                              currentName,
+                                              style: GoogleFonts.plusJakartaSans(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppColors.textPrimary(isDark),
+                                                letterSpacing: -0.3,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      const Icon(
+                                        Icons.verified_rounded,
+                                        size: 15,
+                                        color: Color(0xFF0D9488),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.location_on_rounded,
+                                        size: 13,
+                                        color: Color(0xFF0D9488),
+                                      ),
+                                      const SizedBox(width: 2),
+                                      Expanded(
+                                        child: Text(
+                                          langCode == 'hi'
+                                              ? 'नोएडा, उत्तर प्रदेश'
+                                              : langCode == 'pa'
+                                                  ? 'ਨੋਇਡਾ, ਉੱਤਰ ਪ੍ਰਦੇਸ਼'
+                                                  : 'Noida, Uttar Pradesh',
+                                          style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.textSecondary(isDark),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           // Notification bell
@@ -1310,344 +1619,322 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  // ── SEARCH BAR ─────────────────────────────────────────────
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
-                      child: Container(
-                        height: 52,
-                        decoration: BoxDecoration(
-                          color: isDark ? const Color(0xFF1E293B) : Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: isDark ? 0.15 : 0.04),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          controller: _searchController,
-                          onChanged: (val) => setState(() => _searchQuery = val),
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 14,
-                            color: AppColors.textPrimary(isDark),
-                          ),
-                          decoration: InputDecoration(
-                            hintText: strings.searchPlaceholder,
-                            hintStyle: GoogleFonts.plusJakartaSans(
-                              fontSize: 13.5,
-                              color: AppColors.textMuted(isDark),
-                            ),
-                            prefixIcon: Container(
-                              margin: const EdgeInsets.all(12),
-                              width: 28,
-                              height: 28,
-                              decoration: BoxDecoration(
-                                color: AppColors.tealPrimary.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Icon(Icons.search_rounded, size: 16, color: AppColors.tealPrimary),
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 15),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // ── HERO BANNER ─────────────────────────────────────────────
-                  if (_currentNavIndex == 0 && _searchQuery.isEmpty)
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF0D9488), Color(0xFF0F766E), Color(0xFF115E59)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.tealPrimary.withValues(alpha: 0.35),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 8),
-                                ),
-                              ],
-                            ),
-                            child: Stack(
-                              children: [
-                                // Decorative circles — positioned relative to a non-Positioned row
-                                Positioned(
-                                  right: -20,
-                                  top: -20,
-                                  child: Container(
-                                    width: 110,
-                                    height: 110,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white.withValues(alpha: 0.07),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 30,
-                                  bottom: -20,
-                                  child: Container(
-                                    width: 70,
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white.withValues(alpha: 0.05),
-                                    ),
-                                  ),
-                                ),
-                                // The non-Positioned child drives the Stack's height
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(20, 20, 16, 20),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              langCode == 'hi'
-                                                  ? 'स्मार्ट दस्तावेज़,'
-                                                  : langCode == 'pa'
-                                                      ? 'ਸਮਾਰਟ ਦਸਤਾਵੇਜ਼,'
-                                                      : 'Smart Documents,',
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w900,
-                                                color: Colors.white,
-                                                height: 1.2,
-                                                letterSpacing: -0.4,
-                                              ),
-                                            ),
-                                            Text(
-                                              langCode == 'hi'
-                                                  ? 'तेज़ पहुँच।'
-                                                  : langCode == 'pa'
-                                                      ? 'ਤੇਜ਼ ਪਹੁੰਚ।'
-                                                      : 'Faster Access.',
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w900,
-                                                color: Colors.white,
-                                                height: 1.2,
-                                                letterSpacing: -0.5,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              langCode == 'hi'
-                                                  ? '25+ आधिकारिक पोर्टल'
-                                                  : langCode == 'pa'
-                                                      ? '25+ ਅਧਿਕਾਰਤ ਪੋਰਟਲ'
-                                                      : '25+ Official Portals',
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white.withValues(alpha: 0.82),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            GestureDetector(
-                                              onTap: () => setState(() => _currentNavIndex = 1),
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                                child: Text(
-                                                  langCode == 'hi' ? 'अभी देखें' : langCode == 'pa' ? 'ਹੁਣੇ ਦੇਖੋ' : 'View My Docs',
-                                                  style: GoogleFonts.plusJakartaSans(
-                                                    fontSize: 12.5,
-                                                    fontWeight: FontWeight.w800,
-                                                    color: AppColors.tealPrimary,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      // Emoji illustration — right side
-                                      const Text('🏛️', style: TextStyle(fontSize: 60)),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  // ── QUICK CATEGORIES ────────────────────────────────────────
-                  if (_currentNavIndex == 0 && _searchQuery.isEmpty)
-                    SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(18, 20, 18, 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  langCode == 'hi' ? 'श्रेणियाँ' : langCode == 'pa' ? 'ਸ਼੍ਰੇਣੀਆਂ' : 'Service Categories',
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w800,
-                                    color: AppColors.textPrimary(isDark),
-                                    letterSpacing: -0.2,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Text(
-                                    langCode == 'hi' ? 'सभी देखें' : langCode == 'pa' ? 'ਸਭ ਦੇਖੋ' : 'See All',
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.tealPrimary,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 86,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              padding: const EdgeInsets.symmetric(horizontal: 14),
-                              children: [
-                                _buildCategoryChip(
-                                  emoji: '🪪',
-                                  label: langCode == 'hi' ? 'पहचान' : langCode == 'pa' ? 'ਪਛਾਣ' : 'Identity',
-                                  color: const Color(0xFF0D9488),
-                                  isDark: isDark,
-                                  onTap: () => setState(() => _currentNavIndex = 1),
-                                ),
-                                _buildCategoryChip(
-                                  emoji: '🚗',
-                                  label: langCode == 'hi' ? 'परिवहन' : langCode == 'pa' ? 'ਟ੍ਰਾਂਸਪੋਰਟ' : 'Transport',
-                                  color: const Color(0xFF2563EB),
-                                  isDark: isDark,
-                                  onTap: () => setState(() => _currentNavIndex = 1),
-                                ),
-                                _buildCategoryChip(
-                                  emoji: '🎓',
-                                  label: langCode == 'hi' ? 'परीक्षा' : langCode == 'pa' ? 'ਪ੍ਰੀਖਿਆ' : 'Exams',
-                                  color: const Color(0xFF7C3AED),
-                                  isDark: isDark,
-                                  onTap: () => setState(() => _currentNavIndex = 2),
-                                ),
-                                _buildCategoryChip(
-                                  emoji: '🏦',
-                                  label: langCode == 'hi' ? 'वित्त' : langCode == 'pa' ? 'ਵਿੱਤ' : 'Finance',
-                                  color: const Color(0xFFD97706),
-                                  isDark: isDark,
-                                  onTap: () {},
-                                ),
-                                _buildCategoryChip(
-                                  emoji: '🏥',
-                                  label: langCode == 'hi' ? 'स्वास्थ्य' : langCode == 'pa' ? 'ਸਿਹਤ' : 'Health',
-                                  color: const Color(0xFFDC2626),
-                                  isDark: isDark,
-                                  onTap: () {},
-                                ),
-                                _buildCategoryChip(
-                                  emoji: '📜',
-                                  label: langCode == 'hi' ? 'प्रमाण पत्र' : langCode == 'pa' ? 'ਸਰਟੀਫਿਕੇਟ' : 'Certificates',
-                                  color: const Color(0xFF059669),
-                                  isDark: isDark,
-                                  onTap: () {},
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  // Vault Documents Banner (if on vault tab index 1)
+                  // ── TAB 1: FULL CITIZEN DIGITAL VAULT ──────────────────────
                   if (_currentNavIndex == 1) ...[
                     SliverToBoxAdapter(
+                      child: VaultScreen(
+                        onNavigateToHome: () => setState(() => _currentNavIndex = 0),
+                      ),
+                    ),
+                  ] else ...[
+                    // ── SEARCH BAR ─────────────────────────────────────────────
+                    SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(18, 16, 18, 14),
+                        padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
+                        child: Container(
+                          height: 52,
+                          decoration: BoxDecoration(
+                            color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: isDark ? 0.15 : 0.04),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: (val) => setState(() => _searchQuery = val),
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 14,
+                              color: AppColors.textPrimary(isDark),
+                            ),
+                            decoration: InputDecoration(
+                              hintText: strings.searchPlaceholder,
+                              hintStyle: GoogleFonts.plusJakartaSans(
+                                fontSize: 13.5,
+                                color: AppColors.textMuted(isDark),
+                              ),
+                              prefixIcon: Container(
+                                margin: const EdgeInsets.all(12),
+                                width: 28,
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  color: AppColors.tealPrimary.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(Icons.search_rounded, size: 16, color: AppColors.tealPrimary),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 15),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // ── HERO BANNER ─────────────────────────────────────────────
+                    if (_currentNavIndex == 0 && _searchQuery.isEmpty)
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF0D9488), Color(0xFF0F766E), Color(0xFF115E59)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.tealPrimary.withValues(alpha: 0.35),
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 8),
+                                  ),
+                                ],
+                              ),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    right: -20,
+                                    top: -20,
+                                    child: Container(
+                                      width: 110,
+                                      height: 110,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white.withValues(alpha: 0.07),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 30,
+                                    bottom: -20,
+                                    child: Container(
+                                      width: 70,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white.withValues(alpha: 0.05),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(20, 20, 16, 20),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                langCode == 'hi'
+                                                    ? 'स्मार्ट दस्तावेज़,'
+                                                    : langCode == 'pa'
+                                                        ? 'ਸਮਾਰਟ ਦਸਤਾਵੇਜ਼,'
+                                                        : 'Smart Documents,',
+                                                style: GoogleFonts.plusJakartaSans(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w900,
+                                                  color: Colors.white,
+                                                  height: 1.2,
+                                                  letterSpacing: -0.4,
+                                                ),
+                                              ),
+                                              Text(
+                                                langCode == 'hi'
+                                                    ? 'तेज़ पहुँच।'
+                                                    : langCode == 'pa'
+                                                        ? 'ਤੇਜ਼ ਪਹੁੰਚ।'
+                                                        : 'Faster Access.',
+                                                style: GoogleFonts.plusJakartaSans(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w900,
+                                                  color: Colors.white,
+                                                  height: 1.2,
+                                                  letterSpacing: -0.5,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                langCode == 'hi'
+                                                    ? '25+ आधिकारिक पोर्टल'
+                                                    : langCode == 'pa'
+                                                        ? '25+ ਅਧਿਕਾਰਤ ਪੋਰਟਲ'
+                                                        : '25+ Official Portals',
+                                                style: GoogleFonts.plusJakartaSans(
+                                                  fontSize: 12,
+                                                  color: Colors.white.withValues(alpha: 0.85),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () => setState(() => _currentNavIndex = 1),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.white,
+                                            foregroundColor: const Color(0xFF0F766E),
+                                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            elevation: 0,
+                                          ),
+                                          child: Text(
+                                            langCode == 'hi' ? 'वॉल्ट खोलें ↗' : 'Open Vault ↗',
+                                            style: GoogleFonts.plusJakartaSans(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    // ── YOUR ISSUED DOCUMENTS CAROUSEL (DIGILOCKER STYLE) ──────
+                    if (_currentNavIndex == 0 && _searchQuery.isEmpty)
+                      SliverToBoxAdapter(
+                        child: _buildIssuedDocumentsSection(isDark, langCode),
+                      ),
+
+                    // ── CATEGORIES ROW ────────────────────────────────────────
+                    if (_currentNavIndex == 0 && _searchQuery.isEmpty)
+                      SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '📁 ${strings.navDocs}',
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.textPrimary(isDark),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(18, 20, 18, 12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    langCode == 'hi' ? 'श्रेणियाँ' : langCode == 'pa' ? 'ਸ਼੍ਰੇਣੀਆਂ' : 'Service Categories',
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColors.textPrimary(isDark),
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Text(
+                                      langCode == 'hi' ? 'सभी देखें' : langCode == 'pa' ? 'ਸਭ ਦੇਖੋ' : 'See All',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.tealPrimary,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              strings.docIssuedDesc,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 12,
-                                color: AppColors.textSecondary(isDark),
+                            SizedBox(
+                              height: 86,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.symmetric(horizontal: 14),
+                                children: [
+                                  _buildCategoryChip(
+                                    emoji: '🪪',
+                                    label: langCode == 'hi' ? 'पहचान' : langCode == 'pa' ? 'ਪਛਾਣ' : 'Identity',
+                                    color: const Color(0xFF0D9488),
+                                    isDark: isDark,
+                                    onTap: () => setState(() => _currentNavIndex = 1),
+                                  ),
+                                  _buildCategoryChip(
+                                    emoji: '🚗',
+                                    label: langCode == 'hi' ? 'परिवहन' : langCode == 'pa' ? 'ਟ੍ਰਾਂਸਪੋਰਟ' : 'Transport',
+                                    color: const Color(0xFF2563EB),
+                                    isDark: isDark,
+                                    onTap: () => setState(() => _currentNavIndex = 1),
+                                  ),
+                                  _buildCategoryChip(
+                                    emoji: '🎓',
+                                    label: langCode == 'hi' ? 'परीक्षा' : langCode == 'pa' ? 'ਪ੍ਰੀਖਿਆ' : 'Exams',
+                                    color: const Color(0xFF7C3AED),
+                                    isDark: isDark,
+                                    onTap: () => setState(() => _currentNavIndex = 2),
+                                  ),
+                                  _buildCategoryChip(
+                                    emoji: '🏦',
+                                    label: langCode == 'hi' ? 'वित्त' : langCode == 'pa' ? 'ਵਿੱਤ' : 'Finance',
+                                    color: const Color(0xFFD97706),
+                                    isDark: isDark,
+                                    onTap: () {},
+                                  ),
+                                  _buildCategoryChip(
+                                    emoji: '🏥',
+                                    label: langCode == 'hi' ? 'स्वास्थ्य' : langCode == 'pa' ? 'ਸਿਹਤ' : 'Health',
+                                    color: const Color(0xFFDC2626),
+                                    isDark: isDark,
+                                    onTap: () {},
+                                  ),
+                                  _buildCategoryChip(
+                                    emoji: '📜',
+                                    label: langCode == 'hi' ? 'प्रमाण पत्र' : langCode == 'pa' ? 'ਸਰਟੀਫਿਕੇਟ' : 'Certificates',
+                                    color: const Color(0xFF059669),
+                                    isDark: isDark,
+                                    onTap: () {},
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    _buildVaultSliverList(isDark, strings, langCode),
-                  ],
 
-                  // ── SECTION HEADER: Govt Documents ─────────────────────────
-                  if ((_currentNavIndex == 0 || _currentNavIndex == 1) && govtDocs.isNotEmpty) ...[
-                    SliverToBoxAdapter(
-                      child: _buildSectionHeaderNew(
-                        icon: Icons.account_balance_rounded,
-                        accentColor: AppColors.tealPrimary,
-                        accentGradientEnd: AppColors.tealDark,
-                        title: strings.identityDocsTitle,
-                        count: govtDocs.length,
-                        tag: strings.identityDocsBadge,
-                        isDark: isDark,
+                    // ── SECTION HEADER: Govt Documents ─────────────────────────
+                    if ((_currentNavIndex == 0) && govtDocs.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: _buildSectionHeaderNew(
+                          icon: Icons.account_balance_rounded,
+                          accentColor: AppColors.tealPrimary,
+                          accentGradientEnd: AppColors.tealDark,
+                          title: strings.identityDocsTitle,
+                          count: govtDocs.length,
+                          tag: strings.identityDocsBadge,
+                          isDark: isDark,
+                        ),
                       ),
-                    ),
-                    _buildGrid(govtDocs, crossAxisCount, isDark, langCode),
-                  ],
+                      _buildGrid(govtDocs, crossAxisCount, isDark, langCode),
+                    ],
 
-                  // ── SECTION HEADER: Govt Exams ──────────────────────────────
-                  if ((_currentNavIndex == 0 || _currentNavIndex == 2) && govtExams.isNotEmpty) ...[
-                    SliverToBoxAdapter(
-                      child: _buildSectionHeaderNew(
-                        icon: Icons.school_rounded,
-                        accentColor: const Color(0xFF2563EB),
-                        accentGradientEnd: const Color(0xFF1D4ED8),
-                        title: strings.examsTitle,
-                        count: govtExams.length,
-                        tag: strings.examsBadge,
-                        isDark: isDark,
+                    // ── SECTION HEADER: Govt Exams ──────────────────────────────
+                    if ((_currentNavIndex == 0 || _currentNavIndex == 2) && govtExams.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: _buildSectionHeaderNew(
+                          icon: Icons.school_rounded,
+                          accentColor: const Color(0xFF2563EB),
+                          accentGradientEnd: const Color(0xFF1D4ED8),
+                          title: strings.examsTitle,
+                          count: govtExams.length,
+                          tag: strings.examsBadge,
+                          isDark: isDark,
+                        ),
                       ),
-                    ),
-                    _buildGrid(govtExams, crossAxisCount, isDark, langCode),
-                  ],
+                      _buildGrid(govtExams, crossAxisCount, isDark, langCode),
+                    ],
 
                   // ── SECTION HEADER: Finance & Welfare ──────────────────────
                   if (_currentNavIndex == 0 && finance.isNotEmpty) ...[
@@ -1708,11 +1995,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-
                 const SliverToBoxAdapter(child: SizedBox(height: 30)),
               ],
-            ),
+            ],
           ),
+        ),
 
           // ── BOTTOM NAVIGATION BAR ───────────────────────────────────────────
           bottomNavigationBar: Container(
@@ -1747,9 +2034,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildNavItem(
                       index: 1,
-                      activeIcon: Icons.article_rounded,
-                      inactiveIcon: Icons.article_outlined,
-                      label: strings.navDocs,
+                      activeIcon: Icons.lock_person_rounded,
+                      inactiveIcon: Icons.lock_outline_rounded,
+                      label: langCode == 'hi' ? 'वॉल्ट' : langCode == 'pa' ? 'ਵਾਲਟ' : 'Vault',
                       isDark: isDark,
                     ),
                     _buildNavItem(
@@ -1970,4 +2257,239 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  // ── ISSUED DOCUMENTS CAROUSEL (DIGILOCKER STYLE) ───────────────────────────
+  Widget _buildIssuedDocumentsSection(bool isDark, String langCode) {
+    return ValueListenableBuilder<List<VaultDoc>>(
+      valueListenable: VaultState.vaultDocsNotifier,
+      builder: (context, docs, _) {
+        if (docs.isEmpty) return const SizedBox.shrink();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 22, 18, 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    langCode == 'hi' ? 'आपके जारी किए गए दस्तावेज़' : 'Your Issued Documents',
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: isDark ? Colors.white : const Color(0xFF1E1B4B),
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => setState(() => _currentNavIndex = 1),
+                    child: Text(
+                      'VIEW ALL (${docs.length})',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF2563EB),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 116,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                itemCount: docs.length,
+                itemBuilder: (context, index) {
+                  final doc = docs[index];
+                  return GestureDetector(
+                    onTap: () => setState(() => _currentNavIndex = 1),
+                    child: Container(
+                      width: 295,
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                          width: 1.0,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildOrgEmblem(doc.logoType, size: 44),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      doc.title,
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 13.5,
+                                        fontWeight: FontWeight.w700,
+                                        color: isDark ? Colors.white : const Color(0xFF0F172A),
+                                        letterSpacing: -0.2,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      doc.docNumber,
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 11.5,
+                                        fontWeight: FontWeight.w500,
+                                        color: isDark ? Colors.white60 : const Color(0xFF64748B),
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            doc.issuer,
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: isDark ? Colors.white54 : const Color(0xFF94A3B8),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildOrgEmblem(String logoType, {double size = 44}) {
+    switch (logoType) {
+      case 'uidai':
+        return SizedBox(
+          width: size,
+          height: size,
+          child: CustomPaint(
+            painter: AadhaarLogoPainter(),
+          ),
+        );
+      case 'itd':
+        return SizedBox(
+          width: size,
+          height: size,
+          child: CustomPaint(
+            painter: IncomeTaxLogoPainter(),
+          ),
+        );
+      case 'abc':
+      case 'apaar':
+        return SizedBox(
+          width: size,
+          height: size,
+          child: CustomPaint(
+            painter: AcademicBankLogoPainter(),
+          ),
+        );
+      case 'pseb':
+      case 'cbse':
+        return SizedBox(
+          width: size,
+          height: size,
+          child: CustomPaint(
+            painter: EducationBoardLogoPainter(),
+          ),
+        );
+      case 'signature':
+        return Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: const Color(0xFFEFF6FF),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: const Color(0xFF93C5FD)),
+          ),
+          child: const Center(
+            child: Icon(Icons.draw_rounded, color: Color(0xFF2563EB), size: 24),
+          ),
+        );
+      case 'photo':
+        return Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFFBEB),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: const Color(0xFFFDE68A)),
+          ),
+          child: const Center(
+            child: Icon(Icons.portrait_rounded, color: Color(0xFFD97706), size: 24),
+          ),
+        );
+      case 'morth':
+        return Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF0FDF4),
+            shape: BoxShape.circle,
+            border: Border.all(color: const Color(0xFF86EFAC), width: 1.5),
+          ),
+          child: const Center(
+            child: Icon(Icons.directions_car_rounded, color: Color(0xFF16A34A), size: 22),
+          ),
+        );
+      case 'pmjay':
+        return Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: const Color(0xFFFAF5FF),
+            shape: BoxShape.circle,
+            border: Border.all(color: const Color(0xFFD8B4FE), width: 1.5),
+          ),
+          child: const Center(
+            child: Icon(Icons.health_and_safety_rounded, color: Color(0xFF7C3AED), size: 22),
+          ),
+        );
+      default:
+        return Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F5F9),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: const Color(0xFFCBD5E1)),
+          ),
+          child: const Center(
+            child: Icon(Icons.description_rounded, color: Color(0xFF0D9488), size: 22),
+          ),
+        );
+    }
+  }
 }
+

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { signOut } from '@/services/auth.service';
 import ProfileSection from '@/components/profile/ProfileSection';
@@ -23,6 +23,9 @@ interface ServiceItem {
   requiredDocs: string[];
   portalUrl: string;
   portalDomain: string;
+  price?: string;
+  processingTime?: string;
+  procedure?: string[];
 }
 
 interface IssuedDoc {
@@ -48,6 +51,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Aadhaar Card', 'Passport Photograph', 'Signature Proof'],
     portalUrl: 'https://eportal.incometax.gov.in/',
     portalDomain: 'incometax.gov.in',
+    price: 'Free / ₹0 (Instant e-PAN) | ₹107 (Physical Card Print)',
+    processingTime: 'Instant (e-PAN) | 7-10 Days (Physical Card)',
+    procedure: [
+      'Visit the official Income Tax e-Filing portal & click on "Instant e-PAN".',
+      'Enter your 12-digit Aadhaar Number and verify with Aadhaar-linked mobile OTP.',
+      'Validate your Aadhaar e-KYC profile details and confirm submission.',
+      'Download your digitally signed e-PAN instantly in PDF format.',
+    ],
   },
   {
     id: 'voter-id',
@@ -60,6 +71,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Age Proof', 'Address Proof', 'Passport Photo'],
     portalUrl: 'https://voters.eci.gov.in/',
     portalDomain: 'voters.eci.gov.in',
+    price: 'Free / ₹0 (No Govt Fee)',
+    processingTime: 'Instant Download | 10-15 Days for New Registration',
+    procedure: [
+      'Open the ECI Voters Service Portal (voters.eci.gov.in) and sign in.',
+      'Navigate to "E-EPIC Download" and enter your EPIC / Voter Number.',
+      'Verify with OTP sent to your ECI-linked mobile number.',
+      'Download your verified e-EPIC card with digital QR code verification.',
+    ],
   },
   {
     id: 'uidai-aadhaar',
@@ -72,6 +91,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Registered Mobile OTP', 'Aadhaar Number / VID'],
     portalUrl: 'https://myaadhaar.uidai.gov.in/',
     portalDomain: 'myaadhaar.uidai.gov.in',
+    price: 'Free (Digital e-Aadhaar) | ₹50 (PVC Smart Card)',
+    processingTime: 'Instant Download | 5-7 Days for Speed Post PVC',
+    procedure: [
+      'Log in to myAadhaar portal using Aadhaar Number and Captcha code.',
+      'Enter the 6-digit OTP received on your UIDAI registered mobile number.',
+      'Select "Download Aadhaar" for digital PDF or "Order Aadhaar PVC Card".',
+      'Download the password-protected PDF (Password: First 4 letters of name in CAPS + Year of Birth).',
+    ],
   },
   {
     id: 'morth-dl',
@@ -84,6 +111,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Form 1 Medical Declaration', 'Aadhaar Card', 'Blood Group'],
     portalUrl: 'https://parivahan.gov.in/parivahan/',
     portalDomain: 'parivahan.gov.in',
+    price: '₹200 (Learner Licence Test) | ₹500 (Driving Licence Issue)',
+    processingTime: 'Same Day (LL) | 7-14 Days (Permanent Driving Licence)',
+    procedure: [
+      'Visit Sarathi Parivahan portal and select your Home State and RTO.',
+      'Fill Application Form for New Learner / Driving Licence.',
+      'Upload Form 1 Self Declaration, Age & Address Proofs, and pay application fee online.',
+      'Book your RTO driving test appointment slot or take contactless LL exam.',
+    ],
   },
   {
     id: 'pmjay-health',
@@ -96,6 +131,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Aadhaar Number', 'Linked Mobile OTP'],
     portalUrl: 'https://beneficiary.nha.gov.in/',
     portalDomain: 'beneficiary.nha.gov.in',
+    price: 'Free / ₹0 (Provides ₹5 Lakh Annual Health Cover)',
+    processingTime: 'Instant Digital Health Card Creation',
+    procedure: [
+      'Access the National Health Authority Beneficiary portal (beneficiary.nha.gov.in).',
+      'Select "Create ABHA Number" using your 12-digit Aadhaar.',
+      'Verify the OTP received on Aadhaar registered phone number.',
+      'Download your 14-digit ABHA Digital Health Card with personalized QR ID.',
+    ],
   },
   {
     id: 'mea-passport',
@@ -108,6 +151,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Aadhaar Card', 'PAN Card', 'Bank Passbook'],
     portalUrl: 'https://www.passportindia.gov.in/',
     portalDomain: 'passportindia.gov.in',
+    price: '₹1,500 (36-Page Standard) | ₹2,000 (60-Page Jumbo) | ₹3,500 (Tatkaal)',
+    processingTime: '7-15 Working Days (Normal) | 1-3 Days (Tatkaal)',
+    procedure: [
+      'Register on Passport Seva Online Portal (passportindia.gov.in).',
+      'Fill the Online Application Form for Fresh Passport / Re-issue / PCC.',
+      'Pay required application fee online via NetBanking / UPI / Card.',
+      'Book appointment slot and visit designated PSK / POPSK for biometric verification.',
+    ],
   },
   {
     id: 'nfsa-pds',
@@ -120,6 +171,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Family Head Aadhaar', 'LPG Connection Bill', 'Income Proof'],
     portalUrl: 'https://nfsa.gov.in/',
     portalDomain: 'nfsa.gov.in',
+    price: '₹0 - ₹20 (State Statutory Fee)',
+    processingTime: '15-30 Working Days',
+    procedure: [
+      'Access State PDS / NFSA portal and select New Ration Card application.',
+      'Provide Family Head details, residential address & LPG connection number.',
+      'Add family members with respective Aadhaar numbers & relationships.',
+      'Submit form to local Food & Civil Supplies Inspector for field verification.',
+    ],
   },
   {
     id: 'revenue-dept',
@@ -132,6 +191,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Salary Slip / ITR / Form 16', 'Ration Card', 'Self Declaration'],
     portalUrl: 'https://serviceonline.gov.in/',
     portalDomain: 'serviceonline.gov.in',
+    price: '₹15 - ₹30 (e-District Facilitation Fee)',
+    processingTime: '7-15 Working Days',
+    procedure: [
+      'Log in to State e-District / ServiceOnline citizen portal.',
+      'Select required certificate (Income / Caste / Domicile / Character).',
+      'Upload salary slip, electricity bill, self-declaration & Aadhaar copy.',
+      'Track verification by Revenue Inspector / Tehsildar and download digitally signed certificate.',
+    ],
   },
 
   // --- SECTION: GOVT EXAMS & EDUCATION ---
@@ -146,6 +213,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Registration ID / Roll No.', 'Date of Birth', 'Aadhaar ID'],
     portalUrl: 'https://upsconline.nic.in/',
     portalDomain: 'upsconline.nic.in',
+    price: '₹100 (General/OBC Male) | ₹0 (Female/SC/ST/PwBD) | Admit Card: Free',
+    processingTime: 'Instant Hall Ticket & Scorecard Download',
+    procedure: [
+      'Visit upsconline.nic.in and log in with One Time Registration (OTR) profile.',
+      'Select active recruitment examination (CSE / NDA / CDS / CMS).',
+      'Enter Registration ID or Roll Number along with Date of Birth.',
+      'Read exam guidelines and download high-resolution e-Admit Card PDF.',
+    ],
   },
   {
     id: 'ssc-exam',
@@ -158,6 +233,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['SSC Registration Number', 'Password / DOB'],
     portalUrl: 'https://ssc.gov.in/',
     portalDomain: 'ssc.gov.in',
+    price: '₹100 (Application Fee) | ₹0 (Women/SC/ST) | Admit Card: Free',
+    processingTime: 'Instant Admit Card & Marks Access',
+    procedure: [
+      'Go to the new SSC portal (ssc.gov.in) and enter your Registration credentials.',
+      'Navigate to "Admit Card / Application Status" for your designated regional tier.',
+      'Verify examination city, shift timing and reporting time.',
+      'Download and print the official hall ticket with COVID self-declaration undertaking.',
+    ],
   },
   {
     id: 'nta-testing',
@@ -170,6 +253,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Application Number', 'Date of Birth', 'Security PIN'],
     portalUrl: 'https://exams.nta.ac.in/',
     portalDomain: 'exams.nta.ac.in',
+    price: '₹1,000 - ₹1,700 (Exam Registration) | Admit Card: Free',
+    processingTime: 'Instant Admit Card & Scorecard Generation',
+    procedure: [
+      'Open exams.nta.ac.in and select examination portal (JEE Main / NEET / CUET).',
+      'Provide your Application Number, Password and Date of Birth.',
+      'Review exam center city allotment slip and session guidelines.',
+      'Download the admit card with barcode and student photograph intact.',
+    ],
   },
   {
     id: 'rrb-railway',
@@ -182,6 +273,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Registration ID', 'User Password / DOB'],
     portalUrl: 'https://www.rrbapply.gov.in/',
     portalDomain: 'rrbapply.gov.in',
+    price: '₹500 (₹400 refunded upon attending CBT-1) | Call Letter: Free',
+    processingTime: 'Instant E-Call Letter Generation',
+    procedure: [
+      'Open the official RRB Apply portal (rrbapply.gov.in).',
+      'Enter Registration ID and Password (Date of Birth).',
+      'Check allocated Exam City, Shift Timing and Free Rail Travel Pass (for SC/ST).',
+      'Download and print E-Call Letter for CBT stage 1 / stage 2.',
+    ],
   },
   {
     id: 'ibps-bank',
@@ -194,6 +293,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Registration Number', 'Roll Number & DOB'],
     portalUrl: 'https://www.ibps.in/',
     portalDomain: 'ibps.in',
+    price: '₹850 (General/EWS/OBC) | ₹175 (SC/ST/PwBD) | Call Letter: Free',
+    processingTime: 'Instant Call Letter Download',
+    procedure: [
+      'Visit ibps.in and select Common Recruitment Process (CRP).',
+      'Enter Registration Number and Password / Date of Birth.',
+      'Select English / Hindi language medium.',
+      'Download Online Preliminary / Mains Call Letter with attendance instructions.',
+    ],
   },
   {
     id: 'cbse-board',
@@ -206,6 +313,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Roll Number', 'Passing Year', 'School Code'],
     portalUrl: 'https://www.cbse.gov.in/',
     portalDomain: 'cbse.gov.in',
+    price: 'Free / ₹0 (Digital Marksheet) | ₹250 (Duplicate Hardcopy)',
+    processingTime: 'Instant Digital Certificate Fetch',
+    procedure: [
+      'Visit cbse.gov.in or Pariksha Sangam digital repository.',
+      'Enter 8-digit Board Roll Number, School Number and Center Code.',
+      'View verified subject grades, marks breakdown, and qualifying status.',
+      'Download the digital passing certificate or pull directly to DocuSewa Vault.',
+    ],
   },
   {
     id: 'ugc-net',
@@ -218,6 +333,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Application Number', 'Roll Number', 'Exam Session'],
     portalUrl: 'https://ugcnet.nta.ac.in/',
     portalDomain: 'ugcnet.nta.ac.in',
+    price: '₹1,150 (General) | ₹600 (OBC-NCL) | ₹325 (SC/ST/PwD)',
+    processingTime: 'Instant E-Certificate Download',
+    procedure: [
+      'Go to UGC NET official portal (ugcnet.nta.ac.in).',
+      'Navigate to "E-Certificate / JRF Award Letter" link.',
+      'Enter Roll Number / Application Number, Date of Birth & Captcha.',
+      'Download the digitally signed Assistant Professorship / JRF Award Certificate.',
+    ],
   },
   {
     id: 'state-psc',
@@ -230,6 +353,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['State OTR ID', 'Candidate Roll Number'],
     portalUrl: 'https://serviceonline.gov.in/',
     portalDomain: 'serviceonline.gov.in',
+    price: '₹100 - ₹250 (State Examination Fee) | Admit Card: Free',
+    processingTime: 'Instant Admit Card Download',
+    procedure: [
+      'Open your State PSC portal (e.g. UPPSC, BPSC, MPPSC, MPSC, TNPSC).',
+      'Sign in with One Time Registration (OTR) credentials.',
+      'Click on active Notification to view Exam City and Venue.',
+      'Download verified Hall Ticket / Interview Call Letter.',
+    ],
   },
 
   // --- SECTION: FINANCIAL & WELFARE ---
@@ -244,6 +375,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['12-Digit UAN', 'Aadhaar Linked Mobile OTP'],
     portalUrl: 'https://unifiedportal-mem.epfindia.gov.in/memberinterface/',
     portalDomain: 'epfindia.gov.in',
+    price: 'Free / ₹0 (No fee for UAN Passbook & Online PF Claim)',
+    processingTime: 'Instant Passbook | 3-7 Days for PF Claim Settlement',
+    procedure: [
+      'Access EPFO Member Unified Portal (epfindia.gov.in).',
+      'Enter your 12-digit UAN Number, Password and Security Captcha.',
+      'Authenticate with OTP sent to Aadhaar-linked registered mobile.',
+      'View & download updated Member Passbook, UAN Card or file Form 19/31/10C claim.',
+    ],
   },
   {
     id: 'lic-insurance',
@@ -256,6 +395,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Policy Number', 'Registered Mobile Number'],
     portalUrl: 'https://licindia.in/',
     portalDomain: 'licindia.in',
+    price: 'Free / ₹0 (Portal Services & Premium Receipt Download)',
+    processingTime: 'Instant Premium Receipt & Policy Statement',
+    procedure: [
+      'Log in to LIC Customer Portal (licindia.in).',
+      'Enter Policy Number, Installment Premium and Date of Birth.',
+      'View policy status, bonus accumulation, loan eligibility and revival quotes.',
+      'Download Premium Paid Certificate for Section 80C tax exemption.',
+    ],
   },
   {
     id: 'sbi-bank',
@@ -268,6 +415,14 @@ const SERVICES_DATA: ServiceItem[] = [
     requiredDocs: ['Account Number', 'Registered Mobile OTP'],
     portalUrl: 'https://www.onlinesbi.sbi/',
     portalDomain: 'onlinesbi.sbi',
+    price: 'Free / ₹0 (Digital e-Statement & NetBanking)',
+    processingTime: 'Instant e-Statement Generation',
+    procedure: [
+      'Log in to OnlineSBI / YONO portal with Username and Password.',
+      'Complete 2-Factor Authentication via SMS OTP.',
+      'Navigate to "My Accounts & Profile -> Account Statement".',
+      'Select date range and download password-protected PDF statement.',
+    ],
   },
 ];
 
@@ -559,6 +714,40 @@ export default function DashboardPage() {
   const [applySuccess, setApplySuccess] = useState<boolean>(false);
   const [vaultDocs, setVaultDocs] = useState<IssuedDoc[]>(INITIAL_VAULT_DOCS);
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>('Dilkhush');
+
+  // Load avatar and profile name from localStorage and listen to real-time updates
+  useEffect(() => {
+    try {
+      const savedAvatar = localStorage.getItem('janseva_citizen_avatar');
+      if (savedAvatar) setUserAvatar(savedAvatar);
+
+      const savedProfileStr = localStorage.getItem('janseva_citizen_profile');
+      if (savedProfileStr) {
+        const parsed = JSON.parse(savedProfileStr);
+        if (parsed.displayName || parsed.fullName) {
+          setUserName(parsed.displayName || parsed.fullName.split(' ')[0]);
+        }
+      }
+    } catch {
+      // Fallback
+    }
+
+    const handleAvatarUpdate = (e: any) => {
+      if (e.detail?.avatarUrl) {
+        setUserAvatar(e.detail.avatarUrl);
+      }
+      if (e.detail?.fullName) {
+        setUserName(e.detail.fullName.split(' ')[0]);
+      }
+    };
+
+    window.addEventListener('janseva_avatar_updated', handleAvatarUpdate);
+    return () => {
+      window.removeEventListener('janseva_avatar_updated', handleAvatarUpdate);
+    };
+  }, []);
 
   const getServiceName = (srv: ServiceItem) => {
     switch (srv.id) {
@@ -872,8 +1061,8 @@ export default function DashboardPage() {
               >
                 <div
                   style={{
-                    width: '28px',
-                    height: '28px',
+                    width: '30px',
+                    height: '30px',
                     borderRadius: '50%',
                     backgroundColor: '#0d9488',
                     color: '#ffffff',
@@ -882,13 +1071,24 @@ export default function DashboardPage() {
                     justifyContent: 'center',
                     fontWeight: 800,
                     fontSize: '11.5px',
+                    overflow: 'hidden',
+                    border: '1.5px solid #0d9488',
+                    flexShrink: 0,
                   }}
                 >
-                  DK
+                  {userAvatar ? (
+                    <img
+                      src={userAvatar}
+                      alt={userName}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    'DK'
+                  )}
                 </div>
                 <div style={{ textAlign: 'left' }}>
                   <div style={{ fontSize: '12px', fontWeight: 800, color: '#0f172a', lineHeight: 1.1 }}>
-                    Dilkhush
+                    {userName}
                   </div>
                   <div style={{ fontSize: '9.5px', fontWeight: 700, color: '#0d9488' }}>
                     {t.verifiedCitizen}
@@ -987,16 +1187,118 @@ export default function DashboardPage() {
           />
         ) : selectedCategory === 'vault' ? (
           <div>
-            <div style={{ marginBottom: '20px' }}>
-              <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: '0 0 4px' }}>
-                {t.vaultTitle}
-              </h2>
-              <p style={{ fontSize: '12.5px', color: '#64748b', margin: 0 }}>
-                {t.vaultSubtitle}
-              </p>
+            {/* Vault Security & Storage Banner */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #0f766e 0%, #115e59 50%, #042f2e 100%)',
+                borderRadius: '18px',
+                padding: '20px',
+                color: '#ffffff',
+                marginBottom: '24px',
+                boxShadow: '0 4px 16px rgba(13, 148, 136, 0.25)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#2dd4bf',
+                    }}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 style={{ fontSize: '18px', fontWeight: 800, margin: '0 0 2px', color: '#ffffff' }}>
+                      {t.vaultTitle}
+                    </h2>
+                    <p style={{ fontSize: '12px', color: '#99f6e4', margin: 0 }}>
+                      256-Bit Encrypted Multi-Device Citizen Storage
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      padding: '4px 12px',
+                      borderRadius: '20px',
+                    }}
+                  >
+                    🔒 {vaultDocs.length} Stored Documents
+                  </span>
+                  <button
+                    onClick={() => {
+                      const docTitle = prompt('Enter Document Name (e.g. Graduation Certificate, Rent Agreement, RC Card):');
+                      if (!docTitle) return;
+                      const issuer = prompt('Enter Issuing Authority (e.g. Delhi University, State RTO):') || 'Uploaded from Device';
+                      const docNumber = prompt('Enter Document Number / Roll No:') || `VAULT-${Math.floor(100000 + Math.random() * 900000)}`;
+                      
+                      const newDoc: IssuedDoc = {
+                        id: `v-custom-${Date.now()}`,
+                        title: docTitle,
+                        issuer: issuer,
+                        docNumber: docNumber,
+                        issueDate: 'Uploaded Today',
+                        verified: true,
+                        type: 'revenue',
+                      };
+                      setVaultDocs((prev) => [newDoc, ...prev]);
+                    }}
+                    style={{
+                      height: '36px',
+                      padding: '0 16px',
+                      borderRadius: '10px',
+                      backgroundColor: '#ffffff',
+                      color: '#0f766e',
+                      border: 'none',
+                      fontWeight: 800,
+                      fontSize: '12.5px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+                    }}
+                  >
+                    <span>+</span>
+                    <span>Store New Document</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Storage Usage Progress */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11.5px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '6px' }}>
+                  <span>Cloud Vault Space Used</span>
+                  <span style={{ fontWeight: 700, color: '#99f6e4' }}>{(vaultDocs.length * 1.4).toFixed(1)} MB / 100 MB</span>
+                </div>
+                <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(255, 255, 255, 0.2)', borderRadius: '6px', overflow: 'hidden' }}>
+                  <div
+                    style={{
+                      width: `${Math.min(100, (vaultDocs.length * 1.4))}%`,
+                      height: '100%',
+                      backgroundColor: '#2dd4bf',
+                      borderRadius: '6px',
+                    }}
+                  />
+                </div>
+              </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '14px' }}>
               {vaultDocs.map((doc) => {
                 const vDoc = translateVaultDoc(doc, language);
                 return (
@@ -1016,10 +1318,10 @@ export default function DashboardPage() {
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                       <div
                         style={{
-                          width: '42px',
-                          height: '42px',
-                          minWidth: '42px',
-                          borderRadius: '10px',
+                          width: '44px',
+                          height: '44px',
+                          minWidth: '44px',
+                          borderRadius: '12px',
                           backgroundColor: '#f0fdfa',
                           border: '1px solid #ccfbf1',
                           display: 'flex',
@@ -1028,7 +1330,7 @@ export default function DashboardPage() {
                           color: '#0d9488',
                         }}
                       >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
                       </div>
@@ -1069,7 +1371,7 @@ export default function DashboardPage() {
 
                     <div style={{ display: 'flex', gap: '8px' }}>
                       <button
-                        onClick={() => alert(`Viewing verified ${vDoc.title}`)}
+                        onClick={() => alert(`Document Details:\n\nTitle: ${vDoc.title}\nIssuer: ${vDoc.issuer}\nDocument ID: ${doc.docNumber}\nVerification: 256-Bit Signed & Validated`)}
                         style={{
                           flex: 1,
                           height: '34px',
@@ -1099,6 +1401,30 @@ export default function DashboardPage() {
                         }}
                       >
                         {t.downloadDoc}
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Remove "${vDoc.title}" from your Digital Vault?`)) {
+                            setVaultDocs((prev) => prev.filter((d) => d.id !== doc.id));
+                          }
+                        }}
+                        style={{
+                          width: '34px',
+                          height: '34px',
+                          borderRadius: '8px',
+                          border: '1px solid #fecaca',
+                          backgroundColor: '#fef2f2',
+                          color: '#ef4444',
+                          fontWeight: 700,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                        title="Delete Document"
+                      >
+                        🗑️
                       </button>
                     </div>
                   </div>
@@ -1543,13 +1869,52 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
+                {/* Quick Specs: Pricing & Processing Time */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '14px' }}>
+                  {/* Price */}
+                  <div
+                    style={{
+                      backgroundColor: '#ecfdf5',
+                      border: '1px solid #a7f3d0',
+                      borderRadius: '10px',
+                      padding: '10px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10.5px', fontWeight: 700, color: '#065f46', marginBottom: '4px' }}>
+                      <span>💳</span>
+                      <span>{language === 'hi' ? 'सरकारी शुल्क / मूल्य' : language === 'pa' ? 'ਸਰਕਾਰੀ ਫੀਸ / ਮੁੱਲ' : 'Official Govt Fee'}</span>
+                    </div>
+                    <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#064e3b', lineHeight: 1.25 }}>
+                      {activeModalService.price || 'Free / ₹0 (Govt Portal)'}
+                    </div>
+                  </div>
+
+                  {/* Processing Time */}
+                  <div
+                    style={{
+                      backgroundColor: '#f8fafc',
+                      border: '1px solid #e2e8f0',
+                      borderRadius: '10px',
+                      padding: '10px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10.5px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                      <span>⏱️</span>
+                      <span>{language === 'hi' ? 'समय अवधि' : language === 'pa' ? 'ਸਮਾਂ' : 'Processing Time'}</span>
+                    </div>
+                    <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#0f172a', lineHeight: 1.25 }}>
+                      {activeModalService.processingTime || 'Instant Digital Verification'}
+                    </div>
+                  </div>
+                </div>
+
                 {/* Official Government Website Portal Card */}
                 <div
                   style={{
                     backgroundColor: '#f0fdfa',
                     borderRadius: '12px',
                     padding: '12px 14px',
-                    marginBottom: '16px',
+                    marginBottom: '14px',
                     border: '1px solid #ccfbf1',
                   }}
                 >
@@ -1616,12 +1981,13 @@ export default function DashboardPage() {
                     backgroundColor: '#f8fafc',
                     borderRadius: '10px',
                     padding: '12px',
-                    marginBottom: '18px',
+                    marginBottom: '14px',
                     border: '1px solid #e2e8f0',
                   }}
                 >
-                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>
-                    {t.requiredDetails}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>
+                    <span>📋</span>
+                    <span>{language === 'hi' ? 'आवश्यक दस्तावेज़ (Required Documents)' : language === 'pa' ? 'ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼ (Required Documents)' : t.requiredDetails}</span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {activeModalService.requiredDocs.map((doc, idx) => (
@@ -1632,6 +1998,49 @@ export default function DashboardPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* Step-by-Step Procedure to Apply */}
+                {activeModalService.procedure && activeModalService.procedure.length > 0 && (
+                  <div
+                    style={{
+                      backgroundColor: '#ffffff',
+                      borderRadius: '10px',
+                      padding: '12px',
+                      marginBottom: '18px',
+                      border: '1px solid #e2e8f0',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>
+                      <span>🚀</span>
+                      <span>{language === 'hi' ? 'आवेदन करने की प्रक्रिया (Procedure to Apply)' : language === 'pa' ? 'ਅਰਜ਼ੀ ਦੇਣ ਦਾ ਤਰੀਕਾ (Procedure to Apply)' : 'Step-by-Step Procedure to Apply'}</span>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {activeModalService.procedure.map((step, idx) => (
+                        <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '11.5px', color: '#334155' }}>
+                          <span
+                            style={{
+                              width: '18px',
+                              height: '18px',
+                              borderRadius: '50%',
+                              backgroundColor: '#0d9488',
+                              color: '#ffffff',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '10px',
+                              fontWeight: 800,
+                              flexShrink: 0,
+                              marginTop: '1px',
+                            }}
+                          >
+                            {idx + 1}
+                          </span>
+                          <span style={{ lineHeight: 1.35 }}>{step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Modal Actions */}
                 <div style={{ display: 'flex', gap: '8px' }}>

@@ -26,18 +26,21 @@ class ProfileService {
     String? fullName,
     String? displayName,
     String? email,
+    String? avatarUrl,
   }) async {
     try {
       final userId = DocuSewaSupabase.currentUserId;
       if (userId == null) return null;
 
+      final updates = <String, dynamic>{};
+      if (fullName != null) updates['full_name'] = fullName;
+      if (displayName != null) updates['display_name'] = displayName;
+      if (email != null) updates['email'] = email;
+      if (avatarUrl != null) updates['avatar_url'] = avatarUrl;
+
       final data = await DocuSewaSupabase.client
           .from('profiles')
-          .update({
-            'full_name': ?fullName,
-            'display_name': ?displayName,
-            'email': ?email,
-          })
+          .update(updates)
           .eq('id', userId)
           .select()
           .single();

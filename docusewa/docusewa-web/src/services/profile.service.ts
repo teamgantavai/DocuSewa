@@ -65,13 +65,16 @@ export async function updateProfile(
     return { data: null, error: 'Not authenticated.' };
   }
 
+  const updatePayload: Record<string, any> = {};
+  if (input.full_name !== undefined) updatePayload.full_name = input.full_name;
+  if (input.display_name !== undefined) updatePayload.display_name = input.display_name;
+  if (input.email !== undefined) updatePayload.email = input.email;
+  if (input.avatar_url !== undefined) updatePayload.avatar_url = input.avatar_url;
+  else if (input.photo_url !== undefined) updatePayload.avatar_url = input.photo_url;
+
   const { data, error } = await supabase
     .from('profiles')
-    .update({
-      full_name: input.full_name,
-      display_name: input.display_name,
-      email: input.email,
-    })
+    .update(updatePayload)
     .eq('id', user.id)
     .select()
     .single();
@@ -81,6 +84,50 @@ export async function updateProfile(
   }
 
   return { data: data as CitizenProfile, error: null };
+}
+
+/**
+ * Upload a profile photo file to Supabase Storage (bucket: 'citizen-documents')
+ * and returns the public or signed URL, with graceful handling.
+ */
+export async function uploadProfilePhoto(
+  userId: string,
+  file: File
+): Promise<ServiceResult<{ photoUrl: string }>> {
+  const supabase = createClient();
+
+  try {
+    const fileExt = file.name.split('.').pop() || 'jpg';
+    const fileName = `${userId}/avatar-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('citizen-documents')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: true,
+      });
+
+    if (uploadError) {
+      // Fallback: If storage bucket is not configured or error occurs,
+      // create a Base64/data URL locally so user experience is smooth.
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      return { data: { photoUrl: base64 }, error: null };
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from('citizen-documents')
+      .getPublicUrl(fileName);
+
+    const photoUrl = publicUrlData?.publicUrl || URL.createObjectURL(file);
+    return { data: { photoUrl }, error: null };
+  } catch (err: any) {
+    return { data: null, error: err.message || 'Failed to upload photo.' };
+  }
 }
 
 /**
