@@ -6,7 +6,7 @@ import 'package:docusewa/screens/auth/widgets/otp_verification_modal.dart';
 import 'package:docusewa/screens/auth/widgets/google_logo.dart';
 
 /// Responsive DocuSewa Login & Create Account Screen.
-/// Pixel-perfect matching with Web (Plus Jakarta Sans + DigiLocker-inspired Teal Theme).
+/// Pixel-perfect matching with Web (Plus Jakarta Sans + Teal Theme).
 class PhoneAuthScreen extends StatefulWidget {
   const PhoneAuthScreen({super.key});
 

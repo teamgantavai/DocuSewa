@@ -56,7 +56,7 @@ class AppStrings {
   // Profile
   final String citizenPass;
   final String govtOfIndia;
-  final String digilockerVerified;
+  final String citizenVerified;
   final String copyId;
   final String downloadPass;
   final String copiedId;
@@ -150,7 +150,7 @@ class AppStrings {
     required this.verifiedBadge,
     required this.citizenPass,
     required this.govtOfIndia,
-    required this.digilockerVerified,
+    required this.citizenVerified,
     required this.copyId,
     required this.downloadPass,
     required this.copiedId,
@@ -258,7 +258,7 @@ class AppStrings {
 
     citizenPass: 'DocuSewa Citizen Pass',
     govtOfIndia: 'DOCUSEWA CITIZEN CARD',
-    digilockerVerified: 'VERIFIED CITIZEN',
+    citizenVerified: 'VERIFIED CITIZEN',
     copyId: 'Copy ID',
     downloadPass: 'Download Card',
     copiedId: 'Copied Citizen ID to clipboard!',
@@ -355,7 +355,7 @@ class AppStrings {
 
     citizenPass: 'दस्तावेज़ सेवा नागरिक पास',
     govtOfIndia: 'दस्तावेज़ सेवा नागरिक कार्ड',
-    digilockerVerified: 'सत्यापित नागरिक',
+    citizenVerified: 'सत्यापित नागरिक',
     copyId: 'आईडी कॉपी करें',
     downloadPass: 'कार्ड डाउनलोड करें',
     copiedId: 'नागरिक आईडी क्लिपबोर्ड पर कॉपी हो गई!',
@@ -450,7 +450,7 @@ class AppStrings {
 
     citizenPass: 'ਦਸਤਾਵੇਜ਼ ਸੇਵਾ ਨਾਗਰਿਕ ਪਾਸ',
     govtOfIndia: 'ਦਸਤਾਵੇਜ਼ ਸੇਵਾ ਨਾਗਰਿਕ ਕਾਰਡ',
-    digilockerVerified: 'ਪ੍ਰਮਾਣਿਤ ਨਾਗਰਿਕ',
+    citizenVerified: 'ਪ੍ਰਮਾਣਿਤ ਨਾਗਰਿਕ',
     copyId: 'ਆਈਡੀ ਕਾਪੀ ਕਰੋ',
     downloadPass: 'ਕਾਰਡ ਡਾਊਨਲੋਡ ਕਰੋ',
     copiedId: 'ਨਾਗਰਿਕ ਆਈਡੀ ਕਾਪੀ ਹੋ ਗਈ!',

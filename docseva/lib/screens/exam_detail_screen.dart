@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:docusewa/config/translations.dart';
 import 'package:docusewa/screens/home_screen.dart';
 import 'package:docusewa/theme/app_colors.dart';
+import 'package:docusewa/screens/widgets/recommended_dealer_card.dart';
 
 class ExamDetailScreen extends StatefulWidget {
   final ServiceData service;
@@ -415,6 +416,10 @@ class _ExamDetailScreenState extends State<ExamDetailScreen> {
               ],
             ),
           ),
+        const SizedBox(height: 14),
+
+        // Verified Provider Smart Recommendation Section
+        RecommendedDealerCard(service: service),
       ],
     );
   }

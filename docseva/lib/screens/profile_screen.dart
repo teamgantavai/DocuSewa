@@ -858,8 +858,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: _buildCleanStatusChip(
-                          'DIGILOCKER',
-                          '● Linked',
+                          'ENCRYPTION',
+                          '● 256-bit AES',
                           const Color(0xFF10B981),
                           isDark,
                         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Design system color palette for DocuSewa.
-/// Teal & DigiLocker-inspired theme with full dark mode support.
+/// Design system color palette.
+/// Theme configuration with full dark mode support for DocuSewa.
 class AppColors {
   AppColors._();
 

@@ -6,6 +6,7 @@ import 'package:docusewa/theme/app_colors.dart';
 import 'package:docusewa/screens/profile_screen.dart';
 import 'package:docusewa/screens/vault_screen.dart';
 import 'package:docusewa/screens/exam_detail_screen.dart';
+import 'package:docusewa/screens/service_detail_screen.dart';
 import 'package:docusewa/models/vault_doc.dart';
 import 'package:docusewa/config/translations.dart';
 import 'package:docusewa/config/profile_state.dart';
@@ -361,7 +362,7 @@ const List<ServiceData> kServices = [
     salaryScale: 'National Level Higher Education Entrance & Merit Scholarships',
     procedure: [
       'Open exams.nta.ac.in or specific exam portal (e.g., jeemain.nta.nic.in / neet.nta.nic.in).',
-      'Register with Aadhaar Authentication or Digilocker/APAAR ID for seamless verification.',
+      'Register with Aadhaar Authentication or APAAR / ABC ID for seamless verification.',
       'Fill academic scores, select question paper medium (Hindi/English/Regional) & test centers.',
       'Upload photo, signature, category certificate and pay online registration fee.',
     ],
@@ -491,7 +492,7 @@ const List<ServiceData> kServices = [
     portalDomain: 'ugcnet.nta.ac.in',
     applyUrl: 'https://ugcnet.nta.ac.in/',
     price: '₹1,150 (General) | ₹600 (Gen-EWS / OBC-NCL) | ₹325 (SC / ST / PwD / Third Gender)',
-    processingTime: 'Instant Application & Digilocker e-Certificate Sync',
+    processingTime: 'Instant Application & Digital Certificate Generation',
     eligibility: "Master's Degree or equivalent with at least 55% marks (50% for SC/ST/OBC)",
     ageLimit: 'JRF: Max 30 Years (5 yrs relaxation) | Assistant Professor: No Upper Age Limit',
     examDates: 'Biannual Cycles (June & December National Test)',
@@ -623,33 +624,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
-  final List<IssuedDoc> _vaultDocs = [
-    const IssuedDoc(
-      id: 'v-1',
-      title: 'Aadhaar Digital Card',
-      issuer: 'UIDAI Govt of India',
-      docNumber: 'XXXX-XXXX-8921',
-      issueDate: 'Issued 12 Jan 2024',
-      logoType: 'uidai',
-    ),
-    const IssuedDoc(
-      id: 'v-2',
-      title: 'PAN Verification Record',
-      issuer: 'Income Tax Department',
-      docNumber: 'ABCDE1234F',
-      issueDate: 'Issued 04 Mar 2023',
-      logoType: 'itd',
-    ),
-    const IssuedDoc(
-      id: 'v-3',
-      title: 'Driving Licence & RC',
-      issuer: 'MoRTH — Parivahan',
-      docNumber: 'DL-04202100892',
-      issueDate: 'Valid till 2041',
-      logoType: 'morth',
-    ),
-  ];
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -694,531 +668,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       );
-      return;
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ServiceDetailScreen(
+            service: service,
+            onOpenVault: () => setState(() => _currentNavIndex = 1),
+          ),
+        ),
+      );
     }
-
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final langCode = appLanguageNotifier.value;
-    final strings = AppStrings.getStrings(langCode);
-    final serviceName = ServiceTranslator.getServiceName(service.id, langCode);
-    final serviceDoc = ServiceTranslator.getServiceDoc(service.id, langCode);
-    bool isSubmitting = false;
-    bool isSuccess = false;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => StatefulBuilder(
-        builder: (context, setModalState) {
-          return Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.90,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.surface(isDark),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-              border: Border.all(color: isDark ? AppColors.darkBorder : AppColors.tealSubtle),
-            ),
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-            child: SingleChildScrollView(
-              child: isSuccess
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 60,
-                            margin: const EdgeInsets.only(bottom: 16),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xFFDCFCE7),
-                            ),
-                            child: const Center(
-                              child: Icon(Icons.check_rounded, color: Color(0xFF16A34A), size: 34),
-                            ),
-                          ),
-                          Text(
-                            strings.docIssuedSuccess,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.plusJakartaSans(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.textPrimary(isDark),
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            strings.docIssuedDesc,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.plusJakartaSans(
-                              fontSize: 13,
-                              color: isDark ? Colors.white70 : const Color(0xFF64748B),
-                              height: 1.4,
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(ctx).pop();
-                                setState(() => _currentNavIndex = 1);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.tealPrimary,
-                                foregroundColor: Colors.white,
-                                minimumSize: const Size(double.infinity, 44),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                elevation: 0,
-                              ),
-                              child: Text(strings.viewInVault, style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700, fontSize: 14)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Container(
-                                width: 36,
-                                height: 4,
-                                margin: const EdgeInsets.only(bottom: 16),
-                                decoration: BoxDecoration(
-                                  color: AppColors.border(isDark),
-                                  borderRadius: BorderRadius.circular(2),
-                                ),
-                              ),
-                            ),
-
-                            // Header preview in modal
-                            Container(
-                              padding: const EdgeInsets.all(14),
-                              decoration: BoxDecoration(
-                                color: isDark ? AppColors.darkSurfaceSubtle : const Color(0xFFF8FAFC),
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(color: AppColors.border(isDark)),
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 48,
-                                    height: 48,
-                                    decoration: BoxDecoration(
-                                      color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(service.iconEmoji, style: const TextStyle(fontSize: 24)),
-                                  ),
-                                  const SizedBox(width: 14),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          serviceName,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w800,
-                                            color: AppColors.textPrimary(isDark),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          serviceDoc,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 12.5,
-                                            color: AppColors.tealPrimary,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-
-                            // Pricing & Processing Time Quick Specs
-                            Row(
-                              children: [
-                                // Price Badge
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: isDark ? const Color(0xFF064E3B).withValues(alpha: 0.4) : const Color(0xFFECFDF5),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.payments_rounded, size: 14, color: Color(0xFF10B981)),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              langCode == 'hi' ? 'सरकारी शुल्क / मूल्य' : langCode == 'pa' ? 'ਸਰਕਾਰੀ ਫੀਸ / ਮੁੱਲ' : 'Official Govt Fee',
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w700,
-                                                color: isDark ? const Color(0xFF34D399) : const Color(0xFF065F46),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          service.price,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 11.5,
-                                            fontWeight: FontWeight.w800,
-                                            color: isDark ? Colors.white : const Color(0xFF064E3B),
-                                            height: 1.25,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                // Processing Time Badge
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: AppColors.border(isDark)),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.timer_rounded, size: 14, color: AppColors.tealPrimary),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              langCode == 'hi' ? 'समय अवधि' : langCode == 'pa' ? 'ਸਮਾਂ' : 'Processing Time',
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w700,
-                                                color: AppColors.textSecondary(isDark),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          service.processingTime,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 11.5,
-                                            fontWeight: FontWeight.w700,
-                                            color: AppColors.textPrimary(isDark),
-                                            height: 1.25,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-
-                            // Official Government Portal Box
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: isDark ? const Color(0xFF042F2E) : const Color(0xFFF0FDFA),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: isDark ? const Color(0xFF115E59) : const Color(0xFFCCFBF1)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.verified_rounded, size: 14, color: AppColors.tealPrimary),
-                                            const SizedBox(width: 5),
-                                            Text(
-                                              strings.officialPortal,
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 11.5,
-                                                fontWeight: FontWeight.w700,
-                                                color: AppColors.tealPrimary,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          service.portalDomain,
-                                          style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w600,
-                                            color: isDark ? Colors.white70 : const Color(0xFF0F766E),
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      final uri = Uri.parse(service.portalUrl);
-                                      try {
-                                        await launchUrl(uri, mode: LaunchMode.externalApplication);
-                                      } catch (_) {}
-                                    },
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.tealPrimary,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            strings.visitSite,
-                                            style: GoogleFonts.plusJakartaSans(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 3),
-                                          const Icon(Icons.open_in_new_rounded, size: 11, color: Colors.white),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 14),
-
-                            // Section 1: Required Documents Box
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: isDark ? AppColors.darkSurfaceSubtle : AppColors.lightSurfaceSubtle,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: AppColors.border(isDark)),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.description_rounded, size: 16, color: AppColors.tealPrimary),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        langCode == 'hi' ? 'आवश्यक दस्तावेज़ (Required Documents)' : langCode == 'pa' ? 'ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼ (Required Documents)' : 'Required Documents & Details',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          fontSize: 12.5,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColors.textPrimary(isDark),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  ...service.requiredDocs.map(
-                                    (doc) => Padding(
-                                      padding: const EdgeInsets.only(bottom: 6),
-                                      child: Row(
-                                        children: [
-                                          const Icon(Icons.check_circle_rounded, size: 15, color: Color(0xFF10B981)),
-                                          const SizedBox(width: 8),
-                                          Flexible(
-                                            child: Text(
-                                              ServiceTranslator.getRequiredDoc(doc, langCode),
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 12,
-                                                color: AppColors.textSecondary(isDark),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 14),
-
-                            // Section 2: Step-by-Step Procedure to Apply
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0)),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.format_list_numbered_rounded, size: 16, color: AppColors.tealPrimary),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        langCode == 'hi' ? 'आवेदन करने की प्रक्रिया (Procedure to Apply)' : langCode == 'pa' ? 'ਅਰਜ਼ੀ ਦੇਣ ਦਾ ਤਰੀਕਾ (Procedure to Apply)' : 'Step-by-Step Procedure to Apply',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          fontSize: 12.5,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColors.textPrimary(isDark),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  ...List.generate(service.procedure.length, (idx) {
-                                    final stepText = service.procedure[idx];
-                                    return Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 20,
-                                            height: 20,
-                                            decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppColors.tealPrimary,
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              '${idx + 1}',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10.5,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 9),
-                                          Expanded(
-                                            child: Text(
-                                              stepText,
-                                              style: GoogleFonts.plusJakartaSans(
-                                                fontSize: 12,
-                                                color: AppColors.textPrimary(isDark),
-                                                height: 1.35,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-
-                            // Actions
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () => Navigator.of(ctx).pop(),
-                                    style: OutlinedButton.styleFrom(
-                                      minimumSize: const Size(double.infinity, 44),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                      side: BorderSide(color: AppColors.border(isDark)),
-                                    ),
-                                    child: Text(strings.close, style: GoogleFonts.plusJakartaSans(color: AppColors.textPrimary(isDark), fontWeight: FontWeight.w600)),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  flex: 2,
-                                  child: ElevatedButton(
-                                    onPressed: isSubmitting
-                                        ? null
-                                        : () {
-                                            setModalState(() => isSubmitting = true);
-                                            Future.delayed(const Duration(milliseconds: 750), () {
-                                              if (ctx.mounted) {
-                                                // Add to vault state & local list
-                                                final newDoc = IssuedDoc(
-                                                  id: 'v-${DateTime.now().millisecondsSinceEpoch}',
-                                                  title: serviceDoc,
-                                                  issuer: serviceName,
-                                                  docNumber: 'DIGI-${100000 + (DateTime.now().millisecond * 800) % 900000}',
-                                                  issueDate: 'Issued Just Now',
-                                                  logoType: service.logoType,
-                                                );
-                                                final newVaultDoc = VaultDoc(
-                                                  id: 'v-${DateTime.now().millisecondsSinceEpoch}',
-                                                  title: serviceDoc,
-                                                  category: service.category == 'exams' ? 'education' : service.category == 'finance' ? 'finance' : 'identity',
-                                                  issuer: serviceName,
-                                                  docNumber: newDoc.docNumber,
-                                                  issueDate: 'Issued Just Now',
-                                                  isVerified: true,
-                                                  logoType: service.logoType,
-                                                  storageSource: 'gov_import',
-                                                  fileName: '${service.id}_digital_pass.pdf',
-                                                  fileSize: '1.2 MB',
-                                                  createdAt: DateTime.now(),
-                                                );
-                                                VaultState.addDocument(newVaultDoc);
-                                                setState(() {
-                                                  _vaultDocs.insert(0, newDoc);
-                                                });
-                                                setModalState(() {
-                                                  isSubmitting = false;
-                                                  isSuccess = true;
-                                                });
-                                              }
-                                            });
-                                          },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.tealPrimary,
-                                      foregroundColor: Colors.white,
-                                      minimumSize: const Size(double.infinity, 44),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                      elevation: 0,
-                                    ),
-                                    child: isSubmitting
-                                        ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                                        : Text(strings.fetchDocument, style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-            ),
-          );
-        },
-      ),
-    );
   }
 
   Widget _buildGrid(List<ServiceData> items, int crossAxisCount, bool isDark, String langCode) {
@@ -1809,7 +1268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
 
-                    // ── YOUR ISSUED DOCUMENTS CAROUSEL (DIGILOCKER STYLE) ──────
+                    // ── YOUR ISSUED DOCUMENTS CAROUSEL ──────────────────────────
                     if (_currentNavIndex == 0 && _searchQuery.isEmpty)
                       SliverToBoxAdapter(
                         child: _buildIssuedDocumentsSection(isDark, langCode),
@@ -2258,7 +1717,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ── ISSUED DOCUMENTS CAROUSEL (DIGILOCKER STYLE) ───────────────────────────
+  // ── ISSUED DOCUMENTS CAROUSEL ────────────────────────────────────────────────
   Widget _buildIssuedDocumentsSection(bool isDark, String langCode) {
     return ValueListenableBuilder<List<VaultDoc>>(
       valueListenable: VaultState.vaultDocsNotifier,

@@ -75,7 +75,7 @@ class VaultState {
       id: 'v-signature',
       title: 'Candidate Digital Signature',
       category: 'signature',
-      issuer: 'Self Attested & DigiLocker e-Signed',
+      issuer: 'Self Attested & Digital e-Signed',
       docNumber: 'SIGN-SHA256-8921',
       issueDate: '18 Feb 2024',
       isVerified: true,

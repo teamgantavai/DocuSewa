@@ -183,8 +183,8 @@ class _VaultScreenState extends State<VaultScreen> {
     }
   }
 
-  // ── EXACT DIGILOCKER STYLE CARD (AS SHOWN IN IMAGE) ─────────────────────────
-  Widget _buildDigiLockerCard(VaultDoc doc, bool isDark, {double? width}) {
+  // ── ISSUED / STORED VAULT CARD ───────────────────────────────────────────
+  Widget _buildVaultDocCard(VaultDoc doc, bool isDark, {double? width}) {
     return GestureDetector(
       onTap: () => _openDocViewerModal(context, doc),
       child: Container(
@@ -521,7 +521,7 @@ class _VaultScreenState extends State<VaultScreen> {
                         id: 'v-signature',
                         title: 'Candidate Digital Signature',
                         category: 'signature',
-                        issuer: 'Self Attested & DigiLocker e-Signed',
+                        issuer: 'Self Attested & Digital e-Signed',
                         docNumber: 'SIGN-SHA256-8921',
                         issueDate: 'Updated Just Now',
                         isVerified: true,
@@ -588,19 +588,31 @@ class _VaultScreenState extends State<VaultScreen> {
     );
   }
 
+  String _formatDocNameFromFileName(String filename) {
+    final nameWithoutExt = filename.contains('.')
+        ? filename.substring(0, filename.lastIndexOf('.'))
+        : filename;
+    final cleaned = nameWithoutExt.replaceAll(RegExp(r'[_\-]+'), ' ').trim();
+    if (cleaned.isEmpty) return 'Uploaded Document';
+    return cleaned
+        .split(' ')
+        .where((s) => s.isNotEmpty)
+        .map((s) => s[0].toUpperCase() + s.substring(1))
+        .join(' ');
+  }
+
   // ── UPLOAD DOCUMENT DIALOG ─────────────────────────────────────────────────
   void _openUploadDocumentDialog(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final langCode = appLanguageNotifier.value;
 
-    final titleCtrl = TextEditingController();
-    final issuerCtrl = TextEditingController();
-    final docNumberCtrl = TextEditingController();
-    String selectedCat = 'identity';
     String selectedSource = 'phone_upload';
     String uploadedFileName =
         'document_scan_${DateTime.now().millisecondsSinceEpoch % 10000}.pdf';
     String uploadedFileSize = '1.8 MB';
+    final titleCtrl = TextEditingController(
+      text: _formatDocNameFromFileName(uploadedFileName),
+    );
     bool isSaving = false;
 
     showModalBottomSheet(
@@ -717,6 +729,7 @@ class _VaultScreenState extends State<VaultScreen> {
                               uploadedFileName =
                                   'camera_scan_${DateTime.now().millisecondsSinceEpoch % 1000}.jpg';
                               uploadedFileSize = '2.4 MB';
+                              titleCtrl.text = _formatDocNameFromFileName(uploadedFileName);
                             });
                           },
                         ),
@@ -734,6 +747,7 @@ class _VaultScreenState extends State<VaultScreen> {
                               uploadedFileName =
                                   'gallery_doc_${DateTime.now().millisecondsSinceEpoch % 1000}.png';
                               uploadedFileSize = '1.6 MB';
+                              titleCtrl.text = _formatDocNameFromFileName(uploadedFileName);
                             });
                           },
                         ),
@@ -749,8 +763,9 @@ class _VaultScreenState extends State<VaultScreen> {
                             setModalState(() {
                               selectedSource = 'pdf_file';
                               uploadedFileName =
-                                  'signed_doc_${DateTime.now().millisecondsSinceEpoch % 1000}.pdf';
+                                  'official_document_${DateTime.now().millisecondsSinceEpoch % 1000}.pdf';
                               uploadedFileSize = '3.2 MB';
+                              titleCtrl.text = _formatDocNameFromFileName(uploadedFileName);
                             });
                           },
                         ),
@@ -851,124 +866,6 @@ class _VaultScreenState extends State<VaultScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
-
-                  Text(
-                    'Category',
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary(isDark),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Wrap(
-                    spacing: 6,
-                    runSpacing: 6,
-                    children: _categories.where((c) => c['id'] != 'all').map((
-                      cat,
-                    ) {
-                      final isSelected = selectedCat == cat['id'];
-                      return ChoiceChip(
-                        label: Text(
-                          '${cat['emoji']} ${cat['label']}',
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w600,
-                            color: isSelected
-                                ? Colors.white
-                                : (isDark
-                                      ? Colors.white70
-                                      : const Color(0xFF334155)),
-                          ),
-                        ),
-                        selected: isSelected,
-                        selectedColor: AppColors.tealPrimary,
-                        backgroundColor: isDark
-                            ? const Color(0xFF1E293B)
-                            : const Color(0xFFF1F5F9),
-                        onSelected: (selected) {
-                          if (selected) {
-                            setModalState(() => selectedCat = cat['id']!);
-                          }
-                        },
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 14),
-
-                  Text(
-                    'Issuing Authority / Dept',
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary(isDark),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: issuerCtrl,
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 13.5,
-                      color: AppColors.textPrimary(isDark),
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'e.g. Delhi University, CBSE, HDFC Bank, RTO',
-                      hintStyle: GoogleFonts.plusJakartaSans(
-                        fontSize: 12.5,
-                        color: AppColors.textMuted(isDark),
-                      ),
-                      filled: true,
-                      fillColor: isDark
-                          ? AppColors.darkSurfaceSubtle
-                          : Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: AppColors.border(isDark)),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 12,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-
-                  Text(
-                    'Document Number / Roll No / ID (Optional)',
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary(isDark),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: docNumberCtrl,
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 13.5,
-                      color: AppColors.textPrimary(isDark),
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'e.g. DOC-${DateTime.now().millisecond}-9821',
-                      hintStyle: GoogleFonts.plusJakartaSans(
-                        fontSize: 12.5,
-                        color: AppColors.textMuted(isDark),
-                      ),
-                      filled: true,
-                      fillColor: isDark
-                          ? AppColors.darkSurfaceSubtle
-                          : Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: AppColors.border(isDark)),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 12,
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 22),
 
                   Row(
@@ -1000,15 +897,20 @@ class _VaultScreenState extends State<VaultScreen> {
                               ? null
                               : () {
                                   final title = titleCtrl.text.trim().isEmpty
-                                      ? 'Official Stored Document'
+                                      ? _formatDocNameFromFileName(uploadedFileName)
                                       : titleCtrl.text.trim();
-                                  final issuer = issuerCtrl.text.trim().isEmpty
-                                      ? 'DigiLocker / Citizen Import'
-                                      : issuerCtrl.text.trim();
+                                  final issuer = 'DocuSewa Vault / Citizen Import';
                                   final docNum =
-                                      docNumberCtrl.text.trim().isEmpty
-                                      ? 'VAULT-${100000 + (DateTime.now().millisecond * 700) % 900000}'
-                                      : docNumberCtrl.text.trim();
+                                      'DOC-${100000 + (DateTime.now().millisecondsSinceEpoch % 900000)}';
+                                  String autoCategory = 'identity';
+                                  if (selectedSource == 'camera_scan' ||
+                                      uploadedFileName.toLowerCase().contains('scan') ||
+                                      uploadedFileName.toLowerCase().contains('photo')) {
+                                    autoCategory = 'identity';
+                                  } else if (uploadedFileName.toLowerCase().contains('pdf') ||
+                                      uploadedFileName.toLowerCase().contains('doc')) {
+                                    autoCategory = 'education';
+                                  }
 
                                   setModalState(() => isSaving = true);
                                   Future.delayed(
@@ -1018,7 +920,7 @@ class _VaultScreenState extends State<VaultScreen> {
                                         final newDoc = VaultDoc(
                                           id: 'v-${DateTime.now().millisecondsSinceEpoch}',
                                           title: title,
-                                          category: selectedCat,
+                                          category: autoCategory,
                                           issuer: issuer,
                                           docNumber: docNum,
                                           issueDate: 'Uploaded Today',
@@ -1233,47 +1135,54 @@ class _VaultScreenState extends State<VaultScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 34,
-                              height: 34,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white24,
-                              ),
-                              alignment: Alignment.center,
-                              child: const Icon(
-                                Icons.verified_user_rounded,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'DIGITAL CITIZEN VAULT',
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 9.5,
-                                    fontWeight: FontWeight.w800,
-                                    color: const Color(0xFF99F6E4),
-                                    letterSpacing: 0.5,
-                                  ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 34,
+                                height: 34,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white24,
                                 ),
-                                Text(
-                                  doc.issuer,
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.verified_user_rounded,
+                                  color: Colors.white,
+                                  size: 20,
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'DIGITAL CITIZEN VAULT',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 9.5,
+                                        fontWeight: FontWeight.w800,
+                                        color: const Color(0xFF99F6E4),
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                    Text(
+                                      doc.issuer,
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
@@ -1284,6 +1193,7 @@ class _VaultScreenState extends State<VaultScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(
                                 Icons.check_rounded,
@@ -1314,6 +1224,8 @@ class _VaultScreenState extends State<VaultScreen> {
                         color: Colors.white,
                         letterSpacing: -0.3,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -1323,6 +1235,8 @@ class _VaultScreenState extends State<VaultScreen> {
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFFCCFBF1),
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 16),
 
@@ -1330,38 +1244,45 @@ class _VaultScreenState extends State<VaultScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'DOCUMENT NUMBER',
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 9,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white60,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'DOCUMENT NUMBER',
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white60,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              doc.docNumber,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 13.5,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                                letterSpacing: 0.5,
+                              const SizedBox(height: 2),
+                              Text(
+                                doc.docNumber,
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 13.5,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                  letterSpacing: 0.5,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'ISSUED: ${doc.issueDate}',
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 9.5,
-                                color: const Color(0xFF99F6E4),
-                                fontWeight: FontWeight.w600,
+                              const SizedBox(height: 4),
+                              Text(
+                                'ISSUED: ${doc.issueDate}',
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 9.5,
+                                  color: const Color(0xFF99F6E4),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: 8),
                         Container(
                           width: 48,
                           height: 48,
@@ -1419,7 +1340,7 @@ class _VaultScreenState extends State<VaultScreen> {
                           : doc.storageSource == 'camera_scan'
                           ? '📸 Camera Scan'
                           : doc.storageSource == 'digital_sign'
-                          ? '✍️ DigiLocker e-Sign'
+                          ? '✍️ Digital e-Sign'
                           : '🏛️ Govt Portal Import',
                       isDark,
                     ),
@@ -1841,7 +1762,7 @@ class _VaultScreenState extends State<VaultScreen> {
               ),
               const SizedBox(height: 12),
 
-              // ── ISSUED DOCUMENTS LIST (DIGILOCKER STYLE) ─────────────────────
+              // ── ISSUED DOCUMENTS LIST ─────────────────────────────────────────
               if (filteredDocs.isEmpty) ...[
                 Container(
                   width: double.infinity,
@@ -1900,7 +1821,7 @@ class _VaultScreenState extends State<VaultScreen> {
                   itemCount: filteredDocs.length,
                   itemBuilder: (context, index) {
                     final doc = filteredDocs[index];
-                    return _buildDigiLockerCard(doc, isDark);
+                    return _buildVaultDocCard(doc, isDark);
                   },
                 ),
               ],
